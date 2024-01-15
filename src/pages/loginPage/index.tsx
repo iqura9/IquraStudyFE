@@ -1,10 +1,12 @@
 import { Button, Form, Input } from "antd";
+import { ILoginQuery } from "types/authTypes";
+import { useLoginPageHandler } from "./hooks";
 import styles from "./styles.module.scss";
 
 const LoginPage = () => {
-  const onFinish = (values: { username: string; password: string }) => {
-    console.log("Received values:", values);
-    // Add your authentication logic here
+  const { loginFn } = useLoginPageHandler();
+  const onFinish = (values: ILoginQuery) => {
+    loginFn(values);
   };
 
   return (
@@ -12,8 +14,8 @@ const LoginPage = () => {
       <div className={styles.login_container}>
         <Form name="login-form" layout="vertical" onFinish={onFinish}>
           <Form.Item
-            label="Username"
-            name="username"
+            label="Email"
+            name="email"
             rules={[{ required: true, message: "Please input your username!" }]}
           >
             <Input size="large" />

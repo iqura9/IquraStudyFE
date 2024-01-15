@@ -27,6 +27,7 @@
       "assets/*":["assets/*"],
       "components/*":["components/*"],
       "contexts/*":["contexts/*"],
+      "helpers/*":["helpers/*"],
       "hooks/*":["hooks/*"],
       "pages/*":["pages/*"],
       "routes/*":["routes/*"],
