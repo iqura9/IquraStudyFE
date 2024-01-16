@@ -4,13 +4,12 @@ import {
   GenericResponse,
   ILoginQuery,
   ILoginResponse,
+  IRegisterQuery,
   IUserResponse,
 } from "types/authTypes";
 
-const BASE_URL = "http://localhost:5120/api/";
-
 const authApi = axios.create({
-  baseURL: BASE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
   headers: {
     Authorization: `Bearer ${getAccessToken()}`,
@@ -74,7 +73,7 @@ authApi.interceptors.response.use(
   }
 );
 
-export const registerUserFn = async (user: unknown) => {
+export const registerUserFn = async (user: IRegisterQuery) => {
   const response = await authApi.post<GenericResponse>(
     "Account/register",
     user

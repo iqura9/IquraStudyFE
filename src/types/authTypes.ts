@@ -1,3 +1,5 @@
+type RoleType = "Teacher" | "Student";
+
 export interface IUser {
   name: string;
   email: string;
@@ -21,6 +23,13 @@ export interface ILoginResponse {
 }
 export interface ILoginQuery {
   email: string;
+  password: string;
+}
+
+export interface IRegisterQuery {
+  userName: string;
+  email: string;
+  role: RoleType;
   password: string;
 }
 
