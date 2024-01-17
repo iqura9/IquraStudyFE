@@ -7,15 +7,16 @@ import { Paths } from "routes/paths";
 import { ILoginQuery, ILoginResponse } from "types/authTypes";
 
 const useLoginPageHandler = () => {
+  const { setAuthStatus } = useAuth();
   const navigate = useNavigate();
-  const { setIsAuth } = useAuth();
+
   const { mutate: loginFn } = useMutation<ILoginResponse, Error, ILoginQuery>({
     mutationKey: ["login"],
     mutationFn: (data) => loginUserFn(data),
     onSuccess: (res) => {
       localStorage.setItem("auth", JSON.stringify(res));
-      if (setIsAuth) {
-        setIsAuth(true);
+      if (setAuthStatus) {
+        setAuthStatus(true);
       }
       navigate(Paths.main);
       notification.success({

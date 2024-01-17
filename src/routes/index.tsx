@@ -1,14 +1,16 @@
+import { Header } from "components/Header";
 import { useAuth } from "contexts/authContext";
 import { LoginPage, RegisterPage } from "pages";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import RequireAuth from "./requireAuth";
 import { appRoutes } from "./routes";
 
 const AppRoutes = () => {
   const { isAuth } = useAuth();
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to={isAuth ? "/" : "/login"} />} />
         <Route
           path="/login"
           element={isAuth ? <Navigate to="/" /> : <LoginPage />}
@@ -17,9 +19,13 @@ const AppRoutes = () => {
           path="/register"
           element={isAuth ? <Navigate to="/" /> : <RegisterPage />}
         />
-        {appRoutes.map(({ path, component }) => (
-          <Route path={path} element={component} />
-        ))}
+        <Route element={<RequireAuth />}>
+          <Route element={<Header />}>
+            {appRoutes.map(({ path, component }) => (
+              <Route key={path} path={path} element={component} />
+            ))}
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );

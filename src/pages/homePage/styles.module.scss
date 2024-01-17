@@ -1,0 +1,40 @@
+.register_container {
+    position: relative;    
+    width: 500px;
+    margin: 0 auto;
+}
+.register_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 0 20px 0 20px;
+}
+.user_type_radio_group {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+  
+.user_type_radio {
+    line-height: 100px;
+    text-align: center;
+    background-color: #f0f5ff;
+    border: 2px solid #69c0ff;
+    color: #096dd9;
+    border-radius: 8px;
+    cursor: pointer;
+    flex-grow: 1;
+    margin-right: 0px;
+    display: flex;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    font-weight: 500;
+}
+  
+.user_type_radio:hover {
+    background-color: #bae7ff;
+}
+.user_type_radio:has(input:checked) {
+    background-color: #bae7ff;
+}
