@@ -46,6 +46,7 @@ authApi.interceptors.response.use(
       try {
         const access_Token = getAccessToken();
         const refresh_Token = getRefreshToken();
+        if (!access_Token || !refresh_Token) return Promise.reject(error);
 
         const response = await refreshAccessTokenFn(
           access_Token,
@@ -87,6 +88,6 @@ export const loginUserFn = async (user: ILoginQuery) => {
 };
 
 export const getMeFn = async () => {
-  const response = await authApi.get<IUserResponse>("users/me");
+  const response = await authApi.get<IUserResponse>("Account/GetMe");
   return response.data;
 };

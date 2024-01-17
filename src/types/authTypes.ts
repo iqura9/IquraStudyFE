@@ -1,14 +1,14 @@
 type RoleType = "Teacher" | "Student";
 
 export interface IUser {
-  name: string;
-  email: string;
-  role: string;
-  _id: string;
   id: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  userName: string;
+  email: string;
+  image: string;
+  description: string;
+  role: RoleType;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface GenericResponse {
