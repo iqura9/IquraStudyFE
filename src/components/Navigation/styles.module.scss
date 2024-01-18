@@ -1,5 +1,10 @@
+.mainLayout {
+    background: #FDFDFD;
+    height: 100%;
+}
+
 .layoutHeader {
-    padding: 0 20px 0 20px;
+    padding: 0 20px 0 0px;
     border-bottom: 1px solid rgba(5, 5, 5, 0.06);
     background: #FDFDFD;
     display: flex;
@@ -9,6 +14,9 @@
 .layoutContent {
     background: #FDFDFD;
     padding: 36px; 
+}
+.mainMenu{
+    height: calc(100% - 64px);
 }
 .search{
     height: 32px;
@@ -25,4 +33,10 @@
     align-items: center;
     gap: 8px;
     width: 100%;
+}
+.logo{
+    width: 100%;
+    height: 64px;
+    
+    border-radius: 8px;
 }

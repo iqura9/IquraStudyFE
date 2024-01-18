@@ -1,4 +1,4 @@
-import { Header } from "components/Header";
+import { Navigation } from "components/Navigation";
 import { useAuth } from "contexts/authContext";
 import { LoginPage, RegisterPage } from "pages";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
@@ -20,7 +20,7 @@ const AppRoutes = () => {
           element={isAuth ? <Navigate to="/" /> : <RegisterPage />}
         />
         <Route element={<RequireAuth />}>
-          <Route element={<Header />}>
+          <Route element={<Navigation />}>
             {appRoutes.map(({ path, component }) => (
               <Route key={path} path={path} element={component} />
             ))}

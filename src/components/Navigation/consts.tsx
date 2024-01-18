@@ -20,3 +20,21 @@ export const items: MenuProps["items"] = [
     icon: <SettingOutlined />,
   },
 ];
+export const sideBarItems: MenuProps["items"] = [
+  {
+    label: "Groups",
+    key: "groups",
+  },
+  {
+    label: "Archived Groups",
+    key: "archived-groups",
+  },
+  {
+    label: "Create Group",
+    key: "create-group",
+  },
+  {
+    label: "Create Problem",
+    key: "create-problem",
+  },
+];
