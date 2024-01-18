@@ -27,6 +27,12 @@
     min-width: 40px;
     border-radius: 50%;
     background-color: #404040;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
 }
 .searchAvatarWrapper{
     display: flex;

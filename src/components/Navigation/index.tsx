@@ -1,5 +1,6 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Input, Layout, Menu, MenuProps } from "antd";
+import { useAuth } from "contexts/authContext";
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { items, sideBarItems } from "./consts";
@@ -9,7 +10,7 @@ export const Navigation = () => {
   const navigation = useNavigate();
   const [current, setCurrent] = useState("home");
   const [collapsed, setCollapsed] = useState(false);
-
+  const { user } = useAuth();
   const onClick: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);
     navigation(e.key);
@@ -32,6 +33,7 @@ export const Navigation = () => {
           items={sideBarItems}
         />
       </Layout.Sider>
+
       <Layout style={{ background: "#FDFDFD" }}>
         <Layout.Header className={style.layoutHeader}>
           <Button
@@ -55,7 +57,9 @@ export const Navigation = () => {
               placeholder="Input group or problem name"
               className={style.search}
             />
-            <div className={style.avatar}></div>
+            <div className={style.avatar}>
+              {user?.userName[0].toUpperCase()}
+            </div>
           </div>
         </Layout.Header>
 
