@@ -1,4 +1,5 @@
-import HomePage from "pages/homePage";
+import { lazy } from "react";
+const HomePage = lazy(() => import("pages/homePage"));
 
 interface IAppRoutes {
   component: React.ReactNode;
