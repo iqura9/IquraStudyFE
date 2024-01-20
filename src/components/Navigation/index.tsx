@@ -1,10 +1,13 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Button, Input, Layout, Menu, MenuProps } from "antd";
-import { useAuth } from "contexts/authContext";
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { Button, Input, Layout, Menu, MenuProps } from "antd";
+import { useAuth } from "contexts/authContext";
+
 import { items, sideBarItems } from "./consts";
+
 import style from "./styles.module.scss";
+
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
 export const Navigation = () => {
   const navigation = useNavigate();

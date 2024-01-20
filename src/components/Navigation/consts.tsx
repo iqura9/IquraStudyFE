@@ -1,5 +1,6 @@
-import { SettingOutlined } from "@ant-design/icons";
 import { MenuProps } from "antd";
+
+import { SettingOutlined } from "@ant-design/icons";
 
 export const items: MenuProps["items"] = [
   {
@@ -31,10 +32,10 @@ export const sideBarItems: MenuProps["items"] = [
   },
   {
     label: "Create Group",
-    key: "create-group",
+    key: "group/create",
   },
   {
     label: "Create Problem",
-    key: "create-problem",
+    key: "problem/create",
   },
 ];

@@ -1,7 +1,8 @@
+import { lazy, Suspense } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Navigation } from "components/Navigation";
 import { useAuth } from "contexts/authContext";
-import { Suspense, lazy } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
 import RequireAuth from "./requireAuth";
 import { appRoutes } from "./routes";
 
