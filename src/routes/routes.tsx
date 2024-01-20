@@ -3,6 +3,7 @@ import { lazy } from "react";
 const HomePage = lazy(() => import("pages/homePage"));
 const CreateGroupPage = lazy(() => import("pages/GroupPage/CreateGroupPage"));
 const GroupsPage = lazy(() => import("pages/GroupPage/GroupsPage"));
+const MyGroupsPage = lazy(() => import("pages/GroupPage/MyGroupsPage"));
 
 interface IAppRoutes {
   component: React.ReactNode;
@@ -28,14 +29,18 @@ export const appRoutes: IAppRoutes[] = [
   },
   {
     path: "/settings",
-    component: <HomePage />,
+    component: <MyGroupsPage />,
   },
   {
     path: "/group/create",
-    component: <CreateGroupPage/>,
+    component: <CreateGroupPage />,
   },
   {
     path: "/groups",
-    component: <GroupsPage/>,
-  }
+    component: <GroupsPage />,
+  },
+  {
+    path: "/edit/group/:id",
+    component: <MyGroupsPage />,
+  },
 ];

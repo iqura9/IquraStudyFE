@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button, Input, Layout, Menu, MenuProps } from "antd";
 import { useAuth } from "contexts/authContext";
 
-import { items, sideBarItems } from "./consts";
+import { sideBarItems } from "./consts";
 
 import style from "./styles.module.scss";
 
@@ -11,7 +11,8 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
 export const Navigation = () => {
   const navigation = useNavigate();
-  const [current, setCurrent] = useState("home");
+  const location = useLocation();
+  const [current, setCurrent] = useState(location.pathname.slice(1) || "home");
   const [collapsed, setCollapsed] = useState(false);
   const { user } = useAuth();
   const onClick: MenuProps["onClick"] = (e) => {
@@ -32,7 +33,6 @@ export const Navigation = () => {
           className={style.mainMenu}
           onClick={onClick}
           selectedKeys={[current]}
-          mode="inline"
           items={sideBarItems}
         />
       </Layout.Sider>
@@ -49,12 +49,13 @@ export const Navigation = () => {
               height: 64,
             }}
           />
-          <Menu
+          {/* doesn't work well with 18 react */}
+          {/* <Menu
             onClick={onClick}
             selectedKeys={[current]}
             mode="horizontal"
             items={items}
-          />
+          /> */}
           <div className={style.searchAvatarWrapper}>
             <Input
               placeholder="Input group or problem name"

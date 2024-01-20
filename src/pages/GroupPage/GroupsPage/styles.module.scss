@@ -1,0 +1,17 @@
+.GroupWrapper{
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.Wrapper {
+    display: flex;
+    flex-direction: column;
+    .Select { 
+        margin-bottom: 16px;
+        width: 320px;
+    }
+    .FiltersWrapper{
+        display: flex;
+        justify-content: end;
+    }
+}

@@ -8,7 +8,7 @@ import {
   IUserResponse,
 } from "types/authTypes";
 
-const authApi = axios.create({
+export const authApi = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
   headers: {

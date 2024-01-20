@@ -23,9 +23,14 @@ export const items: MenuProps["items"] = [
 ];
 export const sideBarItems: MenuProps["items"] = [
   {
+    label: "Home",
+    key: "home",
+  },
+  {
     label: "Groups",
     key: "groups",
   },
+
   {
     label: "Archived Groups",
     key: "archived-groups",
