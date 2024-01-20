@@ -1,6 +1,6 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Card, Table, TableProps } from "antd";
+import { Link } from "react-router-dom";
+import { Card, Table, TableProps } from "antd";
 import { Paths } from "routes/paths";
 import { IGroup } from "types/groupTypes";
 
@@ -11,7 +11,6 @@ interface GroupDisplayProps {
 }
 
 const GroupDisplay: React.FC<GroupDisplayProps> = ({ group }) => {
-  const navigate = useNavigate();
   const groupPath = `${Paths.group}/${group.id}`;
 
   const dataSource = [

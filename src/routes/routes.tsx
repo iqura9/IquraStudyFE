@@ -1,9 +1,9 @@
 import { lazy } from "react";
 
 const HomePage = lazy(() => import("pages/homePage"));
-const CreateGroupPage = lazy(() => import("pages/GroupPage/CreateGroupPage"));
-const GroupsPage = lazy(() => import("pages/GroupPage/GroupsPage"));
-const MyGroupsPage = lazy(() => import("pages/GroupPage/MyGroupsPage"));
+const CreateGroupPage = lazy(() => import("pages/groupPage/CreateGroupPage"));
+const GroupsPage = lazy(() => import("pages/groupPage/GroupsPage"));
+const MyGroupsPage = lazy(() => import("pages/groupPage/MyGroupsPage"));
 
 interface IAppRoutes {
   component: React.ReactNode;
