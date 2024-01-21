@@ -5,4 +5,5 @@ export const Paths = {
   group: "/group",
   groups: "/groups",
   editGroup: "/edit/group",
+  users: "/users",
 };

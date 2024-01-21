@@ -1,4 +1,4 @@
-type RoleType = "Teacher" | "Student";
+export type RoleType = "Teacher" | "Student";
 
 export interface IUser {
   id: string;
