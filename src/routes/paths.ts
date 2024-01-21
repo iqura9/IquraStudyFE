@@ -6,4 +6,5 @@ export const Paths = {
   groups: "/groups",
   editGroup: "/edit/group",
   users: "/users",
+  createTask: "/create/task",
 };

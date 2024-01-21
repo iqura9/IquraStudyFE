@@ -41,13 +41,6 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({ group }) => {
     },
   ];
 
-  // move to group details page
-  // const handleEdit = (e: any) => {
-  //   e.preventDefault();
-  //   const editURL = `${Paths.editGroup}/${group.id}`;
-  //   navigate(editURL);
-  // };
-
   return (
     <Link to={groupPath}>
       <Card title="Group Details" className={styles.Card}>
@@ -57,14 +50,6 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({ group }) => {
           pagination={false}
           style={{}}
         />
-        {/* <Button
-          type="primary"
-          block
-          style={{ marginTop: "16px" }}
-          onClick={handleEdit}
-        >
-          Edit
-        </Button> */}
       </Card>
     </Link>
   );

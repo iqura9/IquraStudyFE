@@ -1,6 +1,12 @@
 import { MenuProps } from "antd";
 
-import { SettingOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  BranchesOutlined,
+  HomeOutlined,
+  PlusCircleOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 export const items: MenuProps["items"] = [
   {
@@ -25,23 +31,26 @@ export const sideBarItems: MenuProps["items"] = [
   {
     label: "Home",
     key: "home",
+    icon: <HomeOutlined />,
   },
   {
     label: "Groups",
     key: "groups",
+    icon: <BranchesOutlined />,
   },
-
-  {
-    label: "Archived Groups",
-    key: "archived-groups",
-  },
+  // {
+  //   label: "Archived Groups",
+  //   key: "archived-groups",
+  // },
   {
     label: "Create Group",
     key: "group/create",
+    icon: <PlusCircleOutlined />,
   },
   {
     label: "Create Problem",
     key: "problem/create",
+    icon: <PlusCircleOutlined />,
   },
   {
     label: "Users",

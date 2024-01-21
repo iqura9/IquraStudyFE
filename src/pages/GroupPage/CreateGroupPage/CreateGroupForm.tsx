@@ -7,11 +7,15 @@ import { ICreateGroupValues } from ".";
 interface CreateGroupFormProps {
   onFinish: (values: ICreateGroupValues) => void;
   formRef: any;
+  initialValues?: {
+    name: string;
+  };
 }
 
 export const CreateGroupForm: FC<CreateGroupFormProps> = ({
   onFinish,
   formRef,
+  initialValues,
 }) => {
   return (
     <Form
@@ -20,6 +24,7 @@ export const CreateGroupForm: FC<CreateGroupFormProps> = ({
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 14 }}
       ref={formRef}
+      initialValues={initialValues}
     >
       <Form.Item
         label="Group Name"

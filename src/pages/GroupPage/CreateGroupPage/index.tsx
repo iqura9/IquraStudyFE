@@ -4,6 +4,7 @@ import { Form, notification } from "antd";
 import { Button } from "antd";
 import { createGroup } from "api/group.api";
 import { Paths } from "routes/paths";
+import { IGroup } from "types/groupTypes";
 
 import { CreateGroupForm } from "./CreateGroupForm";
 
@@ -16,14 +17,14 @@ export type ICreateGroupValues = {
 const CreateGroupPage = () => {
   const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>();
-  const { mutate } = useMutation<unknown, Error, ICreateGroupValues>({
+  const { mutate } = useMutation<IGroup, Error, ICreateGroupValues>({
     mutationKey: ["CreateGroup"],
     mutationFn: (val: ICreateGroupValues) => createGroup(val),
-    onSuccess: () => {
+    onSuccess: (response) => {
       notification.success({
         message: "Group was created",
       });
-      navigate(Paths.groups);
+      navigate(`${Paths.group}/${response.id}`);
     },
   });
 
