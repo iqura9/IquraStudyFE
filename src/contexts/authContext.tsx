@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { getMeFn } from "api/auth.api";
-import { getAccessToken } from "helpers/getToken";
 import { createContext, useContext, useEffect, useState } from "react";
+import { getMeFn } from "api/auth.api";
+import Spinner from "components/Spinner";
+import { getAccessToken } from "helpers/getToken";
 import { IUser, IUserResponse } from "types/authTypes";
+
+import { useQuery } from "@tanstack/react-query";
 
 const AuthContext = createContext<
   Partial<{
@@ -44,7 +46,7 @@ export const AuthProvider = (props: any) => {
     }
   }, [user]);
 
-  if (isLoading) console.log("loading"); // Add preloader
+  if (isLoading) return <Spinner />;
 
   return (
     <Provider

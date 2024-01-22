@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button, Input, Layout, Menu, MenuProps } from "antd";
-import { BreadcrumbDynamic } from "components/Breadcrumb";
 import { useAuth } from "contexts/authContext";
 
 import { sideBarItems } from "./consts";

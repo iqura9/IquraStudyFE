@@ -91,3 +91,8 @@ export const getMeFn = async () => {
   const response = await authApi.get<IUserResponse>("Account/GetMe");
   return response.data;
 };
+
+export const checkIsValidToken = async () => {
+  const response = await authApi.get<IUserResponse>("Account/GetMe");
+  return response.data;
+};

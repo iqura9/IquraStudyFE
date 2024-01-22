@@ -1,13 +1,15 @@
-import { useMutation } from "@tanstack/react-query";
+import { useLocation, useNavigate } from "react-router-dom";
 import { notification } from "antd";
 import { loginUserFn } from "api/auth.api";
 import { useAuth } from "contexts/authContext";
-import { useNavigate } from "react-router-dom";
 import { Paths } from "routes/paths";
 import { ILoginQuery, ILoginResponse } from "types/authTypes";
 
+import { useMutation } from "@tanstack/react-query";
+
 const useLoginPageHandler = () => {
   const { setAuthStatus } = useAuth();
+  const { state: locationState } = useLocation();
   const navigate = useNavigate();
 
   const { mutate: loginFn } = useMutation<ILoginResponse, Error, ILoginQuery>({
@@ -18,7 +20,11 @@ const useLoginPageHandler = () => {
       if (setAuthStatus) {
         setAuthStatus(true);
       }
-      navigate(Paths.main);
+
+      navigate(
+        locationState?.redirectUrl ? locationState?.redirectUrl : Paths.main
+      );
+
       notification.success({
         message: "Login Successful",
         description: "You have successfully logged in. Welcome!",

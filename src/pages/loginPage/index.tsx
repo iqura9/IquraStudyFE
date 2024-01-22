@@ -1,6 +1,8 @@
 import { Button, Form, Input } from "antd";
 import { ILoginQuery } from "types/authTypes";
+
 import { useLoginPageHandler } from "./hooks";
+
 import styles from "./styles.module.scss";
 
 const LoginPage = () => {

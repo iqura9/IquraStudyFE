@@ -42,8 +42,9 @@ const GroupPage = () => {
     },
   });
 
-  const invitationToken =
-    "https://iqurastudy.com/invite-to-group?token=eFdfcds31d3cxle22l3";
+  const invitationToken = `${
+    import.meta.env.VITE_BASE_CLIENT_URL
+  }/invite-to-group?token=${id}&groupName=${data?.name}`;
 
   const handleEdit = () => {
     navigation(`${Paths.editGroup}/${id}`, { state: { name: data?.name } });
