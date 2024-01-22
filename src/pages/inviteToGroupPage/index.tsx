@@ -2,13 +2,13 @@
 import React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button, notification, Space, Typography } from "antd";
-import { getGroup } from "api/group.api";
+import { getGroup, requestGroupInvitation } from "api/group.api";
 import Spinner from "components/Spinner";
 import { Paths } from "routes/paths";
 
 import styles from "./styles.module.scss";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const { Title, Paragraph } = Typography;
 
@@ -25,6 +25,26 @@ const InviteToGroupPage = () => {
     enabled: !!token,
   });
 
+  const { mutate: requestValidation } = useMutation({
+    mutationKey: ["requestGroupInvitation", token],
+    mutationFn: () => requestGroupInvitation({ GroupId: token }),
+    retry: false,
+    onSuccess: () => {
+      notification.success({
+        message: "Success",
+        description: "Request successfully sent to teacher of the course",
+      });
+      navigate(Paths.main);
+    },
+    onError: () => {
+      notification.error({
+        message: "Error",
+        description: "Something went wrong.",
+      });
+      navigate(Paths.main);
+    },
+  });
+
   if (isLoading) return <Spinner />;
 
   if (isError) {
@@ -39,6 +59,10 @@ const InviteToGroupPage = () => {
     navigate(Paths.main);
   };
 
+  const onAccept = () => {
+    requestValidation();
+  };
+
   return (
     <div className={styles["invite-to-group-page"]}>
       <div className={styles.content}>
@@ -47,7 +71,9 @@ const InviteToGroupPage = () => {
           Group name: <strong>{data?.name}</strong>
         </Paragraph>
         <Space className={styles["button-container"]}>
-          <Button type="primary">Request Invitation</Button>
+          <Button type="primary" onClick={onAccept}>
+            Request Invitation
+          </Button>
           <Button onClick={onDecline}>Decline</Button>
         </Space>
       </div>

@@ -8,6 +8,10 @@ import {
   IUserResponse,
 } from "types/authTypes";
 
+import { QueryClient } from "@tanstack/react-query";
+
+export const queryClient = new QueryClient();
+
 export const authApi = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,

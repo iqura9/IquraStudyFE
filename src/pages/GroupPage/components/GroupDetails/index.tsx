@@ -1,56 +1,65 @@
-import React, { FC } from "react";
-import { Avatar, Card, Space, Tag, Typography } from "antd";
+import React, { FC, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Card, Space, Tabs, Tag, Typography } from "antd";
 import { useAuth } from "contexts/authContext";
+import IsShow from "settings/IsShow";
 import { IGroup } from "types/groupTypes";
+
+import MainTab from "./MainTab";
+import PeopleTab from "./PeopleTab";
 
 import styles from "./styles.module.scss";
 
-import { UserOutlined } from "@ant-design/icons";
-
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
 const GroupDetails: FC<{ group: IGroup }> = ({ group }) => {
   const { user } = useAuth();
-  const { name, createdAt, createdByUser, isArchived } = group;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "main");
+
+  const { name, createdByUser } = group;
+
+  const items = [
+    {
+      key: "main",
+      label: "Main",
+      children: <MainTab group={group} />,
+    },
+    {
+      key: "people",
+      label: "People",
+      children: (
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <PeopleTab />
+        </Space>
+      ),
+    },
+  ];
 
   const title = (
     <div className={styles.titleData}>
       <Title level={2}>{name}</Title>
-      {createdByUser.id === user?.id && (
+      <IsShow rule={createdByUser.id === user?.id}>
         <Tag color="gold">This is your group</Tag>
-      )}
+      </IsShow>
     </div>
   );
+
+  const handleChangeTab = (key: string) => {
+    setSearchParams(`?tab=${key}`);
+    setActiveTab(key);
+  };
+
   return (
     <div className={styles.groupDetails}>
       <Card title={title}>
-        <Space direction="vertical" style={{ width: "100%" }}>
-          <Space>
-            <Text strong>Created By:</Text>
-
-            <Space>
-              <Avatar src={createdByUser.image} icon={<UserOutlined />} />
-              <Text>{createdByUser.userName}</Text>
-            </Space>
-          </Space>
-
-          <Space>
-            <Text strong>Created At:</Text>
-            <Text>{new Date(createdAt).toLocaleDateString()}</Text>
-          </Space>
-
-          {/* <Text strong>Group Tasks:</Text>
-          <List
-            dataSource={groupTasks}
-            renderItem={(task) => <List.Item>{task}</List.Item>}
-          /> */}
-          <Space>
-            <Text strong>Is Archived: </Text>
-            <Text type={isArchived ? "danger" : "success"}>
-              {isArchived ? "Yes" : "No"}
-            </Text>
-          </Space>
-        </Space>
+        <Tabs
+          defaultActiveKey={activeTab}
+          activeKey={activeTab}
+          onChange={handleChangeTab}
+          style={{ marginLeft: "auto" }}
+          items={items}
+        ></Tabs>
       </Card>
     </div>
   );

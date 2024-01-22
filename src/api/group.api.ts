@@ -1,5 +1,6 @@
+import { IPutGroupPersonDto } from "pages/groupPage/components/GroupDetails/AcceptUserTable/const";
 import { ICreateGroupValues } from "pages/groupPage/CreateGroupPage";
-import { IGroup } from "types/groupTypes";
+import { IGroup, IGroupPeople } from "types/groupTypes";
 
 import { authApi } from "./auth.api";
 
@@ -32,5 +33,27 @@ export const getGroup = async (id: string | undefined) => {
 
 export const deleteGroup = async (id: string | undefined) => {
   const response = await authApi.delete(`Group/${id}`);
+  return response.data;
+};
+
+export const requestGroupInvitation = async (data: {
+  GroupId: string | null;
+}) => {
+  const response = await authApi.post("GroupPerson", data);
+  return response.data;
+};
+
+export const getGroupPerson = async (id: string | null | undefined) => {
+  const url = `GroupPerson/${id}`;
+  const response = await authApi.get<IGroupPeople[]>(url);
+  return response.data;
+};
+
+export const putGroupPerson = async (
+  id: string | null | undefined,
+  data: IPutGroupPersonDto
+) => {
+  const url = `GroupPerson/${id}`;
+  const response = await authApi.put<IGroupPeople>(url, data);
   return response.data;
 };

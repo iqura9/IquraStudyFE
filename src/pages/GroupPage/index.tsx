@@ -67,12 +67,12 @@ const GroupPage = () => {
             gap: "8px",
           }}
         >
-          <Link to={Paths.createTask}>
-            <Button type="link">Create the task</Button>
-          </Link>
-          <Button type="primary" onClick={handleShowModal}>
+          <Button type="link" onClick={handleShowModal}>
             Invite students
           </Button>
+          <Link to={Paths.createTask}>
+            <Button type="primary">Create the task</Button>
+          </Link>
           <Button type="default" onClick={handleEdit}>
             Edit Group
           </Button>
