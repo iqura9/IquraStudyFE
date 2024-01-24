@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, notification } from "antd";
 import { deleteGroup, getGroup } from "api/group.api";
@@ -23,12 +23,19 @@ const GroupPage = () => {
   } = useModal();
   const { id } = useParams();
   const { user } = useAuth();
-  const { data } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ["getGroup", id],
     queryFn: () => getGroup(id),
     retry: false,
     refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    if (error) {
+      notification.error({ message: error.name, description: error.message });
+      navigation(-1);
+    }
+  }, [error, navigation]);
 
   const { mutate: deleteFn } = useMutation<unknown, Error>({
     mutationKey: ["deleteGroup", id],
@@ -70,7 +77,7 @@ const GroupPage = () => {
           <Button type="link" onClick={handleShowModal}>
             Invite students
           </Button>
-          <Link to={Paths.createTask}>
+          <Link to={`${Paths.createTask}/${id}`}>
             <Button type="primary">Create the task</Button>
           </Link>
           <Button type="default" onClick={handleEdit}>

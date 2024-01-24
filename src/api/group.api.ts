@@ -1,11 +1,26 @@
 import { IPutGroupPersonDto } from "pages/groupPage/components/GroupDetails/AcceptUserTable/const";
 import { ICreateGroupValues } from "pages/groupPage/CreateGroupPage";
+import { ICreateTaskValues } from "pages/taskPage/CreateTask";
 import { IGroup, IGroupPeople } from "types/groupTypes";
 
 import { authApi } from "./auth.api";
 
 export const createGroup = async (data: ICreateGroupValues) => {
   const response = await authApi.post("Group", data);
+  return response.data;
+};
+
+export const createTask = async (
+  groupId: string | undefined,
+  data: ICreateTaskValues
+) => {
+  const response = await authApi.post("Task", { ...data, groupId });
+  return response.data;
+};
+
+export const getTasks = async (groupId: string | undefined) => {
+  const url = `Task/${groupId}`;
+  const response = await authApi.get<any>(url);
   return response.data;
 };
 

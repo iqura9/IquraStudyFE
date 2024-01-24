@@ -24,6 +24,15 @@ export interface IGroupPeople {
   group: any;
   user: IUser;
 }
+export interface IGroupTask {
+  id: number;
+  title: string;
+  description: string;
+  groupId: number;
+  createByUserId: string;
+  group: any;
+  groupTaskProblems: any[];
+}
 
 export interface IGroupPeopleResponse {
   data: IGroupPeople[];

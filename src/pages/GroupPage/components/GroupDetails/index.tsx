@@ -7,6 +7,7 @@ import { IGroup } from "types/groupTypes";
 
 import MainTab from "./MainTab";
 import PeopleTab from "./PeopleTab";
+import TasksTab from "./TasksTab";
 
 import styles from "./styles.module.scss";
 
@@ -24,6 +25,15 @@ const GroupDetails: FC<{ group: IGroup }> = ({ group }) => {
       key: "main",
       label: "Main",
       children: <MainTab group={group} />,
+    },
+    {
+      key: "tasks",
+      label: "Tasks",
+      children: (
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <TasksTab />
+        </Space>
+      ),
     },
     {
       key: "people",

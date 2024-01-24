@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Table } from "antd";
+import { useAuth } from "contexts/authContext";
 import { IUser } from "types/authTypes";
 
 import { columns } from "./const";
@@ -9,6 +10,12 @@ interface AcceptUserTableProps {
 }
 
 const AcceptUserTable: FC<AcceptUserTableProps> = ({ users }) => {
+  const { user } = useAuth();
+  // Hide Accept ability when not a Teacher
+  if (user?.role !== "Teacher") {
+    columns.splice(-1, 1);
+  }
+
   return <Table dataSource={users} columns={columns} />;
 };
 
