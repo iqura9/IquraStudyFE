@@ -9,6 +9,7 @@ const EditGroupPage = lazy(() => import("pages/groupPage/EditGroupPage"));
 const CreateTaskPage = lazy(() => import("pages/taskPage/CreateTask"));
 const CreateProblemPage = lazy(() => import("pages/problemPage/CreateProblem"));
 const CreateQuizPage = lazy(() => import("pages/quizPage/CreateQuiz"));
+const QuizPage = lazy(() => import("pages/quizPage"));
 
 interface IAppRoutes {
   component: React.ReactNode;
@@ -59,6 +60,14 @@ export const appRoutes: IAppRoutes[] = [
   {
     path: "/quiz/create",
     component: <CreateQuizPage />,
+  },
+  {
+    path: "/quizzes/:id",
+    component: <QuizPage />,
+  },
+  {
+    path: "/create/question/:taskId",
+    component: <QuizPage />,
   },
   {
     path: "/users",

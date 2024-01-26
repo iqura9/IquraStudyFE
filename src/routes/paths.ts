@@ -8,4 +8,6 @@ export const Paths = {
   users: "/users",
   createTask: "/create/task",
   createQuiz: "/quiz/create",
+  quizzes: "/quizzes",
+  createQuestion: "/create/question",
 };

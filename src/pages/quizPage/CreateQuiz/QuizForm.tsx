@@ -1,14 +1,13 @@
 import React, { FC } from "react";
 import { Form } from "antd";
 import { Input } from "antd";
-import TextArea from "antd/es/input/TextArea";
 
-import { ICreateTaskValues } from ".";
+import { ICreateQuizValues } from ".";
 
 interface TaskFormProps {
-  onFinish: (values: ICreateTaskValues) => void;
+  onFinish: (values: ICreateQuizValues) => void;
   formRef: any;
-  initialValues?: ICreateTaskValues;
+  initialValues?: ICreateQuizValues;
 }
 
 export const QuizForm: FC<TaskFormProps> = ({
@@ -32,30 +31,6 @@ export const QuizForm: FC<TaskFormProps> = ({
         rules={[{ required: true, message: "Title is required" }]}
       >
         <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Description (Markdown)"
-        name="description"
-        rules={[{ required: true, message: "Description is required" }]}
-      >
-        <TextArea rows={4} />
-      </Form.Item>
-
-      <Form.Item
-        label="Вхідні дані (Input Data)"
-        name="inputData"
-        rules={[{ required: true, message: "Input Data is required" }]}
-      >
-        <TextArea rows={4} />
-      </Form.Item>
-
-      <Form.Item
-        label="Вихідні дані (Output Data)"
-        name="outputData"
-        rules={[{ required: true, message: "Output Data is required" }]}
-      >
-        <TextArea rows={4} />
       </Form.Item>
     </Form>
   );
