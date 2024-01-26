@@ -7,4 +7,5 @@ export const Paths = {
   editGroup: "/edit/group",
   users: "/users",
   createTask: "/create/task",
+  createQuiz: "/quiz/create",
 };

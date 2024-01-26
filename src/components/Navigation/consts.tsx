@@ -1,4 +1,5 @@
 import { MenuProps } from "antd";
+import { Paths } from "routes/paths";
 
 import {
   BranchesOutlined,
@@ -50,6 +51,11 @@ export const sideBarItems: MenuProps["items"] = [
   {
     label: "Create Problem",
     key: "problem/create",
+    icon: <PlusCircleOutlined />,
+  },
+  {
+    label: "Create Quiz",
+    key: Paths.createQuiz,
     icon: <PlusCircleOutlined />,
   },
   {
