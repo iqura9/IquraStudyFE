@@ -52,7 +52,7 @@ export const QuestionForm: FC<QuestionFormProps> = ({
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, ...restField }) => (
-              <Row gutter={8} key={key}>
+              <Row gutter={8} key={key} align="bottom">
                 <Col span={12}>
                   <Form.Item
                     {...restField}
