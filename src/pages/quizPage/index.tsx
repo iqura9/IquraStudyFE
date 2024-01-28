@@ -4,6 +4,8 @@ import { Button, Descriptions, List, Space } from "antd";
 import { getQuiz } from "api/quiz";
 import { Paths } from "routes/paths";
 
+import QuestionTable from "./QuestionTable";
+
 import { useQuery } from "@tanstack/react-query";
 
 const QuizPage = () => {
@@ -51,6 +53,7 @@ const QuizPage = () => {
         <Button>Edit</Button>
         <Button>Delete</Button>
       </Space>
+      <QuestionTable questions={data.questions} />
     </div>
   );
 };

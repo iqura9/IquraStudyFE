@@ -1,15 +1,20 @@
 import { lazy } from "react";
 
 const HomePage = lazy(() => import("pages/homePage"));
-const CreateGroupPage = lazy(() => import("pages/groupPage/CreateGroupPage"));
 const GroupPage = lazy(() => import("pages/groupPage"));
 const GroupsPage = lazy(() => import("pages/groupPage/GroupsPage"));
-const UsersPage = lazy(() => import("pages/usersPage"));
+const CreateGroupPage = lazy(() => import("pages/groupPage/CreateGroupPage"));
 const EditGroupPage = lazy(() => import("pages/groupPage/EditGroupPage"));
+const UsersPage = lazy(() => import("pages/usersPage"));
 const CreateTaskPage = lazy(() => import("pages/taskPage/CreateTask"));
 const CreateProblemPage = lazy(() => import("pages/problemPage/CreateProblem"));
-const CreateQuizPage = lazy(() => import("pages/quizPage/CreateQuiz"));
 const QuizPage = lazy(() => import("pages/quizPage"));
+const CreateQuizPage = lazy(() => import("pages/quizPage/CreateQuiz"));
+const QuestionPage = lazy(() => import("pages/questionPage"));
+const CreateQuestionPage = lazy(
+  () => import("pages/questionPage/CreateQuestion")
+);
+const EditQuestionPage = lazy(() => import("pages/questionPage/EditQuestion"));
 
 interface IAppRoutes {
   component: React.ReactNode;
@@ -66,8 +71,16 @@ export const appRoutes: IAppRoutes[] = [
     component: <QuizPage />,
   },
   {
-    path: "/create/question/:taskId",
-    component: <QuizPage />,
+    path: "/create/question/:quizId",
+    component: <CreateQuestionPage />,
+  },
+  {
+    path: "/question/:id",
+    component: <QuestionPage />,
+  },
+  {
+    path: "/edit/question/:id",
+    component: <EditQuestionPage />,
   },
   {
     path: "/users",
