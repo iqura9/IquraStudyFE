@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button, Input, Layout, Menu, MenuProps } from "antd";
+import logo from "assets/logoIquraStudy.png";
 import { useAuth } from "contexts/authContext";
 
 import { sideBarItems } from "./consts";
@@ -26,9 +27,11 @@ export const Navigation = () => {
         trigger={null}
         collapsible
         collapsed={collapsed}
-        style={{ background: "#FDFDFD" }}
+        style={{ background: "#FDFDFD", justifyContent: "center" }}
       >
-        <div className={style.logo} />
+        <div className={collapsed ? style.logoCollapsed : style.logo}>
+          <img src={logo} alt="" />
+        </div>
         <Menu
           className={style.mainMenu}
           onClick={onClick}

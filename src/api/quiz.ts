@@ -1,5 +1,6 @@
 import { ICreateQuestionValues } from "pages/questionPage/CreateQuestion";
 import { ICreateQuizValues } from "pages/quizPage/CreateQuiz";
+import { IGroup } from "types/groupTypes";
 
 import { authApi } from "./auth.api";
 
@@ -38,5 +39,10 @@ export const deleteQuestion = async (
   id: string | undefined | null | number
 ) => {
   const response = await authApi.delete(`QuestionContoller/${id}`);
+  return response.data;
+};
+
+export const getQuizzes = async () => {
+  const response = await authApi.get("Quiz");
   return response.data;
 };

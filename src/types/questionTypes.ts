@@ -1,3 +1,5 @@
+import { IUser } from "./authTypes";
+
 export interface IQuestion {
   id: number;
   title: string;
@@ -12,4 +14,12 @@ interface IAnswer {
   title: string;
   questionId: number;
   isCorrect: boolean;
+}
+
+export interface IQuiz {
+  id: number;
+  title: string;
+  createdByUserId: string;
+  createdAt: string;
+  createdByUser: IUser;
 }

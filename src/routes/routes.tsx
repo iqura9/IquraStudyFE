@@ -15,6 +15,7 @@ const CreateQuestionPage = lazy(
   () => import("pages/questionPage/CreateQuestion")
 );
 const EditQuestionPage = lazy(() => import("pages/questionPage/EditQuestion"));
+const QuizzesPage = lazy(() => import("pages/quizPage/Quizzes"));
 
 interface IAppRoutes {
   component: React.ReactNode;
@@ -45,6 +46,10 @@ export const appRoutes: IAppRoutes[] = [
   {
     path: "/groups",
     component: <GroupsPage />,
+  },
+  {
+    path: "/quizzes",
+    component: <QuizzesPage />,
   },
   {
     path: "/edit/group/:id",

@@ -3,6 +3,7 @@ import { Paths } from "routes/paths";
 
 import {
   BranchesOutlined,
+  ExperimentOutlined,
   HomeOutlined,
   PlusCircleOutlined,
   SettingOutlined,
@@ -38,6 +39,11 @@ export const sideBarItems: MenuProps["items"] = [
     label: "Groups",
     key: "groups",
     icon: <BranchesOutlined />,
+  },
+  {
+    label: "Quizzes",
+    key: "quizzes",
+    icon: <ExperimentOutlined />,
   },
   // {
   //   label: "Archived Groups",
