@@ -33,3 +33,10 @@ export const updateQuestion = async (
   const response = await authApi.put(`QuestionContoller/${questionId}`, data);
   return response.data;
 };
+
+export const deleteQuestion = async (
+  id: string | undefined | null | number
+) => {
+  const response = await authApi.delete(`QuestionContoller/${id}`);
+  return response.data;
+};

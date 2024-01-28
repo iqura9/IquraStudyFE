@@ -5,7 +5,7 @@ import { Button } from "antd";
 import { createQuestion } from "api/quiz";
 import { ICreateQuizValues } from "pages/quizPage/CreateQuiz";
 import { Paths } from "routes/paths";
-import { IGroup } from "types/groupTypes";
+import { IQuestion } from "types/questionTypes";
 
 import { QuestionForm } from "./QuestionForm";
 
@@ -19,14 +19,14 @@ const CreateQuestionPage = () => {
   const { quizId } = useParams();
   const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>();
-  const { mutate } = useMutation<IGroup, Error, ICreateQuestionValues>({
+  const { mutate } = useMutation<IQuestion, Error, ICreateQuestionValues>({
     mutationKey: ["CreateQuestion", quizId],
     mutationFn: (val: ICreateQuestionValues) => createQuestion(quizId, val),
     onSuccess: (response) => {
       notification.success({
         message: "Question was created",
       });
-      navigate(`${Paths.quizzes}/${response.id}`);
+      navigate(`${Paths.quizzes}/${response.quizId}`);
     },
   });
 

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Button, Checkbox, Col, Form, Row } from "antd";
+import { Button, Checkbox, Col, Form, notification, Row } from "antd";
 import { Input } from "antd";
 import { IQuestion } from "types/questionTypes";
 
@@ -16,6 +16,17 @@ export const QuestionForm: FC<QuestionFormProps> = ({
   formRef,
   initialValues,
 }) => {
+  const validateCheckbox = (_: any, values: { isCorrect: boolean }[]) => {
+    const isAtLeastOneChecked = values.some(
+      (ans: { isCorrect: boolean }) => ans.isCorrect
+    );
+    return isAtLeastOneChecked
+      ? Promise.resolve()
+      : notification.error({
+          message: "At least one answer must be marked as correct",
+        });
+  };
+
   return (
     <Form
       name="createQuestionForm"
@@ -33,16 +44,19 @@ export const QuestionForm: FC<QuestionFormProps> = ({
       >
         <Input />
       </Form.Item>
-      <Form.List name="answers" initialValue={[{}, {}]}>
+      <Form.List
+        name="answers"
+        initialValue={[{}, {}]}
+        rules={[{ validator: validateCheckbox }]}
+      >
         {(fields, { add, remove }) => (
           <>
-            {fields.map(({ key, name, fieldKey, ...restField }) => (
+            {fields.map(({ key, name, ...restField }) => (
               <Row gutter={8} key={key}>
                 <Col span={12}>
                   <Form.Item
                     {...restField}
                     name={[name, "title"]}
-                    //fieldKey={[fieldKey, "title"]}
                     label={`Answer ${key + 1}`}
                     rules={[{ required: true, message: "Answer is required" }]}
                   >
