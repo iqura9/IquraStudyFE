@@ -1,19 +1,33 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
-import { Button, Descriptions, List, Space } from "antd";
-import { getQuiz } from "api/quiz";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Button, List, notification, Space } from "antd";
+import { queryClient } from "api/auth.api";
+import { deleteQuestion, deleteQuiz, getQuiz } from "api/quiz";
 import { Paths } from "routes/paths";
 
 import QuestionTable from "./QuestionTable";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const QuizPage = () => {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["quizData", id],
     queryFn: () => getQuiz(id),
+  });
+
+  const { mutate: deleteFn } = useMutation<unknown, Error>({
+    mutationKey: ["deleteQuiz"],
+    mutationFn: () => deleteQuiz(id),
+    onSuccess: () => {
+      notification.success({ message: "Quiz successfully was deleted" });
+      // queryClient.refetchQueries({ queryKey: ["quizData", id] });
+      navigate(Paths.quizzes);
+    },
+    onError: (error) => {
+      notification.error({ message: error.name, description: error.message });
+    },
   });
 
   if (isLoading) {
@@ -51,7 +65,7 @@ const QuizPage = () => {
           <Button>Add Questions</Button>
         </Link>
         <Button>Edit</Button>
-        <Button>Delete</Button>
+        <Button onClick={() => deleteFn()}>Delete</Button>
       </Space>
       <QuestionTable questions={data.questions} />
     </div>

@@ -1,11 +1,16 @@
 import { ICreateQuestionValues } from "pages/questionPage/CreateQuestion";
 import { ICreateQuizValues } from "pages/quizPage/CreateQuiz";
-import { IGroup } from "types/groupTypes";
+import { CreateQuizTaskDto } from "types/quiz";
 
 import { authApi } from "./auth.api";
 
 export const createQuiz = async (data: ICreateQuizValues) => {
   const response = await authApi.post("Quiz", data);
+  return response.data;
+};
+
+export const createQuizTask = async (data: CreateQuizTaskDto) => {
+  const response = await authApi.post("Quiz/QuizTask", data);
   return response.data;
 };
 
@@ -44,5 +49,10 @@ export const deleteQuestion = async (
 
 export const getQuizzes = async () => {
   const response = await authApi.get("Quiz");
+  return response.data;
+};
+
+export const deleteQuiz = async (id: string | undefined | null | number) => {
+  const response = await authApi.delete(`Quiz/${id}`);
   return response.data;
 };
