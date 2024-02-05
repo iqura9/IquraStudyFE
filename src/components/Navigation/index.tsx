@@ -4,6 +4,7 @@ import { Button, Input, Layout, Menu, MenuProps } from "antd";
 import logo from "assets/logoIquraStudy.png";
 import { useAuth } from "contexts/authContext";
 
+import AvatarBlock from "./AvatarBlock";
 import { sideBarItems } from "./consts";
 
 import style from "./styles.module.scss";
@@ -64,9 +65,7 @@ export const Navigation = () => {
               placeholder="Input group or problem name"
               className={style.search}
             />
-            <div className={style.avatar}>
-              {user?.userName[0].toUpperCase()}
-            </div>
+            <AvatarBlock user={user} />
           </div>
         </Layout.Header>
 
