@@ -46,6 +46,12 @@ export const getGroup = async (id: string | undefined) => {
   return response.data;
 };
 
+export const getGroupCheck = async (id: string | undefined) => {
+  const url = `Group/CheckInvitation/${id}`;
+  const response = await authApi.get<IGroup>(url);
+  return response.data;
+};
+
 export const deleteGroup = async (id: string | undefined) => {
   const response = await authApi.delete(`Group/${id}`);
   return response.data;

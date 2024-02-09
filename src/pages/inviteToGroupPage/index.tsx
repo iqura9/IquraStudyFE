@@ -1,8 +1,7 @@
-// InviteToGroupPage.jsx
 import React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button, notification, Space, Typography } from "antd";
-import { getGroup, requestGroupInvitation } from "api/group.api";
+import { getGroupCheck, requestGroupInvitation } from "api/group.api";
 import Spinner from "components/Spinner";
 import { Paths } from "routes/paths";
 
@@ -19,7 +18,7 @@ const InviteToGroupPage = () => {
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ["getGroup", token],
-    queryFn: () => getGroup(token || undefined),
+    queryFn: () => getGroupCheck(token || undefined),
     retry: false,
     refetchOnWindowFocus: false,
     enabled: !!token,

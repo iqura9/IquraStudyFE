@@ -51,7 +51,9 @@ const GroupPage = () => {
 
   const invitationToken = `${
     import.meta.env.VITE_BASE_CLIENT_URL
-  }/invite-to-group?token=${id}&groupName=${data?.name}`;
+  }/invite-to-group?token=${id}&groupName=${encodeURIComponent(
+    data?.name || ""
+  )}`;
 
   const handleEdit = () => {
     navigation(`${Paths.editGroup}/${id}`, { state: { name: data?.name } });

@@ -24,7 +24,9 @@ const TasksTab: FC = () => {
   });
   const handleEdit = (data: any) => {};
   const handleDelete = (data: any) => {};
-  const handleAddTask = (taskId: number) => {
+  const handleAddTask = (e: any, taskId: number) => {
+    e.preventDefault();
+    e.stopPropagation();
     setTaskId(taskId);
     handleShowModal();
   };
@@ -39,7 +41,10 @@ const TasksTab: FC = () => {
               actions={[
                 <IsShow rule={user?.id === item.createByUserId}>
                   <Space key="actions">
-                    <Button type="link" onClick={() => handleAddTask(item.id)}>
+                    <Button
+                      type="link"
+                      onClick={(e) => handleAddTask(e, item.id)}
+                    >
                       Add task
                     </Button>
                     <Button type="primary" onClick={() => handleEdit(item)}>
