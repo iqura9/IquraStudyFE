@@ -1,5 +1,6 @@
 import { IUser } from "./authTypes";
 import { UserStatus } from "./generaTypes";
+import { GroupTaskQuiz } from "./task";
 
 export interface IGroup {
   id: number;
@@ -30,8 +31,10 @@ export interface IGroupTask {
   description: string;
   groupId: number;
   createByUserId: string;
+  createdByUser: IUser;
   group: any;
   groupTaskProblems: any[];
+  groupTaskQuizzes: GroupTaskQuiz[];
 }
 
 export interface IGroupPeopleResponse {
