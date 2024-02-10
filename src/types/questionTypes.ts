@@ -22,5 +22,5 @@ export interface IQuiz {
   createdByUserId: string;
   createdAt: string;
   createdByUser: IUser;
-  questions: any[];
+  questions: IQuestion[];
 }

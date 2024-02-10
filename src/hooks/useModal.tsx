@@ -11,7 +11,11 @@ const useModal = (defaultValue = false) => {
     setVisible(false);
   };
 
-  return { isShow, handleShowModal, handleHideModal };
+  const handleToggle = () => {
+    setVisible((prevState) => !prevState);
+  };
+
+  return { isShow, handleShowModal, handleHideModal, handleToggle };
 };
 
 export default useModal;

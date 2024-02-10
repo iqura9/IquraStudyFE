@@ -1,8 +1,9 @@
 import { ICreateQuestionValues } from "pages/questionPage/CreateQuestion";
 import { ICreateQuizValues } from "pages/quizPage/CreateQuiz";
+import { IQuiz } from "types/questionTypes";
 import { CreateQuizTaskDto } from "types/quiz";
 
-import { authApi } from "./auth.api";
+import { authApi, authApi } from "./auth.api";
 
 export const createQuiz = async (data: ICreateQuizValues) => {
   const response = await authApi.post("Quiz", data);
@@ -15,7 +16,13 @@ export const createQuizTask = async (data: CreateQuizTaskDto) => {
 };
 
 export const getQuiz = async (id: string | undefined | null | number) => {
-  const response = await authApi.get(`Quiz/${id}`);
+  const response = await authApi.get<IQuiz>(`Quiz/${id}`);
+  return response.data;
+};
+export const getQuizWithoutAnswers = async (
+  id: string | undefined | null | number
+) => {
+  const response = await authApi.get<IQuiz>(`Quiz/WithoutAnswers/${id}`);
   return response.data;
 };
 

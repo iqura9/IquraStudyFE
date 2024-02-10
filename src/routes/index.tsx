@@ -5,7 +5,7 @@ import Spinner from "components/Spinner";
 import { useAuth } from "contexts/authContext";
 
 import RequireAuth from "./requireAuth";
-import { appRoutes } from "./routes";
+import { appRoutes, outRouters } from "./routes";
 
 const LoginPage = lazy(() => import("pages/loginPage"));
 const RegisterPage = lazy(() => import("pages/registerPage"));
@@ -28,6 +28,12 @@ const AppRoutes = () => {
           />
           <Route element={<RequireAuth />}>
             <Route path="/invite-to-group" element={<InviteToGroupPage />} />
+          </Route>
+
+          <Route element={<RequireAuth />}>
+            {outRouters.map(({ path, component }) => (
+              <Route key={path} path={path} element={component} />
+            ))}
           </Route>
 
           <Route element={<RequireAuth />}>
