@@ -7,6 +7,7 @@ interface LeftSideProps {
   title: string;
   questions: IQuestion[];
   setCurrentQuestion: (index: number) => void;
+  handleSaveAnswer: () => void;
   isShow: boolean;
 }
 
@@ -14,6 +15,7 @@ export const LeftSide: FC<LeftSideProps> = ({
   title,
   questions,
   setCurrentQuestion,
+  handleSaveAnswer,
   isShow,
 }) => {
   const turnace = (text: string) => {
@@ -28,7 +30,10 @@ export const LeftSide: FC<LeftSideProps> = ({
         <div
           key={index}
           className={styles.leftSide_questions_block}
-          onClick={() => setCurrentQuestion(index)}
+          onClick={() => {
+            handleSaveAnswer();
+            setCurrentQuestion(index);
+          }}
         >
           <div className={styles.leftSide_questions_index}>{index + 1}</div>
           <div className={styles.leftSide_questions_info}>
