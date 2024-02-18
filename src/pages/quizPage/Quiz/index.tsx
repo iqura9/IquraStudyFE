@@ -15,7 +15,7 @@ export type IQuestionAnswers = {
   answers: number[];
 }[];
 
-const questionAnswers: IQuestionAnswers = [];
+export const questionAnswers: IQuestionAnswers = [];
 
 const QuizParticipant = () => {
   const { id } = useParams();
@@ -26,25 +26,33 @@ const QuizParticipant = () => {
   });
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestionId, setCurrentQuestionId] = useState(
+    data?.questions[0].id
+  );
+  useEffect(() => {
+    setCurrentQuestionId(data?.questions[0].id);
+  }, [data]);
+
   const [selectedAnswers, setSelectedAnswers] = useState<number[]>([
-    questionAnswers.find((q) => q.questionId === currentQuestion)
+    questionAnswers.find((q) => q.questionId === currentQuestionId)
       ?.answers?.[0] || -1,
   ]);
 
   useEffect(() => {
     const isMultiSelect = data?.questions[currentQuestion]?.isMultiSelect;
+    console.log("isMultiSelect", isMultiSelect);
     if (isMultiSelect) {
       setSelectedAnswers(
-        questionAnswers.find((q) => q.questionId === currentQuestion)
+        questionAnswers.find((q) => q.questionId === currentQuestionId)
           ?.answers || [-1]
       );
     } else {
       setSelectedAnswers([
-        questionAnswers.find((q) => q.questionId === currentQuestion)
+        questionAnswers.find((q) => q.questionId === currentQuestionId)
           ?.answers?.[0] || -1,
       ]);
     }
-  }, [currentQuestion, data?.questions]);
+  }, [currentQuestion, data?.questions, currentQuestionId]);
 
   const handlePrev = () => {
     handleSaveAnswer();
@@ -58,21 +66,34 @@ const QuizParticipant = () => {
     );
   };
 
-  const handleSaveAnswer = () => {
+  useEffect(() => {
+    setCurrentQuestionId(data?.questions[currentQuestion].id);
+  }, [currentQuestion, data?.questions]);
+
+  const handleSaveAnswer = (answers?: number[]) => {
     const existingAnswerIndex = questionAnswers.findIndex(
-      (q) => q.questionId === currentQuestion
+      (q) => q.questionId === currentQuestionId
     );
-    console.log(selectedAnswers);
+
+    if (answers?.length == 0) answers = [-1];
 
     if (existingAnswerIndex !== -1) {
       questionAnswers[existingAnswerIndex] = {
         ...questionAnswers[existingAnswerIndex],
-        answers: selectedAnswers,
+        answers: answers
+          ? answers
+          : selectedAnswers.length === 0
+          ? [-1]
+          : selectedAnswers,
       };
     } else {
       questionAnswers.push({
-        questionId: currentQuestion,
-        answers: selectedAnswers,
+        questionId: currentQuestionId!,
+        answers: answers
+          ? answers
+          : selectedAnswers.length === 0
+          ? [-1]
+          : selectedAnswers,
       });
     }
   };
@@ -92,8 +113,11 @@ const QuizParticipant = () => {
         title={data?.title || ""}
         questions={data?.questions || []}
         setCurrentQuestion={setCurrentQuestion}
+        currentQuestionIndex={currentQuestion}
         isShow={isShow}
         handleSaveAnswer={handleSaveAnswer}
+        setCurrentQuestionId={setCurrentQuestionId}
+        currentQuestionId={currentQuestionId!}
       />
 
       <RightSide
@@ -105,6 +129,7 @@ const QuizParticipant = () => {
         handleToggleLeftSide={handleToggle}
         handleSubmitQuiz={handleSubmitQuiz}
         setSelectedAnswers={setSelectedAnswers}
+        handleSaveAnswer={handleSaveAnswer}
       />
     </div>
   );

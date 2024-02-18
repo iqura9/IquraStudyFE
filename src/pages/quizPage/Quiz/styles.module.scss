@@ -25,12 +25,19 @@
         font-size: 18px;
         font-weight: 700;
         color: #505256;
+        margin-bottom: 12px;
     }
     &_questions_block{
         display: grid;
         grid-template-columns: max-content 1fr max-content;
         gap: 20px;
         padding: 12px 16px;
+        margin-bottom: 8px;
+        cursor: pointer;
+    }
+    &_questions_block.active{
+        border-radius: 8px;
+        border: 1px solid #212AFBFF;
     }
     &_questions_index{
 
@@ -53,6 +60,17 @@
     justify-content: space-between;
     flex-direction: column;
     margin-top: 50px;
+    .radioGroupWrapper{
+        margin-top: 16px;
+        width: 100%;
+        margin-bottom: 16px;
+    }
+    .radioWrapper{
+        background: #fff;
+        padding: 12px;
+        border-radius: 8px;
+        width: 100%;
+    }
     &_wrapper{
         display: flex;
         
@@ -81,6 +99,10 @@
     }
     &_answer{
 
+    }
+    .buttons{
+        display: flex;
+        gap: 8px;
     }
     .bottom{
         padding: 20px;

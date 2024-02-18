@@ -1,6 +1,16 @@
 import { FC } from "react";
-import { Button, Checkbox, Divider, Progress, Radio, Space } from "antd";
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Progress,
+  Radio,
+  RadioChangeEvent,
+  Space,
+} from "antd";
 import { IQuestion } from "types/questionTypes";
+
+import { questionAnswers } from "..";
 
 import styles from "./../styles.module.scss";
 
@@ -15,6 +25,7 @@ interface RightSideProps {
   handleNext: () => void;
   handleSubmitQuiz: () => void;
   setSelectedAnswers: (answers: number[]) => void;
+  handleSaveAnswer: (answers: number[]) => void;
 }
 
 export const RightSide: FC<RightSideProps> = ({
@@ -26,30 +37,22 @@ export const RightSide: FC<RightSideProps> = ({
   handleToggleLeftSide,
   setSelectedAnswers,
   handleSubmitQuiz,
+  handleSaveAnswer,
 }) => {
   const isMultiSelect = questions[currentQuestionIndex]?.isMultiSelect;
   const percent = Math.round(
-    ((currentQuestionIndex + 1) / questions.length) * 100
+    (questionAnswers.filter((q) => !q.answers.includes(-1)).length /
+      questions.length) *
+      100
   );
 
-  const handleSubmit = () => {
-    console.log("submit");
-  };
-
-  const handleChange = (e) => {
-    const answers = isMultiSelect ? e : [e.target.value];
+  const handleChange = (e: RadioChangeEvent | number[]) => {
+    const answers = isMultiSelect
+      ? (e as number[])
+      : [(e as RadioChangeEvent).target.value];
     setSelectedAnswers(answers);
+    handleSaveAnswer(answers);
   };
-
-  const handleSave = () => {
-    if (selectedAnswers !== null) {
-      console.log("Selected answer:", selectedAnswers);
-      // Here you can perform further actions like saving the question with the selected answer
-    } else {
-      console.log("Please select an answer");
-    }
-  };
-  console.log("selectedAnswer", selectedAnswers);
   return (
     <div className={styles.rightSide}>
       <div className={styles.rightSide_wrapper}>
@@ -62,29 +65,41 @@ export const RightSide: FC<RightSideProps> = ({
           </div>
           {/* Displaying answer options */}
           {!isMultiSelect ? (
-            <div>
-              <Radio.Group onChange={handleChange} value={selectedAnswers[0]}>
-                <Space direction="vertical">
-                  {questions[currentQuestionIndex]?.answers?.map((answer) => (
-                    <Radio key={answer.id} value={answer.id}>
-                      {answer.title}
-                    </Radio>
-                  ))}
-                </Space>
-              </Radio.Group>
-            </div>
+            <Radio.Group onChange={handleChange} value={selectedAnswers[0]}>
+              <Space
+                direction="vertical"
+                className={styles.radioGroupWrapper}
+                size={12}
+              >
+                {questions[currentQuestionIndex]?.answers?.map((answer) => (
+                  <Radio
+                    key={answer.id}
+                    value={answer.id}
+                    className={styles.radioWrapper}
+                  >
+                    {answer.title}
+                  </Radio>
+                ))}
+              </Space>
+            </Radio.Group>
           ) : (
-            <div>
-              <Checkbox.Group onChange={handleChange} value={selectedAnswers}>
-                <Space direction="vertical">
-                  {questions[currentQuestionIndex]?.answers?.map((answer) => (
-                    <Checkbox key={answer.id} value={answer.id}>
-                      {answer.title}
-                    </Checkbox>
-                  ))}
-                </Space>
-              </Checkbox.Group>
-            </div>
+            <Checkbox.Group onChange={handleChange} value={selectedAnswers}>
+              <Space
+                direction="vertical"
+                className={styles.radioGroupWrapper}
+                size={12}
+              >
+                {questions[currentQuestionIndex]?.answers?.map((answer) => (
+                  <Checkbox
+                    key={answer.id}
+                    value={answer.id}
+                    className={styles.radioWrapper}
+                  >
+                    {answer.title}
+                  </Checkbox>
+                ))}
+              </Space>
+            </Checkbox.Group>
           )}
 
           {/* Previous and Next buttons */}
@@ -93,13 +108,15 @@ export const RightSide: FC<RightSideProps> = ({
               type="primary"
               onClick={handlePrev}
               disabled={currentQuestionIndex + 1 === 1}
+              size="large"
             >
-              Prev
+              Previous
             </Button>
             <Button
               type="primary"
               onClick={handleNext}
               disabled={currentQuestionIndex + 1 === questions.length}
+              size="large"
             >
               Next
             </Button>
