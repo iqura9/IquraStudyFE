@@ -7,6 +7,7 @@ export interface IQuestion {
   createdAt: string;
   updatedAt: string;
   answers: IAnswer[];
+  isMultiSelect: boolean;
 }
 
 interface IAnswer {
@@ -23,5 +24,4 @@ export interface IQuiz {
   createdAt: string;
   createdByUser: IUser;
   questions: IQuestion[];
-  isMultiSelect: boolean;
 }

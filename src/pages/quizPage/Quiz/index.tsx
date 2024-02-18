@@ -26,17 +26,25 @@ const QuizParticipant = () => {
   });
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(
+  const [selectedAnswers, setSelectedAnswers] = useState<number[]>([
     questionAnswers.find((q) => q.questionId === currentQuestion)
-      ?.answers?.[0] || -1
-  );
+      ?.answers?.[0] || -1,
+  ]);
 
   useEffect(() => {
-    setSelectedAnswer(
-      questionAnswers.find((q) => q.questionId === currentQuestion)
-        ?.answers?.[0] || -1
-    );
-  }, [currentQuestion]);
+    const isMultiSelect = data?.questions[currentQuestion]?.isMultiSelect;
+    if (isMultiSelect) {
+      setSelectedAnswers(
+        questionAnswers.find((q) => q.questionId === currentQuestion)
+          ?.answers || [-1]
+      );
+    } else {
+      setSelectedAnswers([
+        questionAnswers.find((q) => q.questionId === currentQuestion)
+          ?.answers?.[0] || -1,
+      ]);
+    }
+  }, [currentQuestion, data?.questions]);
 
   const handlePrev = () => {
     handleSaveAnswer();
@@ -54,16 +62,17 @@ const QuizParticipant = () => {
     const existingAnswerIndex = questionAnswers.findIndex(
       (q) => q.questionId === currentQuestion
     );
+    console.log(selectedAnswers);
 
     if (existingAnswerIndex !== -1) {
       questionAnswers[existingAnswerIndex] = {
         ...questionAnswers[existingAnswerIndex],
-        answers: [selectedAnswer],
+        answers: selectedAnswers,
       };
     } else {
       questionAnswers.push({
         questionId: currentQuestion,
-        answers: [selectedAnswer],
+        answers: selectedAnswers,
       });
     }
   };
@@ -88,14 +97,14 @@ const QuizParticipant = () => {
       />
 
       <RightSide
-        selectedAnswer={selectedAnswer}
+        selectedAnswers={selectedAnswers}
         currentQuestionIndex={currentQuestion}
         questions={data?.questions || []}
         handlePrev={handlePrev}
         handleNext={handleNext}
         handleToggleLeftSide={handleToggle}
         handleSubmitQuiz={handleSubmitQuiz}
-        setSelectedAnswer={setSelectedAnswer}
+        setSelectedAnswers={setSelectedAnswers}
       />
     </div>
   );

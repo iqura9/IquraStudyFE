@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { Button, Checkbox, Divider, Progress, Radio, Space } from "antd";
 import { IQuestion } from "types/questionTypes";
 
@@ -8,74 +8,48 @@ import { LeftOutlined } from "@ant-design/icons";
 
 interface RightSideProps {
   currentQuestionIndex: number;
-  selectedAnswer: number;
+  selectedAnswers: number[];
   questions: IQuestion[];
   handleToggleLeftSide: () => void;
   handlePrev: () => void;
   handleNext: () => void;
   handleSubmitQuiz: () => void;
-  setSelectedAnswer: (answer: number) => void;
+  setSelectedAnswers: (answers: number[]) => void;
 }
 
 export const RightSide: FC<RightSideProps> = ({
   currentQuestionIndex,
-  selectedAnswer,
+  selectedAnswers,
   questions,
   handlePrev,
   handleNext,
   handleToggleLeftSide,
-  setSelectedAnswer,
+  setSelectedAnswers,
   handleSubmitQuiz,
 }) => {
+  const isMultiSelect = questions[currentQuestionIndex]?.isMultiSelect;
   const percent = Math.round(
     ((currentQuestionIndex + 1) / questions.length) * 100
   );
-
-  // const answers = {
-  //   quizId: 1,
-  //   questions: [
-  //     {
-  //       questionId: 2,
-  //       answers: [
-  //         {
-  //           answerId: 2,
-  //           isCorrect:true
-  //         },
-  //         {
-  //           answerId: 3,
-  //           isCorrect:true
-  //         },
-  //       ]
-  //     },
-  //     {
-  //       questionId: 3,
-  //       answers: [
-  //         {
-  //           answerId: 4,
-  //           isCorrect:true
-  //         },
-  //       ]
-  //     }
-  //   ]
-  // }
 
   const handleSubmit = () => {
     console.log("submit");
   };
 
   const handleChange = (e) => {
-    setSelectedAnswer(e.target.value);
+    const answers = isMultiSelect ? e : [e.target.value];
+    setSelectedAnswers(answers);
   };
 
   const handleSave = () => {
-    if (selectedAnswer !== null) {
-      console.log("Selected answer:", selectedAnswer);
+    if (selectedAnswers !== null) {
+      console.log("Selected answer:", selectedAnswers);
       // Here you can perform further actions like saving the question with the selected answer
     } else {
       console.log("Please select an answer");
     }
   };
-  console.log("selectedAnswer", selectedAnswer);
+  console.log("selectedAnswer", selectedAnswers);
   return (
     <div className={styles.rightSide}>
       <div className={styles.rightSide_wrapper}>
@@ -87,17 +61,32 @@ export const RightSide: FC<RightSideProps> = ({
             {questions[currentQuestionIndex]?.title}
           </div>
           {/* Displaying answer options */}
-          <div>
-            <Radio.Group onChange={handleChange} value={selectedAnswer}>
-              <Space direction="vertical">
-                {questions[currentQuestionIndex]?.answers?.map((answer) => (
-                  <Radio key={answer.id} value={answer.id}>
-                    {answer.title}
-                  </Radio>
-                ))}
-              </Space>
-            </Radio.Group>
-          </div>
+          {!isMultiSelect ? (
+            <div>
+              <Radio.Group onChange={handleChange} value={selectedAnswers[0]}>
+                <Space direction="vertical">
+                  {questions[currentQuestionIndex]?.answers?.map((answer) => (
+                    <Radio key={answer.id} value={answer.id}>
+                      {answer.title}
+                    </Radio>
+                  ))}
+                </Space>
+              </Radio.Group>
+            </div>
+          ) : (
+            <div>
+              <Checkbox.Group onChange={handleChange} value={selectedAnswers}>
+                <Space direction="vertical">
+                  {questions[currentQuestionIndex]?.answers?.map((answer) => (
+                    <Checkbox key={answer.id} value={answer.id}>
+                      {answer.title}
+                    </Checkbox>
+                  ))}
+                </Space>
+              </Checkbox.Group>
+            </div>
+          )}
+
           {/* Previous and Next buttons */}
           <div className={styles.buttons}>
             <Button
