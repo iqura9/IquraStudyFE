@@ -6,3 +6,13 @@ export enum TaskType {
   "Test" = "Test",
   "Problem" = "Problem",
 }
+
+export type IQuestionAnswers = {
+  questionId: number;
+  answers: number[];
+}[];
+
+export type VerificationQuery = {
+  quizId: number;
+  questions: IQuestionAnswers;
+};

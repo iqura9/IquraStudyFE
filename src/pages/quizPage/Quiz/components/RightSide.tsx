@@ -8,6 +8,8 @@ import {
   RadioChangeEvent,
   Space,
 } from "antd";
+import ValidateModal from "components/Modal/ValidateModal";
+import useModal from "hooks/useModal";
 import { IQuestion } from "types/questionTypes";
 
 import { questionAnswers } from "..";
@@ -39,6 +41,8 @@ export const RightSide: FC<RightSideProps> = ({
   handleSubmitQuiz,
   handleSaveAnswer,
 }) => {
+  const { isShow, handleShowModal, handleHideModal } = useModal();
+
   const isMultiSelect = questions[currentQuestionIndex]?.isMultiSelect;
   const percent = Math.round(
     (questionAnswers.filter((q) => !q.answers.includes(-1)).length /
@@ -53,6 +57,12 @@ export const RightSide: FC<RightSideProps> = ({
     setSelectedAnswers(answers);
     handleSaveAnswer(answers);
   };
+
+  const handleConfirm = () => {
+    handleHideModal();
+    handleSubmitQuiz();
+  };
+
   return (
     <div className={styles.rightSide}>
       <div className={styles.rightSide_wrapper}>
@@ -134,9 +144,16 @@ export const RightSide: FC<RightSideProps> = ({
             status="active"
             strokeColor={{ from: "#108ee9", to: "#87d068" }}
           />
-          <Button onClick={handleSubmitQuiz}>Finish</Button>
+          <Button onClick={handleShowModal}>Finish</Button>
         </div>
       </div>
+      <ValidateModal
+        visible={isShow}
+        onConfirm={handleConfirm}
+        onCancel={handleHideModal}
+        title="Are you sure want to submit the test?"
+        subTitle="After submission you cannot pass the test again "
+      />
     </div>
   );
 };

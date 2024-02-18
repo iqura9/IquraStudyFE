@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getQuizWithoutAnswers } from "api/quiz";
+import { notification } from "antd";
+import { getQuizWithoutAnswers, verifyQuiz } from "api/quiz";
 import useModal from "hooks/useModal";
+import { IQuestionAnswers, VerificationQuery } from "types/quiz";
 
 import { LeftSide } from "./components/LeftSide";
 import { RightSide } from "./components/RightSide";
 
 import styles from "./styles.module.scss";
 
-import { useQuery } from "@tanstack/react-query";
-
-export type IQuestionAnswers = {
-  questionId: number;
-  answers: number[];
-}[];
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const questionAnswers: IQuestionAnswers = [];
 
@@ -23,6 +20,23 @@ const QuizParticipant = () => {
   const { data } = useQuery({
     queryKey: ["quizData", id],
     queryFn: () => getQuizWithoutAnswers(id),
+  });
+
+  const { mutate: verifyQuizFn } = useMutation<
+    number,
+    Error,
+    VerificationQuery
+  >({
+    mutationKey: ["mutationKey"],
+    mutationFn: (data: VerificationQuery) => verifyQuiz(data),
+    onSuccess: (score: number) => {
+      // Your success logic here
+      notification.success({ message: `Your score ${score}` });
+    },
+    onError: (error: Error) => {
+      // Your error handling logic here
+      notification.error({ message: error.message });
+    },
   });
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -40,7 +54,6 @@ const QuizParticipant = () => {
 
   useEffect(() => {
     const isMultiSelect = data?.questions[currentQuestion]?.isMultiSelect;
-    console.log("isMultiSelect", isMultiSelect);
     if (isMultiSelect) {
       setSelectedAnswers(
         questionAnswers.find((q) => q.questionId === currentQuestionId)
@@ -101,10 +114,10 @@ const QuizParticipant = () => {
   const handleSubmitQuiz = () => {
     handleSaveAnswer();
     const submitData = {
-      quizId: id,
+      quizId: Number(id),
       questions: questionAnswers,
     };
-    console.log(submitData);
+    verifyQuizFn(submitData);
   };
 
   return (
@@ -117,7 +130,6 @@ const QuizParticipant = () => {
         isShow={isShow}
         handleSaveAnswer={handleSaveAnswer}
         setCurrentQuestionId={setCurrentQuestionId}
-        currentQuestionId={currentQuestionId!}
       />
 
       <RightSide

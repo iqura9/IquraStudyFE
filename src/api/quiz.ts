@@ -15,6 +15,11 @@ export const createQuizTask = async (data: CreateQuizTaskDto) => {
   return response.data;
 };
 
+export const verifyQuiz = async (data: any) => {
+  const response = await authApi.post("Quiz/verify", data);
+  return response.data;
+};
+
 export const getQuiz = async (id: string | undefined | null | number) => {
   const response = await authApi.get<IQuiz>(`Quiz/${id}`);
   return response.data;

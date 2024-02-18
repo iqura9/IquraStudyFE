@@ -12,7 +12,6 @@ interface LeftSideProps {
   questions: IQuestion[];
   setCurrentQuestion: (index: number) => void;
   setCurrentQuestionId: (index: number) => void;
-  currentQuestionId: number;
   handleSaveAnswer: () => void;
   isShow: boolean;
   currentQuestionIndex: number;
@@ -24,7 +23,7 @@ export const LeftSide: FC<LeftSideProps> = ({
   setCurrentQuestion,
   handleSaveAnswer,
   isShow,
-  currentQuestionId,
+
   currentQuestionIndex,
 }) => {
   const turnace = (text: string) => {
@@ -33,9 +32,7 @@ export const LeftSide: FC<LeftSideProps> = ({
 
   return (
     <div className={classNames(styles.leftSide, !isShow && styles.hidden)}>
-      <div className={styles.leftSide_title}>
-        {title} {currentQuestionId}
-      </div>
+      <div className={styles.leftSide_title}>{title}</div>
       {questions.map((question, index) => (
         <div
           key={question.id}
@@ -49,7 +46,7 @@ export const LeftSide: FC<LeftSideProps> = ({
         >
           <div className={styles.leftSide_questions_index}>{index + 1}</div>
           <div className={styles.leftSide_questions_info}>
-            {turnace(question.title)} {question.id}
+            {turnace(question.title)}
           </div>
           <div className={styles.leftSide_questions_progressInfo}>
             {!questionAnswers.find((q) => q.questionId === question.id) ||
