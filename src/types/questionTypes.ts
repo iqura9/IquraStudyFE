@@ -23,4 +23,5 @@ export interface IQuiz {
   createdAt: string;
   createdByUser: IUser;
   questions: IQuestion[];
+  isMultiSelect: boolean;
 }

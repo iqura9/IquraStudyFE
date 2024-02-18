@@ -3,7 +3,7 @@ import { ICreateQuizValues } from "pages/quizPage/CreateQuiz";
 import { IQuiz } from "types/questionTypes";
 import { CreateQuizTaskDto } from "types/quiz";
 
-import { authApi, authApi } from "./auth.api";
+import { authApi } from "./auth.api";
 
 export const createQuiz = async (data: ICreateQuizValues) => {
   const response = await authApi.post("Quiz", data);
