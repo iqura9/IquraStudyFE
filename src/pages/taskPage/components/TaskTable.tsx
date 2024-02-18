@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Table } from "antd";
 import { GroupTaskQuiz } from "types/task";
 
@@ -11,6 +11,7 @@ interface TaskTableProps {
 
 const TaskTable: FC<TaskTableProps> = ({ quizzes }) => {
   const navigate = useNavigate();
+  const { id } = useParams();
   return (
     <Table
       dataSource={handleDataToTable(quizzes)}
@@ -18,7 +19,7 @@ const TaskTable: FC<TaskTableProps> = ({ quizzes }) => {
       onRow={(record) => {
         return {
           onClick: () => {
-            navigate(`/quiz/${record.key}`);
+            navigate(`/quiz/${record.key}?taskId=${id}`);
           },
         };
       }}

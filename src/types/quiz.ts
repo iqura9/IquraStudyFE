@@ -13,6 +13,7 @@ export type IQuestionAnswers = {
 }[];
 
 export type VerificationQuery = {
+  taskId: number;
   quizId: number;
   questions: IQuestionAnswers;
 };

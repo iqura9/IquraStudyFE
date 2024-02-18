@@ -22,7 +22,9 @@ export const columns = [
     title: "Grade",
     dataIndex: "grade",
     key: "grade",
-    render: (grade: number) => <>{grade}/100</>,
+    render: (grade: number | null) => (
+      <>{grade ? <Tag color="gold">{grade}/100</Tag> : "-"}</>
+    ),
     align: "right" as const,
   },
 ];
@@ -33,7 +35,7 @@ export const handleDataToTable = (data: GroupTaskQuiz[] | undefined) => {
       key: d.quizId,
       task: d.quiz.title,
       type: TaskType.Test,
-      grade: 0,
+      grade: d.score,
     };
   });
 };

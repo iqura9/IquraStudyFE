@@ -5,4 +5,5 @@ export interface GroupTaskQuiz {
   groupTaskId: number;
   quizId: number;
   quiz: IQuiz;
+  score: number | null;
 }

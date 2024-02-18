@@ -29,7 +29,7 @@ const TaskPage = () => {
               {data?.createdByUser.userName}, 4 dec 2023
             </div>
           </div>
-          <div className={styles.header_score}>0/100</div>
+          <div className={styles.header_score}>{data?.averageScore}/100</div>
         </div>
         <div className={styles.content}>
           <div className={styles.content_desc}>{data?.description}</div>

@@ -35,6 +35,7 @@ export interface IGroupTask {
   group: any;
   groupTaskProblems: any[];
   groupTaskQuizzes: GroupTaskQuiz[];
+  averageScore?: number;
 }
 
 export interface IGroupPeopleResponse {

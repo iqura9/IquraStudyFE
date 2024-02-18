@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { notification } from "antd";
 import { getQuizWithoutAnswers, verifyQuiz } from "api/quiz";
 import useModal from "hooks/useModal";
@@ -16,7 +16,10 @@ export const questionAnswers: IQuestionAnswers = [];
 
 const QuizParticipant = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { isShow, handleToggle } = useModal(true);
+  const [searchParams] = useSearchParams();
+
   const { data } = useQuery({
     queryKey: ["quizData", id],
     queryFn: () => getQuizWithoutAnswers(id),
@@ -31,7 +34,8 @@ const QuizParticipant = () => {
     mutationFn: (data: VerificationQuery) => verifyQuiz(data),
     onSuccess: (score: number) => {
       // Your success logic here
-      notification.success({ message: `Your score ${score}` });
+      notification.success({ message: `Your score is ${score}` });
+      navigate(-1);
     },
     onError: (error: Error) => {
       // Your error handling logic here
@@ -115,6 +119,7 @@ const QuizParticipant = () => {
     handleSaveAnswer();
     const submitData = {
       quizId: Number(id),
+      taskId: Number(searchParams.get("taskId")),
       questions: questionAnswers,
     };
     verifyQuizFn(submitData);
