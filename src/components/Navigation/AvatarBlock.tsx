@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { Menu } from "antd";
+import { useLocale } from "contexts/localeContext";
 import { logOut } from "helpers/logOut";
 import { IUser } from "types/authTypes";
 
@@ -10,6 +12,7 @@ interface AvatarBlockProps {
 }
 
 const AvatarBlock: React.FC<AvatarBlockProps> = ({ user }) => {
+  const { locale, handleLanguageChange } = useLocale();
   const [isBlockVisible, setBlockVisibility] = useState(false);
   const blockRef = useRef<HTMLDivElement>(null);
 
@@ -46,6 +49,7 @@ const AvatarBlock: React.FC<AvatarBlockProps> = ({ user }) => {
   const handleLanguageSwitch = (language: string) => {
     // Add your language switch logic here
     console.log(`Switching to ${language} language...`);
+    handleLanguageChange && handleLanguageChange(language);
     setBlockVisibility(false);
   };
 
@@ -56,20 +60,24 @@ const AvatarBlock: React.FC<AvatarBlockProps> = ({ user }) => {
         <div className={styles.block}>
           <Menu>
             <Menu.Item key="logout" onClick={handleLogout}>
-              Log Out
+              <FormattedMessage id="navigation.avatar.log.out" />
             </Menu.Item>
-            <Menu.Item
-              key="switch-eng"
-              onClick={() => handleLanguageSwitch("eng")}
-            >
-              Switch to English
-            </Menu.Item>
-            <Menu.Item
-              key="switch-ukr"
-              onClick={() => handleLanguageSwitch("ukr")}
-            >
-              Switch to Ukrainian
-            </Menu.Item>
+            {locale !== "en" && (
+              <Menu.Item
+                key="switch-eng"
+                onClick={() => handleLanguageSwitch("en")}
+              >
+                <FormattedMessage id="navigation.avatar.change.language.en" />
+              </Menu.Item>
+            )}
+            {locale !== "uk" && (
+              <Menu.Item
+                key="switch-ukr"
+                onClick={() => handleLanguageSwitch("uk")}
+              >
+                <FormattedMessage id="navigation.avatar.change.language.uk" />
+              </Menu.Item>
+            )}
           </Menu>
         </div>
       )}
