@@ -1,3 +1,4 @@
+import { FormattedMessage } from "react-intl";
 import { MenuProps } from "antd";
 import { Paths } from "routes/paths";
 
@@ -12,36 +13,36 @@ import {
 
 export const items: MenuProps["items"] = [
   {
-    label: "Home",
+    label: <FormattedMessage id="menu.home" />,
     key: "home",
   },
   {
-    label: "Problems",
+    label: <FormattedMessage id="menu.problems" />,
     key: "problems",
   },
   {
-    label: "Teachers",
+    label: <FormattedMessage id="menu.teachers" />,
     key: "teachers",
   },
   {
-    label: "Settings",
+    label: <FormattedMessage id="menu.settings" />,
     key: "settings",
     icon: <SettingOutlined />,
   },
 ];
 export const sideBarItems: MenuProps["items"] = [
   {
-    label: "Home",
+    label: <FormattedMessage id="menu.home" />,
     key: "home",
     icon: <HomeOutlined />,
   },
   {
-    label: "Groups",
+    label: <FormattedMessage id="menu.groups" />,
     key: "groups",
     icon: <BranchesOutlined />,
   },
   {
-    label: "Quizzes",
+    label: <FormattedMessage id="menu.quizzes" />,
     key: "quizzes",
     icon: <ExperimentOutlined />,
   },
@@ -50,22 +51,22 @@ export const sideBarItems: MenuProps["items"] = [
   //   key: "archived-groups",
   // },
   {
-    label: "Create Group",
+    label: <FormattedMessage id="menu.createGroup" />,
     key: "group/create",
     icon: <PlusCircleOutlined />,
   },
   {
-    label: "Create Problem",
+    label: <FormattedMessage id="menu.createProblem" />,
     key: "problem/create",
     icon: <PlusCircleOutlined />,
   },
   {
-    label: "Create Quiz",
+    label: <FormattedMessage id="menu.createQuiz" />,
     key: Paths.createQuiz,
     icon: <PlusCircleOutlined />,
   },
   {
-    label: "Users",
+    label: <FormattedMessage id="menu.users" />,
     key: "users",
     icon: <UserOutlined />,
   },

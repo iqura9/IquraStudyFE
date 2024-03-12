@@ -1,5 +1,15 @@
 {
     "navigation.avatar.log.out": "Вийти",
     "navigation.avatar.change.language.en": "Перемкнути на англійську",
-    "navigation.avatar.change.language.uk": "Перемкнути на українську"
+    "navigation.avatar.change.language.uk": "Перемкнути на українську",
+    "menu.home": "Головна",
+    "menu.problems": "Задачі",
+    "menu.teachers": "Вчителі",
+    "menu.settings": "Налаштування",
+    "menu.groups": "Групи",
+    "menu.quizzes": "Тести",
+    "menu.createGroup": "Створити групу",
+    "menu.createProblem": "Створити завдання",
+    "menu.createQuiz": "Створити тест",
+    "menu.users": "Користувачі"
 }
