@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import EditQuizPage from "pages/quizPage/EditQuiz";
 
 const HomePage = lazy(() => import("pages/homePage"));
 const GroupPage = lazy(() => import("pages/groupPage"));
@@ -96,6 +97,10 @@ export const appRoutes: IAppRoutes[] = [
   {
     path: "/task/:id",
     component: <TaskPage />,
+  },
+  {
+    path: "/quiz/edit/:id",
+    component: <EditQuizPage />,
   },
 ];
 

@@ -26,7 +26,8 @@ const GroupsPage = () => {
 
   return (
     <div className={styles.Wrapper}>
-      <div className={styles.FiltersWrapper}>
+      {/* hidden due to disinterestedness */}
+      {/* <div className={styles.FiltersWrapper}>
         <Select
           className={styles.Select}
           options={SelectGroupOptions}
@@ -34,7 +35,7 @@ const GroupsPage = () => {
           allowClear
           onChange={handleChangeGroup}
         />
-      </div>
+      </div> */}
       <div className={styles.GroupWrapper}>
         {data?.map((group) => (
           <GroupDisplay key={group.id} group={group} />

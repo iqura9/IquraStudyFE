@@ -1,8 +1,7 @@
 import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, List, notification, Space } from "antd";
-import { queryClient } from "api/auth.api";
-import { deleteQuestion, deleteQuiz, getQuiz } from "api/quiz";
+import { deleteQuiz, getQuiz } from "api/quiz";
 import { Paths } from "routes/paths";
 
 import QuestionTable from "./QuestionTable";
@@ -38,6 +37,8 @@ const QuizPage = () => {
     return <div>Error fetching quiz data</div>;
   }
 
+  if (!data) return <></>;
+
   const { title, createdByUser } = data;
 
   const listData = [
@@ -48,7 +49,9 @@ const QuizPage = () => {
       value: new Date(createdByUser.createdAt).toLocaleDateString(),
     },
   ];
-
+  const handleEdit = () => {
+    navigate(`/quiz/edit/${id}`, { state: { title } });
+  };
   return (
     <div>
       <List
@@ -64,7 +67,7 @@ const QuizPage = () => {
         <Link to={`${Paths.createQuestion}/${id}`}>
           <Button>Add Questions</Button>
         </Link>
-        <Button>Edit</Button>
+        <Button onClick={handleEdit}>Edit</Button>
         <Button onClick={() => deleteFn()}>Delete</Button>
       </Space>
       <QuestionTable questions={data.questions} />

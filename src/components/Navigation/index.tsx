@@ -5,7 +5,7 @@ import logo from "assets/logoIquraStudy.png";
 import { useAuth } from "contexts/authContext";
 
 import AvatarBlock from "./AvatarBlock";
-import { sideBarItems } from "./consts";
+import { items, sideBarItems } from "./consts";
 
 import style from "./styles.module.scss";
 

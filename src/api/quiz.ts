@@ -1,5 +1,6 @@
 import { ICreateQuestionValues } from "pages/questionPage/CreateQuestion";
 import { ICreateQuizValues } from "pages/quizPage/CreateQuiz";
+import { IEditQuizPageValues } from "pages/quizPage/EditQuiz";
 import { IQuiz } from "types/questionTypes";
 import { CreateQuizTaskDto } from "types/quiz";
 
@@ -7,6 +8,11 @@ import { authApi } from "./auth.api";
 
 export const createQuiz = async (data: ICreateQuizValues) => {
   const response = await authApi.post("Quiz", data);
+  return response.data;
+};
+
+export const updateQuiz = async (data: IEditQuizPageValues, id: string) => {
+  const response = await authApi.patch(`Quiz/${id}`, data);
   return response.data;
 };
 
