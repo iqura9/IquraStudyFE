@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "extract": "formatjs extract src/**/*.{ts,tsx,jsx,js} --ignore='**/*.d.ts' --out-file ./extracted/en.json"
+    "locale:test": "formatjs extract \"src/**/*.{ts,tsx,jsx,js}\" --ignore='**/*.d.ts' --out-file ./src/translations/locale-app.json --id-interpolation-pattern '[sha512:contenthash:base64:6]' && node localizationAnalizator.js"
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
@@ -26,6 +26,7 @@
   "devDependencies": {
     "@formatjs/cli": "^6.2.7",
     "@tanstack/eslint-plugin-query": "^5.17.7",
+    "@types/node": "^20.11.28",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
