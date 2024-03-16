@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { FormattedMessage } from "react-intl";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Form, notification } from "antd";
 import { Button } from "antd";
@@ -23,7 +24,7 @@ const EditGroupPage = () => {
     mutationFn: (val: ICreateGroupValues) => editGroup(id, val),
     onSuccess: () => {
       notification.success({
-        message: "Group was edited",
+        message: <FormattedMessage id="group.edit.page.notification.title" />,
       });
       navigate(`${Paths.group}/${id}`);
     },
@@ -45,7 +46,7 @@ const EditGroupPage = () => {
       />
       <Form.Item wrapperCol={{ offset: 4, span: 14 }}>
         <Button type="primary" onClick={() => formRef.current?.submit()}>
-          Update Group
+          <FormattedMessage id="group.edit.page.title" />
         </Button>
       </Form.Item>
     </>

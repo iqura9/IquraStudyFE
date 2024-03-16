@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { FormattedMessage } from "react-intl";
 import { Form } from "antd";
 import { Input } from "antd";
 
@@ -27,11 +28,17 @@ export const CreateGroupForm: FC<CreateGroupFormProps> = ({
       initialValues={initialValues}
     >
       <Form.Item
-        label="Group Name"
+        label={<FormattedMessage id="group.create.form.title" />}
         name="name"
         rules={[
-          { required: true, message: "Please enter the group name!" },
-          { max: 255, message: "Group name cannot exceed 255 characters!" },
+          {
+            required: true,
+            message: <FormattedMessage id="group.create.form.rules.required" />,
+          },
+          {
+            max: 255,
+            message: <FormattedMessage id="group.create.form.rules.max" />,
+          },
         ]}
       >
         <Input />

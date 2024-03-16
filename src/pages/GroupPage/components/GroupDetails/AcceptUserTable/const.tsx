@@ -1,3 +1,4 @@
+import { FormattedMessage } from "react-intl"; // Import FormattedMessage from react-intl
 import { Button, notification, Space, Tag } from "antd";
 import { putGroupPerson } from "api/group.api";
 import IsShow from "settings/IsShow";
@@ -5,21 +6,24 @@ import { RoleType } from "types/authTypes";
 import { UserStatus } from "types/generaTypes";
 import { IGroupPeople } from "types/groupTypes";
 
+// Define column titles using translated strings
 export const columns = [
   {
-    title: "Username",
+    title: (
+      <FormattedMessage id="group.detail.component.accept.item.username" />
+    ),
     dataIndex: "userName",
     key: "userName",
     align: "left" as const,
   },
   {
-    title: "Email",
+    title: <FormattedMessage id="group.detail.component.accept.item.email" />,
     dataIndex: "email",
     key: "email",
     align: "center" as const,
   },
   {
-    title: "Image",
+    title: <FormattedMessage id="group.detail.component.accept.item.image" />,
     dataIndex: "image",
     key: "image",
     render: (imageUrl: string) =>
@@ -27,13 +31,15 @@ export const columns = [
     align: "center" as const,
   },
   {
-    title: "Description",
+    title: (
+      <FormattedMessage id="group.detail.component.accept.item.description" />
+    ),
     dataIndex: "description",
     key: "description",
     align: "center" as const,
   },
   {
-    title: "Role",
+    title: <FormattedMessage id="group.detail.component.accept.item.role" />,
     dataIndex: "role",
     key: "role",
     render: (role: RoleType) => (
@@ -42,7 +48,9 @@ export const columns = [
     align: "center" as const,
   },
   {
-    title: "User Status",
+    title: (
+      <FormattedMessage id="group.detail.component.accept.item.userStatus" />
+    ),
     dataIndex: "userStatus",
     key: "userStatus",
     render: (role: UserStatus) => (
@@ -61,14 +69,18 @@ export const columns = [
     align: "center" as const,
   },
   {
-    title: "Created At",
+    title: (
+      <FormattedMessage id="group.detail.component.accept.item.createdAt" />
+    ),
     dataIndex: "createdAt",
     key: "createdAt",
     render: (createdAt: string) => new Date(createdAt).toLocaleDateString(),
     align: "center" as const,
   },
   {
-    title: "Updated At",
+    title: (
+      <FormattedMessage id="group.detail.component.accept.item.updatedAt" />
+    ),
     dataIndex: "updatedAt",
     key: "updatedAt",
     render: (updatedAt: string) =>
@@ -76,7 +88,7 @@ export const columns = [
     align: "center" as const,
   },
   {
-    title: "Accept",
+    title: <FormattedMessage id="group.detail.component.accept.item.accept" />,
     dataIndex: "accept",
     key: "accept",
     render: (_: any, _record: any) => (
@@ -95,7 +107,7 @@ export const columns = [
               )
             }
           >
-            Accept
+            <FormattedMessage id="group.detail.component.accept.item.accept" />
           </Button>
           <Button
             danger
@@ -111,7 +123,7 @@ export const columns = [
               )
             }
           >
-            Decline
+            <FormattedMessage id="group.detail.component.accept.item.decline" />
           </Button>
         </Space>
       </IsShow>
@@ -155,8 +167,10 @@ const handleChangeUserStatus = async (
     return response;
   } catch (e) {
     notification.error({
-      message: "Error",
-      description: "Some error happened",
+      message: <FormattedMessage id="common.error" />,
+      description: (
+        <FormattedMessage id="group.detail.component.accept.notification.error.description" />
+      ),
     });
   }
 };

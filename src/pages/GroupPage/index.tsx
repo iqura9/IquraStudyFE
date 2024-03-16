@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { FormattedMessage } from "react-intl";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, notification } from "antd";
 import { deleteGroup, getGroup } from "api/group.api";
@@ -42,7 +43,9 @@ const GroupPage = () => {
     mutationFn: () => deleteGroup(id),
     onSuccess: () => {
       navigation(Paths.groups);
-      notification.success({ message: "Group successfully was deleted" });
+      notification.success({
+        message: <FormattedMessage id="group.page.notification.title" />,
+      });
     },
     onError: (error) => {
       notification.error({ message: error.name, description: error.message });
@@ -77,16 +80,18 @@ const GroupPage = () => {
           }}
         >
           <Button type="link" onClick={handleShowModal}>
-            Invite students
+            <FormattedMessage id="group.page.invite.title" />
           </Button>
           <Link to={`${Paths.createTask}/${id}`}>
-            <Button type="primary">Create the task</Button>
+            <Button type="primary">
+              <FormattedMessage id="group.page.create.title" />
+            </Button>
           </Link>
           <Button type="default" onClick={handleEdit}>
-            Edit Group
+            <FormattedMessage id="group.page.edit.title" />
           </Button>
           <Button danger onClick={handleDeleteShowModal}>
-            Delete Group
+            <FormattedMessage id="group.page.delete.title" />
           </Button>
         </div>
       </IsShow>

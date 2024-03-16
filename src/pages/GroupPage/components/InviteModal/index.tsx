@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { Button, Input, message, Modal } from "antd";
 
 type InviteModalProps = {
@@ -16,12 +17,12 @@ const InviteModal: FC<InviteModalProps> = ({
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(invitationToken);
-    message.success("Copied to clipboard!");
+    message.success(<FormattedMessage id="group.page.modal.invite.success" />);
   };
 
   return (
     <Modal
-      title="Invite by Token"
+      title={<FormattedMessage id="group.page.modal.invite.title" />}
       visible={visible}
       onCancel={onCancel}
       footer={[]}
@@ -30,11 +31,11 @@ const InviteModal: FC<InviteModalProps> = ({
         <div style={{ width: "100%", flex: 1, display: "flex", gap: "8px" }}>
           <Input value={inputValue} disabled style={{ flex: 1 }} />
           <Button type="primary" onClick={handleCopyToClipboard}>
-            Copy
+            <FormattedMessage id="group.page.modal.invite.copy" />
           </Button>
         </div>
         <p style={{ marginTop: "8px" }}>
-          Share this token with others to invite them to the group.
+          <FormattedMessage id="group.page.modal.invite.desc" />
         </p>
       </div>
     </Modal>

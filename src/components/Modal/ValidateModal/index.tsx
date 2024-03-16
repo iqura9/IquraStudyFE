@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { FormattedMessage } from "react-intl";
 import { Modal, Result } from "antd";
 
 type DeleteModalProps = {
@@ -18,11 +19,11 @@ const ValidateModal: FC<DeleteModalProps> = ({
 }) => {
   return (
     <Modal
-      title="Confirmation modal"
+      title={<FormattedMessage id="modal.validate.title" />}
       visible={visible}
       onOk={onConfirm}
       onCancel={onCancel}
-      okText="Confirm"
+      okText={<FormattedMessage id="common.confirm" />}
       closable={false}
     >
       <Result title={title} subTitle={subTitle} />

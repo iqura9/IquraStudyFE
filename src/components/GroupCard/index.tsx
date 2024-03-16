@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { Card, Table, TableProps } from "antd";
 import { Paths } from "routes/paths";
@@ -14,28 +15,36 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({ group }) => {
   const groupPath = `${Paths.group}/${group.id}`;
 
   const dataSource = [
-    { key: "1", label: "Name", value: group.name },
+    {
+      key: "1",
+      label: <FormattedMessage id="common.name" />,
+      value: group.name,
+    },
     {
       key: "2",
-      label: "Created By Teacher",
+      label: <FormattedMessage id="group.card.created.by.teacher" />,
       value: group.createdByUser.userName,
     },
     {
       key: "3",
-      label: "Created At",
+      label: <FormattedMessage id="group.card.created.at" />,
       value: new Date(group.createdAt).toLocaleDateString(),
     },
-    { key: "4", label: "Is Archived", value: group.isArchived ? "Yes" : "No" },
+    {
+      key: "4",
+      label: <FormattedMessage id="group.card.is.archived" />,
+      value: group.isArchived ? "Yes" : "No",
+    },
   ];
   const columns: TableProps<any>["columns"] = [
     {
-      title: "Label",
+      title: <FormattedMessage id="common.label" />,
       dataIndex: "label",
       key: "label",
       className: styles.firsColumn,
     },
     {
-      title: "Value",
+      title: <FormattedMessage id="common.value" />,
       dataIndex: "value",
       key: "value",
     },
@@ -43,7 +52,10 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({ group }) => {
 
   return (
     <Link to={groupPath}>
-      <Card title="Group Details" className={styles.Card}>
+      <Card
+        title={<FormattedMessage id="group.card.group.title" />}
+        className={styles.Card}
+      >
         <Table
           dataSource={dataSource}
           columns={columns}

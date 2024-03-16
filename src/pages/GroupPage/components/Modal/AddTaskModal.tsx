@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { FormattedMessage } from "react-intl";
 import {
   Button,
   Checkbox,
@@ -23,7 +24,7 @@ interface AddTaskModalProps {
 
 const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
   // #TODO get all quizzes that are no setted, add filter, only my tasks
-  const { data, error, isLoading } = useQuery<IQuiz[]>({
+  const { data, isLoading } = useQuery<IQuiz[]>({
     queryKey: ["queryKey"],
     queryFn: () => getQuizzes(),
     retry: false,
@@ -45,7 +46,9 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
   );
 
   const options: DefaultOptionType[] | undefined = data?.map((quiz) => ({
-    label: `${quiz.title} by ${quiz.createdByUser.userName}`,
+    label: `${quiz.title} ${(<FormattedMessage id="by" />)} ${
+      quiz.createdByUser.userName
+    }`,
     value: quiz.id,
   }));
 
@@ -54,8 +57,8 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
 
     if (!taskId) {
       notification.error({
-        message: "Error",
-        description: "TaskID is not valid",
+        message: <FormattedMessage id="common.error" />,
+        description: <FormattedMessage id="TaskID is not valid" />,
       });
     }
 
@@ -72,14 +75,17 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
 
   return (
     <Modal
-      title="Add Task"
+      title={<FormattedMessage id="group.page.modal.add.title" />}
       visible={visible}
       onCancel={onCancel}
       footer={null} // Hide the default footer
     >
       <Form onFinish={onFinish}>
         <Space direction="vertical" style={{ width: "100%" }}>
-          <Form.Item label="Quiz" name="quizIds">
+          <Form.Item
+            label={<FormattedMessage id="group.page.modal.add.label" />}
+            name="quizIds"
+          >
             <Select
               mode="multiple"
               allowClear
@@ -89,12 +95,14 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
             />
           </Form.Item>
 
-          <Checkbox>Only my tasks</Checkbox>
+          <Checkbox>
+            <FormattedMessage id="group.page.modal.checkbox" />
+          </Checkbox>
 
           <div style={{ textAlign: "right" }}>
             <Form.Item>
               <Button type="primary" htmlType="submit">
-                OK
+                <FormattedMessage id="common.ok" />
               </Button>
             </Form.Item>
           </div>

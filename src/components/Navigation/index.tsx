@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useIntl } from "react-intl";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button, Input, Layout, Menu, MenuProps } from "antd";
 import logo from "assets/logoIquraStudy.png";
@@ -12,6 +13,7 @@ import style from "./styles.module.scss";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
 export const Navigation = () => {
+  const { formatMessage } = useIntl();
   const navigation = useNavigate();
   const location = useLocation();
   const [current, setCurrent] = useState(location.pathname.slice(1) || "home");
@@ -62,7 +64,9 @@ export const Navigation = () => {
           /> */}
           <div className={style.searchAvatarWrapper}>
             <Input
-              placeholder="Input group or problem name"
+              placeholder={formatMessage({
+                id: "navigation.search.placeholder",
+              })}
               className={style.search}
             />
             <AvatarBlock user={user} />

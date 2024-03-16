@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { Link, useParams } from "react-router-dom";
 import { Button, List, Space } from "antd";
 import { getTasks } from "api/group.api";
@@ -45,13 +46,13 @@ const TasksTab: FC = () => {
                       type="link"
                       onClick={(e) => handleAddTask(e, item.id)}
                     >
-                      Add task
+                      <FormattedMessage id="group.detail.component.task.tab.add" />
                     </Button>
                     <Button type="primary" onClick={() => handleEdit(item)}>
-                      Edit
+                      <FormattedMessage id="common.edit" />
                     </Button>
                     <Button danger onClick={() => handleDelete(item)}>
-                      Delete
+                      <FormattedMessage id="common.edit" />
                     </Button>
                   </Space>
                 </IsShow>,

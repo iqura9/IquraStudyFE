@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { Form, notification } from "antd";
 import { Button } from "antd";
@@ -22,7 +23,7 @@ const CreateGroupPage = () => {
     mutationFn: (val: ICreateGroupValues) => createGroup(val),
     onSuccess: (response) => {
       notification.success({
-        message: "Group was created",
+        message: <FormattedMessage id="group.create.page.notification.title" />,
       });
       navigate(`${Paths.group}/${response.id}`);
     },
@@ -37,7 +38,7 @@ const CreateGroupPage = () => {
       <CreateGroupForm onFinish={onFinish} formRef={formRef} />
       <Form.Item wrapperCol={{ offset: 4, span: 14 }}>
         <Button type="primary" onClick={() => formRef.current?.submit()}>
-          Create Group
+          <FormattedMessage id="group.create.page.title" />
         </Button>
       </Form.Item>
     </>

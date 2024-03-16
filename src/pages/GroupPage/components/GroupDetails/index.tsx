@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { useSearchParams } from "react-router-dom";
 import { Card, Space, Tabs, Tag, Typography } from "antd";
 import { useAuth } from "contexts/authContext";
@@ -23,12 +24,12 @@ const GroupDetails: FC<{ group: IGroup }> = ({ group }) => {
   const items = [
     {
       key: "main",
-      label: "Main",
+      label: <FormattedMessage id="group.detail.component.item.main" />,
       children: <MainTab group={group} />,
     },
     {
       key: "tasks",
-      label: "Tasks",
+      label: <FormattedMessage id="group.detail.component.item.tasks" />,
       children: (
         <Space direction="vertical" style={{ width: "100%" }}>
           <TasksTab />
@@ -37,7 +38,7 @@ const GroupDetails: FC<{ group: IGroup }> = ({ group }) => {
     },
     {
       key: "people",
-      label: "People",
+      label: <FormattedMessage id="group.detail.component.item.people" />,
       children: (
         <Space direction="vertical" style={{ width: "100%" }}>
           <PeopleTab />
@@ -50,7 +51,9 @@ const GroupDetails: FC<{ group: IGroup }> = ({ group }) => {
     <div className={styles.titleData}>
       <Title level={2}>{name}</Title>
       <IsShow rule={createdByUser.id === user?.id}>
-        <Tag color="gold">This is your group</Tag>
+        <Tag color="gold">
+          <FormattedMessage id="group.detail.component.title.tag" />
+        </Tag>
       </IsShow>
     </div>
   );
