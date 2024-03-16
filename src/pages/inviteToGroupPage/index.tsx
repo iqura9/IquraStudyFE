@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button, notification, Space, Typography } from "antd";
 import { getGroupCheck, requestGroupInvitation } from "api/group.api";
@@ -30,15 +31,19 @@ const InviteToGroupPage = () => {
     retry: false,
     onSuccess: () => {
       notification.success({
-        message: "Success",
-        description: "Request successfully sent to teacher of the course",
+        message: <FormattedMessage id="common.success" />,
+        description: (
+          <FormattedMessage id="invite.to.group.page.notification.success" />
+        ),
       });
       navigate(Paths.main);
     },
     onError: () => {
       notification.error({
-        message: "Error",
-        description: "Something went wrong.",
+        message: <FormattedMessage id="common.error" />,
+        description: (
+          <FormattedMessage id="invite.to.group.page.notification.wrong" />
+        ),
       });
       navigate(Paths.main);
     },
@@ -48,8 +53,10 @@ const InviteToGroupPage = () => {
 
   if (isError) {
     notification.error({
-      message: "Error",
-      description: "Invitation link is not valid.",
+      message: <FormattedMessage id="common.error" />,
+      description: (
+        <FormattedMessage id="invite.to.group.page.notification.link.is.not.valid" />
+      ),
     });
     navigate(Paths.main);
   }
@@ -65,15 +72,20 @@ const InviteToGroupPage = () => {
   return (
     <div className={styles["invite-to-group-page"]}>
       <div className={styles.content}>
-        <Title level={4}>Welcome to the Invite To Group Page!</Title>
+        <Title level={4}>
+          <FormattedMessage id="invite.to.group.page.title" />
+        </Title>
         <Paragraph>
-          Group name: <strong>{data?.name}</strong>
+          <FormattedMessage id="invite.to.group.page.paragraph" />{" "}
+          <strong>{data?.name}</strong>
         </Paragraph>
         <Space className={styles["button-container"]}>
           <Button type="primary" onClick={onAccept}>
-            Request Invitation
+            <FormattedMessage id="invite.to.group.page.button.title" />
           </Button>
-          <Button onClick={onDecline}>Decline</Button>
+          <Button onClick={onDecline}>
+            <FormattedMessage id="invite.to.group.page.button.decline" />
+          </Button>
         </Space>
       </div>
     </div>
