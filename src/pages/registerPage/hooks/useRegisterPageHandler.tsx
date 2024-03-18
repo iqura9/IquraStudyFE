@@ -1,9 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
+import { FormattedMessage } from "react-intl";
+import { useNavigate } from "react-router-dom";
 import { notification } from "antd";
 import { registerUserFn } from "api/auth.api";
-import { useNavigate } from "react-router-dom";
 import { Paths } from "routes/paths";
 import { GenericResponse, IRegisterQuery } from "types/authTypes";
+
+import { useMutation } from "@tanstack/react-query";
 
 const useRegisterPageHandler = () => {
   const navigate = useNavigate();
@@ -17,8 +19,8 @@ const useRegisterPageHandler = () => {
     onSuccess: () => {
       navigate(Paths.login);
       notification.success({
-        message: "User created successfully!",
-        description: "Log in",
+        message: <FormattedMessage id="register.page.notification.message" />,
+        description: <FormattedMessage id="register.page.notification.desc" />,
       });
     },
     onError: (error) => {

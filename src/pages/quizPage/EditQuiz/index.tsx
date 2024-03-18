@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { FormattedMessage } from "react-intl";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button, Form, notification } from "antd";
 import { updateQuiz } from "api/quiz";
@@ -24,7 +25,7 @@ const EditQuizPage = () => {
     mutationFn: (val: IEditQuizPageValues) => updateQuiz(val, id || ""),
     onSuccess: () => {
       notification.success({
-        message: "Quiz was updated",
+        message: <FormattedMessage id="edit.quiz.page.notification.success" />,
       });
       navigate(`${Paths.quizzes}/${id}`);
     },
@@ -39,7 +40,7 @@ const EditQuizPage = () => {
       <QuizForm onFinish={onFinish} formRef={formRef} initialValues={state} />
       <Form.Item>
         <Button type="primary" onClick={() => formRef.current?.submit()}>
-          Update Quiz
+          <FormattedMessage id="edit.quiz.page.update.quiz" />
         </Button>
       </Form.Item>
     </>

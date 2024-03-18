@@ -46,7 +46,7 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
   );
 
   const options: DefaultOptionType[] | undefined = data?.map((quiz) => ({
-    label: `${quiz.title} ${(<FormattedMessage id="by" />)} ${
+    label: `${quiz.title} ${(<FormattedMessage id="common.by" />)} ${
       quiz.createdByUser.userName
     }`,
     value: quiz.id,
@@ -58,7 +58,7 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
     if (!taskId) {
       notification.error({
         message: <FormattedMessage id="common.error" />,
-        description: <FormattedMessage id="TaskID is not valid" />,
+        description: <FormattedMessage id="group.page.modal.add.error.desc" />,
       });
     }
 

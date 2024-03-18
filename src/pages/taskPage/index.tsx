@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { useParams } from "react-router-dom";
 import { getTask } from "api/task";
 
@@ -17,8 +18,18 @@ const TaskPage = () => {
     refetchOnWindowFocus: false,
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (isLoading)
+    return (
+      <p>
+        <FormattedMessage id="common.loading" />
+      </p>
+    );
+  if (error)
+    return (
+      <p>
+        <FormattedMessage id="common.error" />: {error.message}
+      </p>
+    );
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>

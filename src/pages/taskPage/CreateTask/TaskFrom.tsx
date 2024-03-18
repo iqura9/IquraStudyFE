@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { FormattedMessage } from "react-intl";
 import { Form } from "antd";
 import { Input } from "antd";
 
@@ -25,16 +26,30 @@ export const TaskForm: FC<TaskFormProps> = ({
       initialValues={initialValues}
     >
       <Form.Item
-        label="Task title"
+        label={<FormattedMessage id="task.page.task.title" />}
         name="title"
         rules={[
-          { required: true, message: "Please enter the Task title!" },
-          { max: 255, message: "Group name cannot exceed 255 characters!" },
+          {
+            required: true,
+            message: <FormattedMessage id="common.form.required" />,
+          },
+          {
+            max: 255,
+            message: (
+              <FormattedMessage
+                id="task.page.task.title.max"
+                values={{ count: 255 }}
+              />
+            ),
+          },
         ]}
       >
         <Input />
       </Form.Item>
-      <Form.Item label="Task description" name="description">
+      <Form.Item
+        label={<FormattedMessage id="task.page.task.desc" />}
+        name="description"
+      >
         <Input />
       </Form.Item>
     </Form>

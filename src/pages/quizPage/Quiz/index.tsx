@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { notification } from "antd";
 import { getQuizWithoutAnswers, verifyQuiz } from "api/quiz";
@@ -34,7 +35,9 @@ const QuizParticipant = () => {
     mutationFn: (data: VerificationQuery) => verifyQuiz(data),
     onSuccess: (score: number) => {
       // Your success logic here
-      notification.success({ message: `Your score is ${score}` });
+      notification.success({
+        message: `${(<FormattedMessage id="quiz.score" />)} ${score}`,
+      });
       navigate(-1);
     },
     onError: (error: Error) => {

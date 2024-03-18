@@ -1,3 +1,4 @@
+import { FormattedMessage } from "react-intl";
 import { useLocation, useNavigate } from "react-router-dom";
 import { notification } from "antd";
 import { loginUserFn } from "api/auth.api";
@@ -26,8 +27,12 @@ const useLoginPageHandler = () => {
       );
 
       notification.success({
-        message: "Login Successful",
-        description: "You have successfully logged in. Welcome!",
+        message: (
+          <FormattedMessage id="login.page.notification.success.index" />
+        ),
+        description: (
+          <FormattedMessage id="login.page.notification.success.desc" />
+        ),
       });
     },
     onError: (error) => {

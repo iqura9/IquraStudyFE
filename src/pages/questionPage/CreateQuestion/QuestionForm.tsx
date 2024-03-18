@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { FormattedMessage } from "react-intl";
 import { Button, Checkbox, Col, Form, notification, Row } from "antd";
 import { Input } from "antd";
 import { IQuestion } from "types/questionTypes";
@@ -23,7 +24,9 @@ export const QuestionForm: FC<QuestionFormProps> = ({
     return isAtLeastOneChecked
       ? Promise.resolve()
       : notification.error({
-          message: "At least one answer must be marked as correct",
+          message: (
+            <FormattedMessage id="create.question.form.notification.message" />
+          ),
         });
   };
 
@@ -38,9 +41,14 @@ export const QuestionForm: FC<QuestionFormProps> = ({
       layout="vertical"
     >
       <Form.Item
-        label="Title"
+        label={<FormattedMessage id="common.title" />}
         name="title"
-        rules={[{ required: true, message: "Title is required" }]}
+        rules={[
+          {
+            required: true,
+            message: <FormattedMessage id="common.form.required" />,
+          },
+        ]}
       >
         <Input />
       </Form.Item>
@@ -57,8 +65,15 @@ export const QuestionForm: FC<QuestionFormProps> = ({
                   <Form.Item
                     {...restField}
                     name={[name, "title"]}
-                    label={`Answer ${key + 1}`}
-                    rules={[{ required: true, message: "Answer is required" }]}
+                    label={`${(
+                      <FormattedMessage id="create.question.form.answer" />
+                    )} ${key + 1}`}
+                    rules={[
+                      {
+                        required: true,
+                        message: <FormattedMessage id="common.form.required" />,
+                      },
+                    ]}
                   >
                     <Input />
                   </Form.Item>
@@ -69,7 +84,9 @@ export const QuestionForm: FC<QuestionFormProps> = ({
                     name={[name, "isCorrect"]}
                     valuePropName="checked"
                   >
-                    <Checkbox>Is Correct?</Checkbox>
+                    <Checkbox>
+                      <FormattedMessage id="create.question.form.is.correct" />
+                    </Checkbox>
                   </Form.Item>
                 </Col>
                 {/* Hidden fields */}
@@ -95,7 +112,7 @@ export const QuestionForm: FC<QuestionFormProps> = ({
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >
-                Add Answer
+                <FormattedMessage id="create.question.form.add.answer" />
               </Button>
               {fields.length > 2 && (
                 <Button
@@ -103,7 +120,7 @@ export const QuestionForm: FC<QuestionFormProps> = ({
                   onClick={() => remove(fields.length - 1)}
                   icon={<MinusOutlined />}
                 >
-                  Remove Last Answer
+                  <FormattedMessage id="create.question.form.remove.last.answer" />
                 </Button>
               )}
             </Form.Item>

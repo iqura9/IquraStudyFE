@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   Button,
   Checkbox,
@@ -43,6 +44,8 @@ export const RightSide: FC<RightSideProps> = ({
 }) => {
   const { isShow, handleShowModal, handleHideModal } = useModal();
 
+  const { formatMessage } = useIntl();
+
   const isMultiSelect = questions[currentQuestionIndex]?.isMultiSelect;
   const percent = Math.round(
     (questionAnswers.filter((q) => !q.answers.includes(-1)).length /
@@ -68,7 +71,10 @@ export const RightSide: FC<RightSideProps> = ({
       <div className={styles.rightSide_wrapper}>
         <div className={styles.rightSide_container}>
           <div className={styles.rightSide_title}>
-            Question {currentQuestionIndex + 1} of {questions.length}
+            <FormattedMessage id="quiz.components.list.of.questions.question" />{" "}
+            {currentQuestionIndex + 1}{" "}
+            <FormattedMessage id="quiz.components.list.of.questions.of" />{" "}
+            {questions.length}
           </div>
           <div className={styles.rightSide_question}>
             {questions[currentQuestionIndex]?.title}
@@ -120,7 +126,7 @@ export const RightSide: FC<RightSideProps> = ({
               disabled={currentQuestionIndex + 1 === 1}
               size="large"
             >
-              Previous
+              <FormattedMessage id="common.previous" />
             </Button>
             <Button
               type="primary"
@@ -128,7 +134,7 @@ export const RightSide: FC<RightSideProps> = ({
               disabled={currentQuestionIndex + 1 === questions.length}
               size="large"
             >
-              Next
+              <FormattedMessage id="common.next" />
             </Button>
           </div>
         </div>
@@ -137,22 +143,28 @@ export const RightSide: FC<RightSideProps> = ({
         <Divider />
         <div className={styles.bottom_group}>
           <Button icon={<LeftOutlined />} onClick={handleToggleLeftSide}>
-            List of the questions
+            <FormattedMessage id="quiz.components.list.of.questions" />
           </Button>
           <Progress
             percent={percent}
             status="active"
             strokeColor={{ from: "#108ee9", to: "#87d068" }}
           />
-          <Button onClick={handleShowModal}>Finish</Button>
+          <Button onClick={handleShowModal}>
+            <FormattedMessage id="quiz.components.list.of.questions.finish" />
+          </Button>
         </div>
       </div>
       <ValidateModal
         visible={isShow}
         onConfirm={handleConfirm}
         onCancel={handleHideModal}
-        title="Are you sure want to submit the test?"
-        subTitle="After submission you cannot pass the test again "
+        title={formatMessage({
+          id: "quiz.components.list.of.questions.modal.title",
+        })}
+        subTitle={formatMessage({
+          id: "quiz.components.list.of.questions.modal.subtitle",
+        })}
       />
     </div>
   );

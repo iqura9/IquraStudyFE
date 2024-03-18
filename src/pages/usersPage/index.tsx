@@ -1,3 +1,4 @@
+import { FormattedMessage } from "react-intl";
 import { useSearchParams } from "react-router-dom";
 import { Select } from "antd";
 import { getUsers } from "api/user.api";
@@ -27,7 +28,7 @@ const UsersPage = () => {
     <div className={styles.Wrapper}>
       <div className={styles.SelectRow}>
         <Select
-          placeholder="Select user role"
+          placeholder={<FormattedMessage id="user.page.select.placeholder" />}
           options={roleOptions}
           style={{ width: "500px" }}
           defaultValue={searchParams.get("userRole")}

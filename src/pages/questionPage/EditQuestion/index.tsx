@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Form, notification, Result, Typography } from "antd";
 import { Button } from "antd";
@@ -20,13 +21,16 @@ const EditQuestionPage = () => {
   const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>();
   const { state } = useLocation();
+  const { formatMessage } = useIntl();
   const data = state?.data;
   const { mutate } = useMutation<IQuestion, Error, IQuestion>({
     mutationKey: ["UpdateQuestion", id],
     mutationFn: (val: IQuestion) => updateQuestion(id, val),
     onSuccess: (response) => {
       notification.success({
-        message: "Question was updated",
+        message: formatMessage({
+          id: "edit.question.page.notification.message",
+        }),
       });
       console.log(response);
       navigate(`${Paths.quizzes}/${response.quizId}`);
@@ -44,11 +48,11 @@ const EditQuestionPage = () => {
   };
 
   if (!data) {
-    const boldText = "Sorry, there is no data available to edit at the moment.";
+    const boldText = formatMessage({ id: "edit.question.page.bold.text" });
     return (
       <Result
         status="info"
-        title="No data to edit"
+        title={<FormattedMessage id="edit.question.page.title" />}
         subTitle={
           <>
             <>{boldText.slice(0, 34)}</>
@@ -57,7 +61,7 @@ const EditQuestionPage = () => {
         }
         extra={
           <Button type="primary" onClick={handleBack}>
-            Go home
+            <FormattedMessage id="edit.question.page.go.home" />
           </Button>
         }
       />
@@ -72,7 +76,7 @@ const EditQuestionPage = () => {
       />
       <Form.Item>
         <Button type="primary" onClick={() => formRef.current?.submit()}>
-          Edit Question
+          <FormattedMessage id="edit.question.page.edit.question" />
         </Button>
       </Form.Item>
     </>

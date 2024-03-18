@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, List, notification, Space } from "antd";
 import { deleteQuiz, getQuiz } from "api/quiz";
@@ -20,8 +21,9 @@ const QuizPage = () => {
     mutationKey: ["deleteQuiz"],
     mutationFn: () => deleteQuiz(id),
     onSuccess: () => {
-      notification.success({ message: "Quiz successfully was deleted" });
-      // queryClient.refetchQueries({ queryKey: ["quizData", id] });
+      notification.success({
+        message: <FormattedMessage id="quiz.page.index.notification.success" />,
+      });
       navigate(Paths.quizzes);
     },
     onError: (error) => {
@@ -30,11 +32,19 @@ const QuizPage = () => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <FormattedMessage id="common.loading" />
+      </div>
+    );
   }
 
   if (isError) {
-    return <div>Error fetching quiz data</div>;
+    return (
+      <div>
+        <FormattedMessage id="quiz.page.index.notification.error" />
+      </div>
+    );
   }
 
   if (!data) return <></>;
@@ -42,10 +52,13 @@ const QuizPage = () => {
   const { title, createdByUser } = data;
 
   const listData = [
-    { label: "Title", value: title },
-    { label: "Created By", value: createdByUser.userName },
+    { label: <FormattedMessage id="common.title" />, value: title },
     {
-      label: "Created At",
+      label: <FormattedMessage id="common.created.by" />,
+      value: createdByUser.userName,
+    },
+    {
+      label: <FormattedMessage id="common.created.at" />,
       value: new Date(createdByUser.createdAt).toLocaleDateString(),
     },
   ];
@@ -65,10 +78,16 @@ const QuizPage = () => {
       />
       <Space>
         <Link to={`${Paths.createQuestion}/${id}`}>
-          <Button>Add Questions</Button>
+          <Button>
+            <FormattedMessage id="quiz.page.index.add.questions" />
+          </Button>
         </Link>
-        <Button onClick={handleEdit}>Edit</Button>
-        <Button onClick={() => deleteFn()}>Delete</Button>
+        <Button onClick={handleEdit}>
+          <FormattedMessage id="common.edit" />
+        </Button>
+        <Button onClick={() => deleteFn()}>
+          <FormattedMessage id="common.delete" />
+        </Button>
       </Space>
       <QuestionTable questions={data.questions} />
     </div>

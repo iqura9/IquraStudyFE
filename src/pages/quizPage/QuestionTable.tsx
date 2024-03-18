@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
@@ -42,7 +43,9 @@ const QuestionTable: React.FC<Props> = ({ questions }) => {
     mutationKey: ["deleteQuestion"],
     mutationFn: (id: number) => deleteQuestion(id),
     onSuccess: () => {
-      notification.success({ message: "Question successfully was deleted" });
+      notification.success({
+        message: <FormattedMessage id="questions.table.notification.success" />,
+      });
       queryClient.refetchQueries({ queryKey: ["quizData", id] });
     },
     onError: (error) => {
@@ -85,10 +88,10 @@ const QuestionTable: React.FC<Props> = ({ questions }) => {
                     type="primary"
                     onClick={(e) => handleEdit(e, question)}
                   >
-                    Edit
+                    <FormattedMessage id="common.edit" />
                   </Button>
                   <Button danger onClick={(e) => handleDelete(e, question.id)}>
-                    Delete
+                    <FormattedMessage id="common.delete" />
                   </Button>
                 </Space>
               }
@@ -107,9 +110,13 @@ const QuestionTable: React.FC<Props> = ({ questions }) => {
                     </Text>
 
                     {answer.isCorrect ? (
-                      <Tag color="green">Correct</Tag>
+                      <Tag color="green">
+                        <FormattedMessage id="common.correct" />
+                      </Tag>
                     ) : (
-                      <Tag color="red">Incorrect</Tag>
+                      <Tag color="red">
+                        <FormattedMessage id="common.incorrect" />
+                      </Tag>
                     )}
                   </Row>
                 ))}

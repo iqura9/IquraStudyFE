@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { FormattedMessage } from "react-intl";
 import { Form } from "antd";
 import { Input } from "antd";
 
@@ -26,9 +27,14 @@ export const QuizForm: FC<TaskFormProps> = ({
       layout="vertical"
     >
       <Form.Item
-        label="Title"
+        label={<FormattedMessage id="common.title" />}
         name="title"
-        rules={[{ required: true, message: "Title is required" }]}
+        rules={[
+          {
+            required: true,
+            message: <FormattedMessage id="common.form.required" />,
+          },
+        ]}
       >
         <Input />
       </Form.Item>

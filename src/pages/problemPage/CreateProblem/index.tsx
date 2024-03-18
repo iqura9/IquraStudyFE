@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { FormattedMessage } from "react-intl";
 import { useNavigate, useParams } from "react-router-dom";
 import { Form, notification } from "antd";
 import { Button } from "antd";
@@ -24,7 +25,9 @@ const CreateProblemPage = () => {
     mutationFn: (val: ICreateTaskValues) => createTask(groupId, val),
     onSuccess: () => {
       notification.success({
-        message: "Task was added",
+        message: (
+          <FormattedMessage id="create.problem.page.index.notification.message" />
+        ),
       });
       navigate(`${Paths.group}/${groupId}`);
     },
@@ -39,7 +42,7 @@ const CreateProblemPage = () => {
       <TaskForm onFinish={onFinish} formRef={formRef} />
       <Form.Item>
         <Button type="primary" onClick={() => formRef.current?.submit()}>
-          Create Problem
+          <FormattedMessage id="create.problem.page.index.create" />
         </Button>
       </Form.Item>
     </>

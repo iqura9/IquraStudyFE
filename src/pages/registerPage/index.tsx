@@ -1,7 +1,9 @@
+import { FormattedMessage } from "react-intl";
 import { Button, Form, Input, Radio } from "antd";
 import { IRegisterQuery } from "types/authTypes";
 
 import { useRegisterPageHandler } from "./hooks";
+
 import styles from "./styles.module.scss";
 
 const RegisterPage = () => {
@@ -15,43 +17,63 @@ const RegisterPage = () => {
       <div className={styles.register_container}>
         <Form name="register-form" layout="vertical" onFinish={onFinish}>
           <Form.Item
-            label="Email"
+            label={<FormattedMessage id="common.email" />}
             name="email"
-            rules={[{ required: true, message: "Please input your email!" }]}
+            rules={[
+              {
+                required: true,
+                message: <FormattedMessage id="common.form.required" />,
+              },
+            ]}
           >
             <Input size="large" />
           </Form.Item>
           <Form.Item
-            label="Username"
+            label={<FormattedMessage id="common.username" />}
             name="userName"
-            rules={[{ required: true, message: "Please input your username!" }]}
+            rules={[
+              {
+                required: true,
+                message: <FormattedMessage id="common.form.required" />,
+              },
+            ]}
           >
             <Input size="large" />
           </Form.Item>
 
           <Form.Item
-            label="Select Type"
+            label={<FormattedMessage id="register.page.select" />}
             name="role"
-            rules={[{ required: true, message: "Please select a user type!" }]}
+            rules={[
+              {
+                required: true,
+                message: <FormattedMessage id="common.form.required" />,
+              },
+            ]}
           >
             <Radio.Group className={styles.user_type_radio_group}>
               <Radio className={styles.user_type_radio} value="Student">
-                Student
+                <FormattedMessage id="common.student" />
               </Radio>
               <Radio className={styles.user_type_radio} value="Teacher">
-                Teacher
+                <FormattedMessage id="common.teacher" />
               </Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item
-            label="Password"
+            label={<FormattedMessage id="login.page.password" />}
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[
+              {
+                required: true,
+                message: <FormattedMessage id="common.form.required" />,
+              },
+            ]}
           >
             <Input.Password size="large" />
           </Form.Item>
           <Button type="primary" htmlType="submit" block size="large">
-            Register
+            <FormattedMessage id="register.page.register" />
           </Button>
         </Form>
       </div>

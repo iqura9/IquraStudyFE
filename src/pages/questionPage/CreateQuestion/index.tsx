@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { FormattedMessage } from "react-intl";
 import { useNavigate, useParams } from "react-router-dom";
 import { Form, notification } from "antd";
 import { Button } from "antd";
@@ -24,7 +25,9 @@ const CreateQuestionPage = () => {
     mutationFn: (val: ICreateQuestionValues) => createQuestion(quizId, val),
     onSuccess: (response) => {
       notification.success({
-        message: "Question was created",
+        message: (
+          <FormattedMessage id="create.question.index.notification.success" />
+        ),
       });
       navigate(`${Paths.quizzes}/${response.quizId}`);
     },
@@ -39,7 +42,7 @@ const CreateQuestionPage = () => {
       <QuestionForm onFinish={onFinish} formRef={formRef} />
       <Form.Item>
         <Button type="primary" onClick={() => formRef.current?.submit()}>
-          Create Question
+          <FormattedMessage id="create.question.index.create.question" />
         </Button>
       </Form.Item>
     </>

@@ -1,21 +1,22 @@
+import { FormattedMessage } from "react-intl";
 import { Tag } from "antd";
 import { RoleType } from "types/authTypes";
 
 export const columns = [
   {
-    title: "Username",
+    title: <FormattedMessage id="common.username" />,
     dataIndex: "userName",
     key: "userName",
     align: "left" as const,
   },
   {
-    title: "Email",
+    title: <FormattedMessage id="common.email" />,
     dataIndex: "email",
     key: "email",
     align: "center" as const,
   },
   {
-    title: "Image",
+    title: <FormattedMessage id="user.page.const.image" />,
     dataIndex: "image",
     key: "image",
     render: (imageUrl: string) =>
@@ -23,13 +24,13 @@ export const columns = [
     align: "center" as const,
   },
   {
-    title: "Description",
+    title: <FormattedMessage id="user.page.const.desc" />,
     dataIndex: "description",
     key: "description",
     align: "center" as const,
   },
   {
-    title: "Role",
+    title: <FormattedMessage id="user.page.const.role" />,
     dataIndex: "role",
     key: "role",
     render: (role: RoleType) => (
@@ -38,14 +39,14 @@ export const columns = [
     align: "center" as const,
   },
   {
-    title: "Created At",
+    title: <FormattedMessage id="common.created.at" />,
     dataIndex: "createdAt",
     key: "createdAt",
     render: (createdAt: string) => new Date(createdAt).toLocaleDateString(),
     align: "center" as const,
   },
   {
-    title: "Updated At",
+    title: <FormattedMessage id="user.page.const.updated.at" />,
     dataIndex: "updatedAt",
     key: "updatedAt",
     render: (updatedAt: string) =>

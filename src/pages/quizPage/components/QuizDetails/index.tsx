@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { Space, Table } from "antd";
 import { IUser } from "types/authTypes";
@@ -14,28 +15,28 @@ const QuizTable: FC<QuizTableProps> = ({ quizzes }) => {
   const navigate = useNavigate();
   const columns = [
     {
-      title: "ID",
+      title: <FormattedMessage id="quiz.details.columns.id" />,
       dataIndex: "id",
       key: "id",
     },
     {
-      title: "Title",
+      title: <FormattedMessage id="common.title" />,
       dataIndex: "title",
       key: "title",
     },
     {
-      title: "Created By",
+      title: <FormattedMessage id="common.created.by" />,
       dataIndex: "createdByUser",
       key: "createdByUser",
       render: (text: IUser) => <div>{text.userName}</div>,
     },
     {
-      title: "Created At",
+      title: <FormattedMessage id="common.created.at" />,
       dataIndex: "createdAt",
       key: "createdAt",
     },
     {
-      title: "Actions",
+      title: <FormattedMessage id="quiz.details.columns.actions" />,
       key: "actions",
       render: (_: any, record: IQuiz) => (
         <Space size="middle">

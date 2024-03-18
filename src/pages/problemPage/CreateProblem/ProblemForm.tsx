@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { FormattedMessage } from "react-intl";
 import { Form } from "antd";
 import { Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
@@ -27,33 +28,53 @@ export const TaskForm: FC<TaskFormProps> = ({
       layout="vertical"
     >
       <Form.Item
-        label="Title"
+        label={<FormattedMessage id="create.problem.page.form.title" />}
         name="title"
-        rules={[{ required: true, message: "Title is required" }]}
+        rules={[
+          {
+            required: true,
+            message: <FormattedMessage id="common.form.required" />,
+          },
+        ]}
       >
         <Input />
       </Form.Item>
 
       <Form.Item
-        label="Description (Markdown)"
+        label={<FormattedMessage id="create.problem.page.form.desc" />}
         name="description"
-        rules={[{ required: true, message: "Description is required" }]}
+        rules={[
+          {
+            required: true,
+            message: <FormattedMessage id="common.form.required" />,
+          },
+        ]}
       >
         <TextArea rows={4} />
       </Form.Item>
 
       <Form.Item
-        label="Вхідні дані (Input Data)"
+        label={<FormattedMessage id="create.problem.page.form.input.date" />}
         name="inputData"
-        rules={[{ required: true, message: "Input Data is required" }]}
+        rules={[
+          {
+            required: true,
+            message: <FormattedMessage id="common.form.required" />,
+          },
+        ]}
       >
         <TextArea rows={4} />
       </Form.Item>
 
       <Form.Item
-        label="Вихідні дані (Output Data)"
+        label={<FormattedMessage id="create.problem.page.form.output.date" />}
         name="outputData"
-        rules={[{ required: true, message: "Output Data is required" }]}
+        rules={[
+          {
+            required: true,
+            message: <FormattedMessage id="common.form.required" />,
+          },
+        ]}
       >
         <TextArea rows={4} />
       </Form.Item>
