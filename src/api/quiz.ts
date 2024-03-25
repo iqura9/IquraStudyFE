@@ -66,7 +66,14 @@ export const deleteQuestion = async (
 };
 
 export const getQuizzes = async () => {
-  const response = await authApi.get("Quiz");
+  const response = await authApi.get(`Quiz`);
+  return response.data;
+};
+
+export const getQuizzesSelect = async (
+  taskId: string | undefined | null | number
+) => {
+  const response = await authApi.get(`Quiz/select/${taskId}`);
   return response.data;
 };
 

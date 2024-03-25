@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   Button,
   Checkbox,
@@ -9,8 +9,9 @@ import {
   Select,
   Space,
 } from "antd";
+import form from "antd/es/form";
 import { DefaultOptionType } from "antd/es/select";
-import { createQuizTask, getQuizzes } from "api/quiz";
+import { createQuizTask, getQuizzesSelect } from "api/quiz";
 import { IQuiz } from "types/questionTypes";
 import { CreateQuizTaskDto } from "types/quiz";
 
@@ -23,12 +24,15 @@ interface AddTaskModalProps {
 }
 
 const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
+  const [form] = Form.useForm();
+  const { formatMessage } = useIntl();
   // #TODO get all quizzes that are no setted, add filter, only my tasks
-  const { data, isLoading } = useQuery<IQuiz[]>({
-    queryKey: ["queryKey"],
-    queryFn: () => getQuizzes(),
+  const { data, isLoading, refetch } = useQuery<IQuiz[]>({
+    queryKey: ["queryKey", taskId],
+    queryFn: () => getQuizzesSelect(taskId),
     retry: false,
     refetchOnWindowFocus: false,
+    enabled: !!taskId,
   });
 
   const { mutate: mutationFn } = useMutation<unknown, Error, CreateQuizTaskDto>(
@@ -36,8 +40,8 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
       mutationKey: ["createQuizTask", taskId],
       mutationFn: (data) => createQuizTask(data),
       onSuccess: (data: any) => {
-        // Your success logic here
-        console.log(data);
+        form.resetFields();
+        refetch();
       },
       onError: (error: any) => {
         // Your error handling logic here
@@ -46,15 +50,13 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
   );
 
   const options: DefaultOptionType[] | undefined = data?.map((quiz) => ({
-    label: `${quiz.title} ${(<FormattedMessage id="common.by" />)} ${
+    label: `${quiz.title} ${formatMessage({ id: "common.by" })} ${
       quiz.createdByUser.userName
     }`,
     value: quiz.id,
   }));
 
   const onFinish = (values: { quizIds: number[] }) => {
-    // values contains the form field values
-
     if (!taskId) {
       notification.error({
         message: <FormattedMessage id="common.error" />,
@@ -69,8 +71,7 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
       quizIds,
     };
     mutationFn(sendDto);
-    // Perform additional logic or API calls here
-    onCancel(); // Close the modal after handling form submission
+    onCancel();
   };
 
   return (
@@ -78,9 +79,9 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
       title={<FormattedMessage id="group.page.modal.add.title" />}
       visible={visible}
       onCancel={onCancel}
-      footer={null} // Hide the default footer
+      footer={null}
     >
-      <Form onFinish={onFinish}>
+      <Form form={form} onFinish={onFinish}>
         <Space direction="vertical" style={{ width: "100%" }}>
           <Form.Item
             label={<FormattedMessage id="group.page.modal.add.label" />}
@@ -94,10 +95,6 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
               loading={isLoading}
             />
           </Form.Item>
-
-          <Checkbox>
-            <FormattedMessage id="group.page.modal.checkbox" />
-          </Checkbox>
 
           <div style={{ textAlign: "right" }}>
             <Form.Item>

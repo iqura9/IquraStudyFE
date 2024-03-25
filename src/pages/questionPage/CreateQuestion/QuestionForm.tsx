@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { Button, Checkbox, Col, Form, notification, Row } from "antd";
 import { Input } from "antd";
 import { IQuestion } from "types/questionTypes";
@@ -17,6 +17,7 @@ export const QuestionForm: FC<QuestionFormProps> = ({
   formRef,
   initialValues,
 }) => {
+  const { formatMessage } = useIntl();
   const validateCheckbox = (_: any, values: { isCorrect: boolean }[]) => {
     const isAtLeastOneChecked = values.some(
       (ans: { isCorrect: boolean }) => ans.isCorrect
@@ -65,9 +66,9 @@ export const QuestionForm: FC<QuestionFormProps> = ({
                   <Form.Item
                     {...restField}
                     name={[name, "title"]}
-                    label={`${(
-                      <FormattedMessage id="create.question.form.answer" />
-                    )} ${key + 1}`}
+                    label={`${formatMessage({
+                      id: "create.question.form.answer",
+                    })} ${key + 1}`}
                     rules={[
                       {
                         required: true,

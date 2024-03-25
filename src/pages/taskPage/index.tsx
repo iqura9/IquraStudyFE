@@ -33,7 +33,9 @@ const TaskPage = () => {
         <FormattedMessage id="common.error" />: {error.message}
       </p>
     );
-
+  const createdAt = data?.createdAt
+    ? new Date(data?.createdAt || "").toLocaleDateString()
+    : "";
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -41,7 +43,7 @@ const TaskPage = () => {
           <div className={styles.header_leftGroup}>
             <div className={styles.header_title}>{data?.title}</div>
             <div className={styles.header_info}>
-              {data?.createdByUser.userName}, 4 dec 2023
+              {data?.createdByUser.userName}, {createdAt}
             </div>
           </div>
           {user?.role === "Teacher" ? (

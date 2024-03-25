@@ -49,6 +49,12 @@ export const TaskForm: FC<TaskFormProps> = ({
       <Form.Item
         label={<FormattedMessage id="task.page.task.desc" />}
         name="description"
+        rules={[
+          {
+            required: true,
+            message: <FormattedMessage id="common.form.required" />,
+          },
+        ]}
       >
         <Input />
       </Form.Item>

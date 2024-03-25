@@ -23,9 +23,24 @@ const TasksTab: FC = () => {
     retry: false,
     refetchOnWindowFocus: false,
   });
-  const handleEdit = (data: any) => {};
-  const handleDelete = (data: any) => {};
-  const handleAddTask = (e: any, taskId: number) => {
+  const handleEdit = (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    data: any
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const handleDelete = (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    data: any
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const handleAddTask = (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    taskId: number
+  ) => {
     e.preventDefault();
     e.stopPropagation();
     setTaskId(taskId);
@@ -48,11 +63,11 @@ const TasksTab: FC = () => {
                     >
                       <FormattedMessage id="group.detail.component.task.tab.add" />
                     </Button>
-                    <Button type="primary" onClick={() => handleEdit(item)}>
+                    <Button type="primary" onClick={(e) => handleEdit(e, item)}>
                       <FormattedMessage id="common.edit" />
                     </Button>
-                    <Button danger onClick={() => handleDelete(item)}>
-                      <FormattedMessage id="common.edit" />
+                    <Button danger onClick={(e) => handleDelete(e, item)}>
+                      <FormattedMessage id="common.delete" />
                     </Button>
                   </Space>
                 </IsShow>,
