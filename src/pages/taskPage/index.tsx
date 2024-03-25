@@ -1,7 +1,9 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { Button } from "antd";
 import { getTask } from "api/task";
+import { useAuth } from "contexts/authContext";
 
 import TaskTable from "./components/TaskTable";
 
@@ -11,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const TaskPage = () => {
   const { id } = useParams();
+  const { user } = useAuth();
   const { data, error, isLoading } = useQuery({
     queryKey: ["getTask", id],
     queryFn: () => getTask(id),
@@ -30,6 +33,7 @@ const TaskPage = () => {
         <FormattedMessage id="common.error" />: {error.message}
       </p>
     );
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -40,7 +44,15 @@ const TaskPage = () => {
               {data?.createdByUser.userName}, 4 dec 2023
             </div>
           </div>
-          <div className={styles.header_score}>{data?.averageScore}/100</div>
+          {user?.role === "Teacher" ? (
+            <Link to={`/task/view-grade/${id}`}>
+              <Button type="default">
+                <FormattedMessage id="view.grade.page.view.grade" />
+              </Button>
+            </Link>
+          ) : (
+            <div className={styles.header_score}>{data?.averageScore}/100</div>
+          )}
         </div>
         <div className={styles.content}>
           <div className={styles.content_desc}>{data?.description}</div>

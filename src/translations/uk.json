@@ -26,8 +26,8 @@
     "common.teacher": "Вчитель",
     
     "navigation.avatar.log.out": "Вийти",
-    "navigation.avatar.change.language.en": "Перемкнути на англійську",
-    "navigation.avatar.change.language.uk": "Перемкнути на українську",
+    "navigation.avatar.change.language.en": "Перемкнути на українську",
+    "navigation.avatar.change.language.uk": "Перемкнути на англійську",
     "menu.home": "Головна",
     "menu.problems": "Задачі",
     "menu.teachers": "Викладачі",
@@ -147,6 +147,8 @@
     "user.page.const.desc": "Опис",
     "user.page.const.role": "Роль",
     "user.page.const.updated.at": "Оновлено о",
-    "group.detail.component.accept.item.decline": "Відхилити"
+    "group.detail.component.accept.item.decline": "Відхилити",
+    "view.grade.page.overall.grade": "Загальна оцінка",
+    "view.grade.page.view.grade": "Оцінки"
 }
     

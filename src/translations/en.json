@@ -26,8 +26,8 @@
     "common.teacher": "Teacher",
 
     "navigation.avatar.log.out": "Log Out",
-    "navigation.avatar.change.language.en": "Switch to English",
-    "navigation.avatar.change.language.uk": "Switch to Ukrainian",
+    "navigation.avatar.change.language.en": "Switch to Ukrainian",
+    "navigation.avatar.change.language.uk": "Switch to English",
     "menu.home": "Home",
     "menu.problems": "Problems",
     "menu.teachers": "Teachers",
@@ -147,5 +147,7 @@
     "user.page.const.image": "Image",
     "user.page.const.desc": "Description",
     "user.page.const.role": "Role",
-    "user.page.const.updated.at": "Updated At"  
+    "user.page.const.updated.at": "Updated At",
+    "view.grade.page.overall.grade": "Overall Grade",
+    "view.grade.page.view.grade": "View Grades"
 } 
