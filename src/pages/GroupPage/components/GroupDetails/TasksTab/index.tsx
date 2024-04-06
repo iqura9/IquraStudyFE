@@ -36,6 +36,7 @@ const TasksTab: FC = () => {
   ) => {
     e.preventDefault();
     e.stopPropagation();
+    console.log(data);
   };
   const handleAddTask = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,

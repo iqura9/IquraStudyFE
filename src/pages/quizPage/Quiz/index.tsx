@@ -34,14 +34,12 @@ const QuizParticipant = () => {
     mutationKey: ["mutationKey"],
     mutationFn: (data: VerificationQuery) => verifyQuiz(data),
     onSuccess: (score: number) => {
-      // Your success logic here
       notification.success({
         message: `${(<FormattedMessage id="quiz.score" />)} ${score}`,
       });
       navigate(-1);
     },
     onError: (error: Error) => {
-      // Your error handling logic here
       notification.error({ message: error.message });
     },
   });

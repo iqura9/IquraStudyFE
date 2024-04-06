@@ -1,15 +1,6 @@
 import React, { FC } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import {
-  Button,
-  Checkbox,
-  Form,
-  Modal,
-  notification,
-  Select,
-  Space,
-} from "antd";
-import form from "antd/es/form";
+import { Button, Form, Modal, notification, Select, Space } from "antd";
 import { DefaultOptionType } from "antd/es/select";
 import { createQuizTask, getQuizzesSelect } from "api/quiz";
 import { IQuiz } from "types/questionTypes";
@@ -26,7 +17,7 @@ interface AddTaskModalProps {
 const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
   const [form] = Form.useForm();
   const { formatMessage } = useIntl();
-  // #TODO get all quizzes that are no setted, add filter, only my tasks
+
   const { data, isLoading, refetch } = useQuery<IQuiz[]>({
     queryKey: ["queryKey", taskId],
     queryFn: () => getQuizzesSelect(taskId),
@@ -44,7 +35,7 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
         refetch();
       },
       onError: (error: any) => {
-        // Your error handling logic here
+        notification.error({ message: error.name, description: error.message });
       },
     }
   );

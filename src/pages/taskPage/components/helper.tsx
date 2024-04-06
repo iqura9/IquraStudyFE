@@ -23,7 +23,9 @@ export const columns = [
     dataIndex: "grade",
     key: "grade",
     render: (grade: number | null) => (
-      <>{grade ? <Tag color="gold">{grade}/100</Tag> : "-"}</>
+      <>
+        {typeof grade === "number" ? <Tag color="gold">{grade}/100</Tag> : "-"}
+      </>
     ),
     align: "right" as const,
   },
@@ -32,10 +34,11 @@ export const columns = [
 export const handleDataToTable = (data: GroupTaskQuiz[] | undefined) => {
   return data?.map((d) => {
     return {
-      key: d.quizId,
+      key: d.id,
       task: d.quiz.title,
       type: TaskType.Test,
       grade: d.score,
+      quizId: d.quizId,
     };
   });
 };

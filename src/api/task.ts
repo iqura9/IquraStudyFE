@@ -16,3 +16,8 @@ export const getTaskGrade = async (
   const response = await authApi.get<IViewGrade[]>(`Task/view-grade/${taskId}`);
   return response.data;
 };
+
+export const deleteTaskQuiz = async (ids: number[]) => {
+  const response = await authApi.delete(`/Task/Quiz`, { data: ids });
+  return response.data;
+};
