@@ -20,3 +20,43 @@ body {
 $font-family: "Manrope", sans-serif;
 $second-family: "Roboto", sans-serif;
 $third-family: "Inter", sans-serif;
+$base-color: #3a86ff;
+
+// Function to generate shades
+@function generate-shade($color, $percentage) {
+  @return adjust-color($color, $lightness: $percentage);
+}
+
+.blackSelect {
+  // Define shades
+  $lightest-color: generate-shade($base-color, 40%);
+  $light-color: generate-shade($base-color, 25%);
+  $medium-color: $base-color;
+  $dark-color: generate-shade($base-color, -25%);
+  $darkest-color: generate-shade($base-color, -40%);
+
+  // Apply styles
+  .ant-select-selector {
+    background-color: $darkest-color !important;
+    color: $light-color !important;
+    border-color: $dark-color !important;
+    font-weight: 700;
+  }
+
+  .ant-select-dropdown {
+    background-color: $dark-color !important;
+  }
+
+  .ant-select-dropdown-menu-item {
+    color: $light-color !important;
+  }
+  .ant-select-selection-item{
+    color: $light-color !important;
+  }
+  .ant-select-arrow {
+    svg {
+      fill: $base-color;
+    }
+  }
+ 
+}

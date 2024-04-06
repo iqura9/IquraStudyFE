@@ -1,0 +1,57 @@
+
+.descriptionBlock {
+    border-left: 1px solid #2A2F36;
+    position: relative;
+    background-color: #0F1723;
+  
+    .content {
+        padding: 16px;
+    }
+
+    .finishButton {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+  
+    .title {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+  
+    .description {
+      margin-bottom: 16px;
+      color: #f0f0f0;
+    }
+  
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background-color: #0F1724; 
+        text-align: left;
+        border-radius: 0px;
+        :global(.ant-collapse){
+            border-radius: 0px !important;
+        }
+        .panel {
+            background-color: #0F1724; 
+            border-radius: 0px !important;
+
+            :global(.ant-collapse-expand-icon){
+                color: rgb(191, 191, 191);
+            }
+
+            :global(.ant-collapse-header-text) {
+                color: rgb(191, 191, 191);
+            }
+
+            :global(.ant-collapse-content) {
+                border-radius: 0px !important;
+            }
+        }
+      }
+      
+  }
+  

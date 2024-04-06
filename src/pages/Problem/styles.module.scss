@@ -1,0 +1,8 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+
+    .description {
+        background-color: #0F1724;
+    }
+}
