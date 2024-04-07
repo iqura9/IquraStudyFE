@@ -19,7 +19,6 @@ const DescriptionBlock: React.FC = () => {
   const title = "Your Title";
   const description = `
   ## Description
-  
   This is your description in Markdown format.
   
   - You can use **bold** or *italic* text.

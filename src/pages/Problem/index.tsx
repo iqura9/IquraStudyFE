@@ -7,7 +7,6 @@ function Problem() {
   return (
     <div className={styles.wrapper}>
       <CodeBlock />
-      {/* <div className={styles.description}></div> */}
       <DescriptionBlock />
     </div>
   );

@@ -1,47 +1,70 @@
 import React, { useState } from "react";
-import ReactMarkdown from "react-markdown";
-import { Button, Input, Typography } from "antd";
+import MdEditor from "react-markdown-editor-lite";
+import { Button, Form, Input, Typography } from "antd";
+import MarkdownIt from "markdown-it";
+
+import "react-markdown-editor-lite/lib/index.css";
 
 const { Title } = Typography;
 
-const CreateProblemPage = () => {
-  const [problemName, setProblemName] = useState("");
-  const [description, setDescription] = useState("");
-  const [testCases, setTestCases] = useState("");
+const mdParser = new MarkdownIt();
 
-  const handleCreateProblem = () => {
-    // Handle creating the problem, e.g., send data to backend
-    console.log("Creating problem:", problemName, description, testCases);
+const CreateProblemPage = () => {
+  const [form] = Form.useForm();
+  const [markdownContent, setMarkdownContent] = useState("");
+  const onFinish = (values) => {
+    console.log("Received values:", values);
+    console.log("Markdown content:", markdownContent);
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>
       <Title level={2}>Create Problem</Title>
-      <Input
-        placeholder="Problem Name"
-        value={problemName}
-        onChange={(e) => setProblemName(e.target.value)}
-      />
-      <Input.TextArea
-        placeholder="Description (in Markdown)"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        autoSize={{ minRows: 6 }}
-      />
-      <Input.TextArea
-        placeholder="Test Cases"
-        value={testCases}
-        onChange={(e) => setTestCases(e.target.value)}
-        autoSize={{ minRows: 4 }}
-      />
-      <Button type="primary" onClick={handleCreateProblem}>
-        Create Problem
-      </Button>
+      <Form
+        form={form}
+        name="createProblemForm"
+        initialValues={{ description: "" }}
+        onFinish={onFinish}
+        layout="vertical" // Set form layout to vertical
+      >
+        <Form.Item
+          label="Problem Name"
+          name="problemName"
+          rules={[{ required: true, message: "Please enter problem name!" }]}
+        >
+          <Input placeholder="Enter problem name" />
+        </Form.Item>
 
-      <div style={{ marginTop: 20 }}>
-        <Title level={3}>Preview</Title>
-        <ReactMarkdown>{description}</ReactMarkdown>
-      </div>
+        <MdEditor
+          style={{ height: "300px" }}
+          value={markdownContent}
+          renderHTML={(text) => mdParser.render(text)}
+          onChange={({ text }) => setMarkdownContent(text)}
+        />
+
+        <Form.Item label="Test Cases" name="testCases">
+          <Input.TextArea
+            placeholder="Enter test cases"
+            autoSize={{ minRows: 4 }}
+          />
+        </Form.Item>
+
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ marginRight: "10px" }}
+          >
+            Generate Markdown
+          </Button>
+          <Button
+            onClick={() => form.resetFields()}
+            style={{ marginLeft: "10px" }}
+          >
+            Reset
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
