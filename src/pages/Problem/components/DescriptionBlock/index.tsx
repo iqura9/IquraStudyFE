@@ -1,9 +1,9 @@
-// DescriptionBlock.tsx
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Button, Collapse } from "antd";
+import classNames from "classnames";
 
 import styles from "./styles.module.scss";
 
@@ -70,8 +70,9 @@ const DescriptionBlock: React.FC = () => {
       </div>
       <div className={styles.footer}>
         <Collapse bordered={true}>
-          <Panel header="Test Cases" key="1" className={styles.panel}>
-            123 3
+          <Panel header={<HeaderPanel />} key="1" className={styles.panel}>
+            <TestCase />
+            <TestCase />
           </Panel>
         </Collapse>
       </div>
@@ -80,3 +81,43 @@ const DescriptionBlock: React.FC = () => {
 };
 
 export default DescriptionBlock;
+
+const HeaderPanel = () => {
+  const testsNum = 5;
+  const els = [];
+
+  for (let i = 1; i <= testsNum; i++) {
+    els.push(<div key={i} className={styles.el} />);
+  }
+
+  return (
+    <div className={styles.headerPanel}>
+      <div className={styles.headerTitle}>Test Cases</div>
+      <div className={styles.rightBlock}>
+        <div className={styles.numbers}>0 / {testsNum}</div>
+        <div className={styles.numGroups}>{els}</div>
+      </div>
+    </div>
+  );
+};
+
+const TestCase = () => {
+  return <HeaderTestCasePanel />;
+};
+
+const HeaderTestCasePanel = () => {
+  const isFailed = true;
+  return (
+    <div
+      className={classNames(styles.headerTestCaseWrapper, {
+        [styles.failed]: isFailed,
+      })}
+    >
+      <div className={styles.block}>
+        <div className={styles.title}>1 test case</div>
+        <div className={styles.time}>0.05s</div>
+      </div>
+      <div className={styles.answer}>Passed</div>
+    </div>
+  );
+};

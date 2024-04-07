@@ -83,7 +83,7 @@ export function CodeBlock() {
       </div>
       <Editor
         beforeMount={(monaco) => setEditorTheme(monaco)}
-        height={"calc(100vh - 52px)"}
+        height={"calc(100vh - 51px)"}
         theme="onedark"
         language={selectedLanguage}
         value={code}

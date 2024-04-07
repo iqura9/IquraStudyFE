@@ -108,6 +108,10 @@ export const appRoutes: IAppRoutes[] = [
     path: "/task/view-grade/:id",
     component: <ViewGradePage />,
   },
+  {
+    path: "/problem/create",
+    component: <CreateProblemPage />,
+  },
 ];
 
 export const outRouters: IAppRoutes[] = [
