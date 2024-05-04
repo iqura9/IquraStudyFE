@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import Problems from "pages/Problem/Problems";
 import EditQuizPage from "pages/quizPage/EditQuiz";
 
 const HomePage = lazy(() => import("pages/homePage"));
@@ -37,10 +38,6 @@ export const appRoutes: IAppRoutes[] = [
   },
   {
     path: "/home",
-    component: <HomePage />,
-  },
-  {
-    path: "/problems",
     component: <HomePage />,
   },
   {
@@ -114,6 +111,10 @@ export const appRoutes: IAppRoutes[] = [
   {
     path: "/problem/create",
     component: <CreateProblemPage />,
+  },
+  {
+    path: "/problems",
+    component: <Problems />,
   },
 ];
 

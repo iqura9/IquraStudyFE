@@ -46,6 +46,11 @@ export const sideBarItems: MenuProps["items"] = [
     key: "quizzes",
     icon: <ExperimentOutlined />,
   },
+  {
+    label: <FormattedMessage id="menu.problems" />,
+    key: "problems",
+    icon: <ExperimentOutlined />,
+  },
   // {
   //   label: "Archived Groups",
   //   key: "archived-groups",

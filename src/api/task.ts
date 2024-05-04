@@ -1,5 +1,3 @@
-// api/Task/Quiz?taskId=2
-
 import { IViewGrade } from "types/grades";
 import { IGroupTask } from "types/groupTypes";
 
