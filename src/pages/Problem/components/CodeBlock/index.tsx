@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from "react";
-import language from "react-syntax-highlighter/dist/esm/languages/hljs/1c";
 import { Button, Select } from "antd";
 import axios from "axios";
+import { useProblem } from "contexts/ProblemContext";
 import * as monaco from "monaco-editor";
 
 import styles from "./styles.module.scss";
 
 import { Editor } from "@monaco-editor/react";
 
-const editorOptions: monaco.editor.IStandaloneEditorConstructionOptions = {
-  selectOnLineNumbers: true,
-  roundedSelection: false,
-  readOnly: false,
-  cursorStyle: "line",
-  automaticLayout: true,
-  fontFamily: "monaco",
-  fontSize: 18,
-  minimap: {
-    enabled: false,
-  },
-};
+export const editorOptions: monaco.editor.IStandaloneEditorConstructionOptions =
+  {
+    selectOnLineNumbers: true,
+    roundedSelection: false,
+    readOnly: false,
+    cursorStyle: "line",
+    automaticLayout: true,
+    fontFamily: "monaco",
+    fontSize: 18,
+    minimap: {
+      enabled: false,
+    },
+  };
 
-function setEditorTheme(monaco: any) {
+export function setEditorTheme(monaco: any) {
   monaco.editor.defineTheme("onedark", {
     base: "vs-dark",
     inherit: true,
@@ -58,7 +59,7 @@ const options = [
 export function CodeBlock() {
   const [code, setCode] = useState("");
   const [executedToken, setExecutedToken] = useState("");
-
+  const { data } = useProblem();
   const handleCodeChange = (codeLines: string | undefined) => {
     codeLines && setCode(codeLines);
   };
@@ -96,7 +97,9 @@ export function CodeBlock() {
     return () => clearInterval(intervalId);
   }, [executedToken]);
 
-  const defaultCodeEditorState = `const solutionFunction = (...args: unknown[]): unknown => {
+  const defaultCodeEditorState =
+    data.initFunc ??
+    `const solutionFunction = (...args: unknown[]): unknown => {
   // write your solution here
   return;
 }`;

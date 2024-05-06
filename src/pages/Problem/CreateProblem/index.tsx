@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MdEditor from "react-markdown-editor-lite";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, notification, Typography } from "antd";
-import { createTask, deleteGroup } from "api/group.api";
 import { createProblem } from "api/problem.api";
 import MarkdownIt from "markdown-it";
 
+import { editorOptions, setEditorTheme } from "../components/CodeBlock";
+
+import { defaultCodeEditorState, defaultTestCodeEditorState } from "./consts";
+
 import "react-markdown-editor-lite/lib/index.css";
 
+import { Editor } from "@monaco-editor/react";
 import { useMutation } from "@tanstack/react-query";
 
 const { Title } = Typography;
@@ -16,12 +21,13 @@ const mdParser = new MarkdownIt();
 const CreateProblemPage = () => {
   const [form] = Form.useForm();
   const [markdownContent, setMarkdownContent] = useState("");
-
+  const navigate = useNavigate();
   const { mutate: createProblemFn } = useMutation<unknown, Error>({
     mutationKey: ["createProblem"],
     mutationFn: (data) => createProblem(data),
     onSuccess: (res) => {
       console.log(res);
+      navigate("/problems");
     },
     onError: (error) => {
       notification.error({ message: error.name, description: error.message });
@@ -32,9 +38,18 @@ const CreateProblemPage = () => {
     const data = {
       ...values,
       description: markdownContent,
+      initFunc: code,
     };
     createProblemFn(data);
   };
+
+  const [code, setCode] = useState(defaultCodeEditorState);
+
+  const handleCodeChange = (codeLines: string | undefined) => {
+    codeLines && setCode(codeLines);
+  };
+
+  const [selectedLanguage, setSelectedLanguage] = useState("typescript");
 
   return (
     <div style={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>
@@ -122,6 +137,21 @@ const CreateProblemPage = () => {
             </>
           )}
         </Form.List>
+
+        <Form.Item label="Initial Function" name="initFunc">
+          <Editor
+            defaultValue={code}
+            beforeMount={(monaco) => {
+              setEditorTheme(monaco);
+            }}
+            height={"175px"}
+            theme="onedark"
+            language={selectedLanguage}
+            value={code}
+            onChange={handleCodeChange}
+            options={editorOptions}
+          />
+        </Form.Item>
 
         <Form.Item>
           <Button
