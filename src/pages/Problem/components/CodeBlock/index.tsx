@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import language from "react-syntax-highlighter/dist/esm/languages/hljs/1c";
 import { Button, Select } from "antd";
+import axios from "axios";
 import * as monaco from "monaco-editor";
 
 import styles from "./styles.module.scss";
@@ -55,6 +57,7 @@ const options = [
 
 export function CodeBlock() {
   const [code, setCode] = useState("");
+  const [executedToken, setExecutedToken] = useState("");
 
   const handleCodeChange = (codeLines: string | undefined) => {
     codeLines && setCode(codeLines);
@@ -67,13 +70,42 @@ export function CodeBlock() {
   };
 
   const handleSubmit = () => {
+    executeCode(code).then((token: string) => {
+      setExecutedToken(token);
+    });
     console.log(code);
   };
 
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+    if (executedToken) {
+      intervalId = setInterval(() => {
+        getSubmission(executedToken)
+          .then((res) => {
+            console.log(res);
+            if (
+              res?.status?.description !== "In Queue" &&
+              res?.status?.description !== "Processing"
+            ) {
+              clearInterval(intervalId);
+            }
+          })
+          .catch(() => clearInterval(intervalId));
+      }, 1000);
+    }
+    return () => clearInterval(intervalId);
+  }, [executedToken]);
+
+  const defaultCodeEditorState = `const solutionFunction = (...args: unknown[]): unknown => {
+  // write your solution here
+  return;
+}`;
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
-        <Button onClick={handleSubmit}>Run Code</Button>
+        <Button onClick={handleSubmit} disabled={code.length === 0}>
+          Run Code
+        </Button>
         <Select
           className="blackSelect"
           onChange={handleChange}
@@ -82,6 +114,7 @@ export function CodeBlock() {
         />
       </div>
       <Editor
+        defaultValue={defaultCodeEditorState}
         beforeMount={(monaco) => setEditorTheme(monaco)}
         height={"calc(100vh - 51px)"}
         theme="onedark"
@@ -93,3 +126,53 @@ export function CodeBlock() {
     </div>
   );
 }
+
+const executeCode = async (code: string) => {
+  const options = {
+    method: "POST",
+    url: import.meta.env.VITE_JUDGE0 + "/submissions",
+    params: {
+      base64_encoded: "false",
+      fields: "*",
+    },
+    headers: {
+      "content-type": "application/json",
+      "Content-Type": "application/json",
+      // "X-RapidAPI-Key": "4e735bea46mshd81bd7cad2d77a5p16d69cjsn77a23e47813a",
+      "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+    },
+    data: {
+      language_id: 74, //typescript id
+      source_code: code,
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    return response.data.token;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getSubmission = async (token: string) => {
+  const options = {
+    method: "GET",
+    url: import.meta.env.VITE_JUDGE0 + "/submissions/" + token,
+    params: {
+      base64_encoded: "false",
+      fields: "*",
+    },
+    headers: {
+      // "X-RapidAPI-Key": "4e735bea46mshd81bd7cad2d77a5p16d69cjsn77a23e47813a",
+      "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

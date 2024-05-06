@@ -1,9 +1,11 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import { useNavigate } from "react-router-dom";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Button, Collapse } from "antd";
 import classNames from "classnames";
+import { useProblem } from "contexts/ProblemContext";
 
 import styles from "./styles.module.scss";
 
@@ -16,25 +18,10 @@ interface CodeProps {
 const { Panel } = Collapse;
 
 const DescriptionBlock: React.FC = () => {
-  const title = "Your Title";
-  const description = `
-  ## Description
-  This is your description in Markdown format.
-  
-  - You can use **bold** or *italic* text.
-  - You can create lists:
-    - Item 1
-    - Item 2
-  
-  \`inline code\`
-  
-  \`\`\`javascript
-  // Code block
-  function hello() {
-    console.log("Hello, world!");
-  }
-  \`\`\`
-  `;
+  const { data } = useProblem();
+  const navigate = useNavigate();
+  const title = data?.title;
+  const description = data.description;
 
   const components = {
     code: ({ inline, className, children, ...props }: CodeProps) => {
@@ -55,12 +42,14 @@ const DescriptionBlock: React.FC = () => {
       );
     },
   };
-
   return (
     <div className={styles.descriptionBlock}>
       <div className={styles.content}>
         <Button className={styles.finishButton} type="primary">
           Finish task
+        </Button>
+        <Button type="primary" onClick={() => navigate(-1)}>
+          Go Back
         </Button>
         <h2 className={styles.title}>{title}</h2>
         <ReactMarkdown components={components} className={styles.description}>
@@ -70,8 +59,13 @@ const DescriptionBlock: React.FC = () => {
       <div className={styles.footer}>
         <Collapse bordered={true}>
           <Panel header={<HeaderPanel />} key="1" className={styles.panel}>
-            <TestCase />
-            <TestCase />
+            {data?.testCases.map((testCase) => (
+              <TestCase
+                key={testCase.id}
+                input={testCase.input}
+                expectedResult={testCase.expectedResult}
+              />
+            ))}
           </Panel>
         </Collapse>
       </div>
@@ -82,7 +76,8 @@ const DescriptionBlock: React.FC = () => {
 export default DescriptionBlock;
 
 const HeaderPanel = () => {
-  const testsNum = 5;
+  const { data } = useProblem();
+  const testsNum = data.testCases.length;
   const els = [];
 
   for (let i = 1; i <= testsNum; i++) {
@@ -99,12 +94,11 @@ const HeaderPanel = () => {
     </div>
   );
 };
-
-const TestCase = () => {
-  return <HeaderTestCasePanel />;
-};
-
-const HeaderTestCasePanel = () => {
+interface ITestCase {
+  input: string;
+  expectedResult: string;
+}
+const TestCase = ({ input, expectedResult }: ITestCase) => {
   const isFailed = true;
   return (
     <div
@@ -113,8 +107,12 @@ const HeaderTestCasePanel = () => {
       })}
     >
       <div className={styles.block}>
-        <div className={styles.title}>1 test case</div>
-        <div className={styles.time}>0.05s</div>
+        <div className={styles.title}>input</div>
+        <div className={styles.time}>{input}</div>
+      </div>
+      <div className={styles.block}>
+        <div className={styles.title}>Expected output</div>
+        <div className={styles.time}>{expectedResult}</div>
       </div>
       <div className={styles.answer}>Passed</div>
     </div>

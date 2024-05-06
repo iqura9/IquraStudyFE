@@ -9,3 +9,8 @@ export const getProblems = async () => {
   const response = await authApi.get("Problem");
   return response.data;
 };
+
+export const getProblem = async (id: string) => {
+  const response = await authApi.get("Problem/" + id);
+  return response.data;
+};

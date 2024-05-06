@@ -6,3 +6,8 @@
         background-color: #0F1724;
     }
 }
+
+body:has(.wrapper){
+    overscroll-behavior: none;
+}
+
