@@ -1,6 +1,5 @@
 import { Tag } from "antd";
 import { TaskType } from "types/quiz";
-import { GroupTaskQuiz } from "types/task";
 
 export const columns = [
   {
@@ -30,15 +29,3 @@ export const columns = [
     align: "right" as const,
   },
 ];
-
-export const handleDataToTable = (data: GroupTaskQuiz[] | undefined) => {
-  return data?.map((d) => {
-    return {
-      key: d.id,
-      task: d.quiz.title,
-      type: TaskType.Test,
-      grade: d.score,
-      quizId: d.quizId,
-    };
-  });
-};

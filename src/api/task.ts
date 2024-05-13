@@ -15,7 +15,7 @@ export const getTaskGrade = async (
   return response.data;
 };
 
-export const deleteTaskQuiz = async (ids: number[]) => {
-  const response = await authApi.delete(`/Task/Quiz`, { data: ids });
+export const deleteTaskQuiz = async (any: any) => {
+  const response = await authApi.delete(`/Task/Quiz`, { data: any });
   return response.data;
 };

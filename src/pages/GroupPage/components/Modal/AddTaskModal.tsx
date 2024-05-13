@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Button, Form, Modal, notification, Select, Space } from "antd";
 import { DefaultOptionType } from "antd/es/select";
+import { getProblems } from "api/problem.api";
 import { createQuizTask, getQuizzesSelect } from "api/quiz";
 import { IQuiz } from "types/questionTypes";
 import { CreateQuizTaskDto } from "types/quiz";
@@ -21,6 +22,14 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
   const { data, isLoading, refetch } = useQuery<IQuiz[]>({
     queryKey: ["queryKey", taskId],
     queryFn: () => getQuizzesSelect(taskId),
+    retry: false,
+    refetchOnWindowFocus: false,
+    enabled: !!taskId,
+  });
+
+  const { data: problems, isLoading: isProblemLoading } = useQuery<any[]>({
+    queryKey: ["queryKey"],
+    queryFn: () => getProblems(),
     retry: false,
     refetchOnWindowFocus: false,
     enabled: !!taskId,
@@ -47,7 +56,16 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
     value: quiz.id,
   }));
 
-  const onFinish = (values: { quizIds: number[] }) => {
+  const problemOptions: DefaultOptionType[] | undefined = problems?.map(
+    (problem) => ({
+      label: `${problem.title} ${formatMessage({ id: "common.by" })} ${
+        problem.user.userName
+      }`,
+      value: problem.id,
+    })
+  );
+
+  const onFinish = (values: { quizIds: number[]; problemIds: number[] }) => {
     if (!taskId) {
       notification.error({
         message: <FormattedMessage id="common.error" />,
@@ -55,11 +73,12 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
       });
     }
 
-    const { quizIds } = values;
-    console.log("Form values:", values);
+    const { quizIds, problemIds } = values;
+
     const sendDto: CreateQuizTaskDto = {
       groupTasksId: taskId!,
       quizIds,
+      problemIds,
     };
     mutationFn(sendDto);
     onCancel();
@@ -84,6 +103,19 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
               options={options}
               style={{ width: "100%" }}
               loading={isLoading}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label={<FormattedMessage id="group.page.modal.add.problem.label" />}
+            name="problemIds"
+          >
+            <Select
+              mode="multiple"
+              allowClear
+              options={problemOptions}
+              style={{ width: "100%" }}
+              loading={isProblemLoading}
             />
           </Form.Item>
 

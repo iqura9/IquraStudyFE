@@ -49,11 +49,11 @@ export function setEditorTheme(monaco: any) {
 }
 
 const options = [
-  { label: "JavaScript", value: "javascript" },
+  // { label: "JavaScript", value: "javascript" },
   { label: "TypeScript", value: "typescript" },
-  { label: "Python", value: "python" },
-  { label: "Java", value: "java" },
-  { label: "Ruby", value: "ruby" },
+  // { label: "Python", value: "python" },
+  // { label: "Java", value: "java" },
+  // { label: "Ruby", value: "ruby" },
 ];
 
 export function CodeBlock() {

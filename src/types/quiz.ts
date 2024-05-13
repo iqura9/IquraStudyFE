@@ -1,6 +1,7 @@
 export interface CreateQuizTaskDto {
   groupTasksId: number;
   quizIds: number[];
+  problemIds: number[];
 }
 export enum TaskType {
   "Test" = "Test",

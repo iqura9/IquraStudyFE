@@ -58,7 +58,10 @@ const TaskPage = () => {
         </div>
         <div className={styles.content}>
           <div className={styles.content_desc}>{data?.description}</div>
-          <TaskTable quizzes={data?.groupTaskQuizzes} />
+          <TaskTable
+            quizzes={data?.groupTaskQuizzes}
+            problems={data?.groupTaskProblems}
+          />
         </div>
       </div>
     </div>

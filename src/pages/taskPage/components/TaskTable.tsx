@@ -6,23 +6,26 @@ import { TableRowSelection } from "antd/es/table/interface";
 import { queryClient } from "api/auth.api";
 import { deleteTaskQuiz } from "api/task";
 import { useAuth } from "contexts/authContext";
-import { GroupTaskQuiz } from "types/task";
+import { TaskType } from "types/quiz";
+import { GroupTaskQuiz, IGroupTaskProblem } from "types/task";
 
-import { columns, handleDataToTable } from "./helper";
+import { handleDataToTable } from "./handleDataToTable";
+import { columns } from "./helper";
 
 import { useMutation } from "@tanstack/react-query";
 
 interface TaskTableProps {
   quizzes: GroupTaskQuiz[] | undefined;
+  problems: IGroupTaskProblem[] | undefined;
 }
 
-const TaskTable: FC<TaskTableProps> = ({ quizzes }) => {
+const TaskTable: FC<TaskTableProps> = ({ quizzes, problems }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useAuth();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
-  const { mutate: deleteFn } = useMutation<unknown, Error, number[]>({
+  const { mutate: deleteFn } = useMutation<unknown, Error, any>({
     mutationKey: ["deleteTaskQuiz"],
     mutationFn: (data) => deleteTaskQuiz(data),
     onSuccess: () => {
@@ -47,7 +50,14 @@ const TaskTable: FC<TaskTableProps> = ({ quizzes }) => {
   };
 
   const handleClick = () => {
-    deleteFn(selectedRowKeys as number[]);
+    const deleteData = selectedRowKeys.map((s) => {
+      return {
+        type: s.toString().includes("p") ? TaskType.Problem : TaskType.Test,
+        id: s.toString().replace("#p", "").replace("#q", ""),
+      };
+    });
+
+    deleteFn(deleteData);
   };
 
   const hasSelected = selectedRowKeys.length > 0;
@@ -56,12 +66,16 @@ const TaskTable: FC<TaskTableProps> = ({ quizzes }) => {
     <div>
       <Table
         rowSelection={isTeacher ? rowSelection : undefined}
-        dataSource={handleDataToTable(quizzes)}
+        dataSource={handleDataToTable(quizzes, problems)}
         columns={columns}
         onRow={(record) => {
           return {
             onClick: () => {
-              navigate(`/quiz/${record.quizId}?taskId=${id}`);
+              navigate(
+                `/${record.type === TaskType.Test ? "quiz" : "problem"}/${
+                  record.id
+                }?taskId=${id}`
+              );
             },
           };
         }}
