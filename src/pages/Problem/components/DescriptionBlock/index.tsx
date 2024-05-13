@@ -18,7 +18,7 @@ interface CodeProps {
 const { Panel } = Collapse;
 
 const DescriptionBlock: React.FC = () => {
-  const { data } = useProblem();
+  const { data, submittionStatus } = useProblem();
   const navigate = useNavigate();
   const title = data?.title;
   const description = data.description;
@@ -64,6 +64,9 @@ const DescriptionBlock: React.FC = () => {
                 key={testCase.id}
                 input={testCase.input}
                 expectedResult={testCase.expectedResult}
+                isFailed={
+                  submittionStatus === undefined ? undefined : !submittionStatus
+                }
               />
             ))}
           </Panel>
@@ -76,7 +79,7 @@ const DescriptionBlock: React.FC = () => {
 export default DescriptionBlock;
 
 const HeaderPanel = () => {
-  const { data } = useProblem();
+  const { data, submittionStatus } = useProblem();
   const testsNum = data.testCases.length;
   const els = [];
 
@@ -88,7 +91,9 @@ const HeaderPanel = () => {
     <div className={styles.headerPanel}>
       <div className={styles.headerTitle}>Test Cases</div>
       <div className={styles.rightBlock}>
-        <div className={styles.numbers}>0 / {testsNum}</div>
+        <div className={styles.numbers}>
+          {submittionStatus == true ? testsNum : 0} / {testsNum}
+        </div>
         <div className={styles.numGroups}>{els}</div>
       </div>
     </div>
@@ -97,13 +102,14 @@ const HeaderPanel = () => {
 interface ITestCase {
   input: string;
   expectedResult: string;
+  isFailed: boolean | undefined;
 }
-const TestCase = ({ input, expectedResult }: ITestCase) => {
-  const isFailed = true;
+const TestCase = ({ input, expectedResult, isFailed }: ITestCase) => {
   return (
     <div
       className={classNames(styles.headerTestCaseWrapper, {
         [styles.failed]: isFailed,
+        [styles.success]: isFailed === false,
       })}
     >
       <div className={styles.block}>

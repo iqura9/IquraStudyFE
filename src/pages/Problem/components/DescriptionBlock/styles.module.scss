@@ -101,7 +101,7 @@
         gap: 8px;
         
         .title{
-            color: #00FF57;
+            color: #8b8e8c;
             font-size: 16px;
         }
         .time{
@@ -110,10 +110,28 @@
         }
     }
     .answer{
-        color: #00FF57;
+        color: #8b8e8c;
         font-size: 16px;
     }
    
+  }
+
+  .success{
+    .block{
+        .title{
+            color: #00FF57;
+            font-size: 16px;
+        }
+        .time{
+            color: #F7FCFF;
+            font-size: 16px;
+        }
+    }
+        
+    .answer{
+        color: #00FF57;
+        font-size: 16px;
+    }
   }
 
   .failed{

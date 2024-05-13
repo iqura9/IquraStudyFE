@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Button, Select } from "antd";
+import { FormattedMessage } from "react-intl";
+import { useParams, useSearchParams } from "react-router-dom";
+import { Button, notification, Select } from "antd";
+import { deleteGroup } from "api/group.api";
+import { createProblemSubmittion } from "api/problem.api";
 import axios from "axios";
 import { useProblem } from "contexts/ProblemContext";
 import * as monaco from "monaco-editor";
+import { Paths } from "routes/paths";
 
 import styles from "./styles.module.scss";
 
 import { Editor } from "@monaco-editor/react";
+import { useMutation } from "@tanstack/react-query";
 
 export const editorOptions: monaco.editor.IStandaloneEditorConstructionOptions =
   {
@@ -48,18 +54,23 @@ export function setEditorTheme(monaco: any) {
   });
 }
 
-const options = [
-  // { label: "JavaScript", value: "javascript" },
-  { label: "TypeScript", value: "typescript" },
-  // { label: "Python", value: "python" },
-  // { label: "Java", value: "java" },
-  // { label: "Ruby", value: "ruby" },
-];
+const options = [{ label: "TypeScript", value: "typescript" }];
 
 export function CodeBlock() {
+  const { id } = useParams();
   const [code, setCode] = useState("");
   const [executedToken, setExecutedToken] = useState("");
-  const { data } = useProblem();
+  const [searchParams] = useSearchParams();
+  const { mutate: createProblemSubmittionFn } = useMutation<unknown, Error>({
+    mutationKey: ["createProblemSubmittion"],
+    mutationFn: (data) => createProblemSubmittion(data),
+    onSuccess: () => {},
+    onError: (error) => {
+      notification.error({ message: error.name, description: error.message });
+    },
+  });
+
+  const { data, setSubmittionStatus } = useProblem();
   const handleCodeChange = (codeLines: string | undefined) => {
     codeLines && setCode(codeLines);
   };
@@ -71,10 +82,20 @@ export function CodeBlock() {
   };
 
   const handleSubmit = () => {
-    executeCode(code).then((token: string) => {
+    executeCode(code, data.testCases).then((token: string) => {
       setExecutedToken(token);
     });
     console.log(code);
+  };
+
+  const saveSubmittion = (score: number) => {
+    const DTO = {
+      sourceCode: code,
+      score: score,
+      groupTaskId: Number(searchParams.get("taskId")),
+      problemId: Number(id),
+    };
+    createProblemSubmittionFn(DTO);
   };
 
   useEffect(() => {
@@ -83,20 +104,33 @@ export function CodeBlock() {
       intervalId = setInterval(() => {
         getSubmission(executedToken)
           .then((res) => {
-            console.log(res);
             if (
               res?.status?.description !== "In Queue" &&
               res?.status?.description !== "Processing"
             ) {
               clearInterval(intervalId);
             }
+            if (res?.status?.description === "Accepted") {
+              const output = res.stdout.split("\n");
+              let allTrue = true;
+              data.testCases.forEach((res, index) => {
+                const expected = res.expectedResult;
+                if (
+                  JSON.stringify(output[index]) !== JSON.stringify(expected)
+                ) {
+                  allTrue = false;
+                }
+              });
+              setSubmittionStatus && setSubmittionStatus(allTrue);
+              saveSubmittion(allTrue === true ? 100 : 0);
+            }
           })
           .catch(() => clearInterval(intervalId));
       }, 1000);
     }
     return () => clearInterval(intervalId);
-  }, [executedToken]);
-
+  }, [executedToken, data, setSubmittionStatus]);
+  console.log(data.initFunc);
   const defaultCodeEditorState =
     data.initFunc ??
     `const solutionFunction = (...args: unknown[]): unknown => {
@@ -130,7 +164,14 @@ export function CodeBlock() {
   );
 }
 
-const executeCode = async (code: string) => {
+const executeCode = async (code: string, testCases: any[]) => {
+  const functionName = code.match(/(?:const|function)\s+([^\s\(]+)/)[1] || "";
+  console.log(functionName);
+  const testCase = testCases.map(
+    (testCase) => `\n console.log(${functionName}(${testCase.input}))`
+  );
+  const testCode = code + testCase.join("");
+
   const options = {
     method: "POST",
     url: import.meta.env.VITE_JUDGE0 + "/submissions",
@@ -141,12 +182,11 @@ const executeCode = async (code: string) => {
     headers: {
       "content-type": "application/json",
       "Content-Type": "application/json",
-      // "X-RapidAPI-Key": "4e735bea46mshd81bd7cad2d77a5p16d69cjsn77a23e47813a",
       "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
     },
     data: {
       language_id: 74, //typescript id
-      source_code: code,
+      source_code: testCode,
     },
   };
 
@@ -167,7 +207,6 @@ const getSubmission = async (token: string) => {
       fields: "*",
     },
     headers: {
-      // "X-RapidAPI-Key": "4e735bea46mshd81bd7cad2d77a5p16d69cjsn77a23e47813a",
       "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
     },
   };

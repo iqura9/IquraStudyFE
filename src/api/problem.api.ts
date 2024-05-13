@@ -14,3 +14,18 @@ export const getProblem = async (id: string) => {
   const response = await authApi.get("Problem/" + id);
   return response.data;
 };
+
+export const createProblemSubmittion = async (data: any) => {
+  const response = await authApi.post("Problems/Submittion", data);
+  return response.data;
+};
+
+export const getProblemSubmittion = async (
+  groupTaskId: string,
+  problemId: string
+) => {
+  const response = await authApi.get(
+    `Problem/Submittion?groupTaskId=${groupTaskId}&problemId=${problemId}`
+  );
+  return response.data;
+};
