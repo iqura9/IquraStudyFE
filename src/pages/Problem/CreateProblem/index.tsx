@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import MdEditor from "react-markdown-editor-lite";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, notification, Typography } from "antd";
@@ -22,6 +23,7 @@ const CreateProblemPage = () => {
   const [form] = Form.useForm();
   const [markdownContent, setMarkdownContent] = useState("");
   const navigate = useNavigate();
+  const { formatMessage } = useIntl();
   const { mutate: createProblemFn } = useMutation<unknown, Error>({
     mutationKey: ["createProblem"],
     mutationFn: (data) => createProblem(data),
@@ -53,7 +55,9 @@ const CreateProblemPage = () => {
 
   return (
     <div style={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>
-      <Title level={2}>Create Problem</Title>
+      <Title level={2}>
+        <FormattedMessage id="menu.createProblem" />
+      </Title>
       <Form
         form={form}
         name="createProblemForm"
@@ -62,11 +66,11 @@ const CreateProblemPage = () => {
         layout="vertical"
       >
         <Form.Item
-          label="Problem Name"
+          label={formatMessage({ id: "group.page.modal.add.problem.label" })}
           name="title"
           rules={[{ required: true, message: "Please enter problem name!" }]}
         >
-          <Input placeholder="Enter problem name" />
+          <Input placeholder={formatMessage({ id: "enter.problem.name" })} />
         </Form.Item>
 
         <MdEditor
@@ -82,7 +86,7 @@ const CreateProblemPage = () => {
               {fields.map((field, index) => (
                 <div key={field.key}>
                   <Form.Item
-                    label={`Test Case ${index + 1}`}
+                    label={`${formatMessage({ id: "test.case" })} ${index + 1}`}
                     rules={[
                       { required: true, message: "Test case is required" },
                     ]}
@@ -95,7 +99,7 @@ const CreateProblemPage = () => {
                       ]}
                     >
                       <Input.TextArea
-                        placeholder="Input Data"
+                        placeholder={formatMessage({ id: "input.data" })}
                         autoSize={{ minRows: 2 }}
                       />
                     </Form.Item>
@@ -110,7 +114,7 @@ const CreateProblemPage = () => {
                       ]}
                     >
                       <Input.TextArea
-                        placeholder="Expected Result"
+                        placeholder={formatMessage({ id: "expected.result" })}
                         autoSize={{ minRows: 2 }}
                       />
                     </Form.Item>
@@ -119,7 +123,7 @@ const CreateProblemPage = () => {
                       type="link"
                       danger
                     >
-                      Remove
+                      <FormattedMessage id="common.remove" />
                     </Button>
                   </Form.Item>
                 </div>
@@ -131,14 +135,14 @@ const CreateProblemPage = () => {
                   block
                   style={{ marginTop: 16 }}
                 >
-                  Add Test Case
+                  <FormattedMessage id="add.test.case" />
                 </Button>
               </Form.Item>
             </>
           )}
         </Form.List>
 
-        <Form.Item label="Initial Function" name="initFunc">
+        <Form.Item label={formatMessage({ id: "init.func" })} name="initFunc">
           <Editor
             defaultValue={code}
             beforeMount={(monaco) => {
@@ -159,13 +163,13 @@ const CreateProblemPage = () => {
             htmlType="submit"
             style={{ marginRight: "10px" }}
           >
-            Submit
+            <FormattedMessage id="common.confirm" />
           </Button>
           <Button
             onClick={() => form.resetFields()}
             style={{ marginLeft: "10px" }}
           >
-            Reset
+            <FormattedMessage id="common.reset" />
           </Button>
         </Form.Item>
       </Form>

@@ -37,11 +37,6 @@ export const sideBarItems: MenuProps["items"] = [
     icon: <HomeOutlined />,
   },
   {
-    label: <FormattedMessage id="menu.groups" />,
-    key: "groups",
-    icon: <BranchesOutlined />,
-  },
-  {
     label: <FormattedMessage id="menu.quizzes" />,
     key: "quizzes",
     icon: <ExperimentOutlined />,

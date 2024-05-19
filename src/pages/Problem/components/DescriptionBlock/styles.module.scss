@@ -3,9 +3,13 @@
     border-left: 1px solid #2A2F36;
     position: relative;
     background-color: #0F1723;
-  
+    height: 100%;
     .content {
         padding: 16px;
+    }
+
+    :global(.ant-collapse>.ant-collapse-item){
+        border-bottom: none;
     }
 
     .finishButton {
@@ -16,6 +20,7 @@
   
     .title {
       font-size: 18px;
+      margin-top: -3px;
       margin-bottom: 8px;
       color: #fff;
     }

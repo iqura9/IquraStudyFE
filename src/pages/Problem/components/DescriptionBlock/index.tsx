@@ -1,9 +1,9 @@
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import ReactMarkdown from "react-markdown";
-import { useNavigate } from "react-router-dom";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Button, Collapse } from "antd";
+import { Collapse } from "antd";
 import classNames from "classnames";
 import { useProblem } from "contexts/ProblemContext";
 
@@ -19,7 +19,6 @@ const { Panel } = Collapse;
 
 const DescriptionBlock: React.FC = () => {
   const { data, submittionStatus } = useProblem();
-  const navigate = useNavigate();
   const title = data?.title;
   const description = data.description;
 
@@ -45,12 +44,6 @@ const DescriptionBlock: React.FC = () => {
   return (
     <div className={styles.descriptionBlock}>
       <div className={styles.content}>
-        <Button className={styles.finishButton} type="primary">
-          Finish task
-        </Button>
-        <Button type="primary" onClick={() => navigate(-1)}>
-          Go Back
-        </Button>
         <h2 className={styles.title}>{title}</h2>
         <ReactMarkdown components={components} className={styles.description}>
           {description}
@@ -89,7 +82,10 @@ const HeaderPanel = () => {
 
   return (
     <div className={styles.headerPanel}>
-      <div className={styles.headerTitle}>Test Cases</div>
+      <div className={styles.headerTitle}>
+        {" "}
+        <FormattedMessage id="test.cases" />
+      </div>
       <div className={styles.rightBlock}>
         <div className={styles.numbers}>
           {submittionStatus == true ? testsNum : 0} / {testsNum}
@@ -113,14 +109,20 @@ const TestCase = ({ input, expectedResult, isFailed }: ITestCase) => {
       })}
     >
       <div className={styles.block}>
-        <div className={styles.title}>input</div>
+        <div className={styles.title}>
+          <FormattedMessage id="input" />
+        </div>
         <div className={styles.time}>{input}</div>
       </div>
       <div className={styles.block}>
-        <div className={styles.title}>Expected output</div>
+        <div className={styles.title}>
+          <FormattedMessage id="expected.output" />
+        </div>
         <div className={styles.time}>{expectedResult}</div>
       </div>
-      <div className={styles.answer}>Passed</div>
+      <div className={styles.answer}>
+        <FormattedMessage id="passed" />
+      </div>
     </div>
   );
 };

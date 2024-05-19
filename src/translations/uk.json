@@ -6,10 +6,12 @@
     "common.value": "Значення",
     "common.delete": "Видалити",
     "common.edit": "Редагувати",
+    "common.submit": "Відправити",
     "common.confirm": "Підтвердити",
     "common.ok": "Ok",
     "common.error": "Помилка",
     "common.success": "Успішно",
+    "common.remove": "Видалити",
     "common.by": "від",
     "common.yes": "Так",
     "common.no": "Ні",
@@ -24,7 +26,6 @@
     "common.next": "Наступний",
     "common.student": "Студент",
     "common.teacher": "Вчитель",
-    
     "navigation.avatar.log.out": "Вийти",
     "navigation.avatar.change.language.en": "Перемкнути на українську",
     "navigation.avatar.change.language.uk": "Перемкнути на англійську",
@@ -149,6 +150,19 @@
     "user.page.const.updated.at": "Оновлено о",
     "group.detail.component.accept.item.decline": "Відхилити",
     "view.grade.page.overall.grade": "Загальна оцінка",
-    "view.grade.page.view.grade": "Оцінки"
+    "view.grade.page.view.grade": "Оцінки",
+    "code.go.back": "Повернутись назад",
+    "code.run": "Запустити програму",
+    "group.page.modal.add.problem.label": "Задача",
+    "enter.problem.name": "Введіть імʼя задачі",
+    "test.case":"Тест кейси",
+    "input.data": "Введіть дані",
+    "expected.result": "Очікуваний результат",
+    "add.test.case": "Додати тест кейс",
+    "init.func": "Початкова Функція",
+    "input": "Ввід",
+    "passed": "Тест успішний",
+    "expected.output": "Очікуваний результат",
+    "test.cases":"Тест кейси"
 }
     

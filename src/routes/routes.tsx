@@ -9,7 +9,6 @@ const CreateGroupPage = lazy(() => import("pages/groupPage/CreateGroupPage"));
 const EditGroupPage = lazy(() => import("pages/groupPage/EditGroupPage"));
 const UsersPage = lazy(() => import("pages/usersPage"));
 const CreateTaskPage = lazy(() => import("pages/taskPage/CreateTask"));
-//const CreateProblemPage = lazy(() => import("pages/problemPage/CreateProblem"));
 const CreateProblemPage = lazy(
   () => import("pages/Problem/CreateProblem/index")
 );
@@ -34,11 +33,11 @@ interface IAppRoutes {
 export const appRoutes: IAppRoutes[] = [
   {
     path: "/",
-    component: <HomePage />,
+    component: <GroupsPage />,
   },
   {
     path: "/home",
-    component: <HomePage />,
+    component: <GroupsPage />,
   },
   {
     path: "/teachers",

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button, notification, Select } from "antd";
-import { deleteGroup } from "api/group.api";
 import { createProblemSubmittion } from "api/problem.api";
 import axios from "axios";
 import { useProblem } from "contexts/ProblemContext";
 import * as monaco from "monaco-editor";
-import { Paths } from "routes/paths";
 
 import styles from "./styles.module.scss";
 
@@ -61,6 +59,9 @@ export function CodeBlock() {
   const [code, setCode] = useState("");
   const [executedToken, setExecutedToken] = useState("");
   const [searchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
   const { mutate: createProblemSubmittionFn } = useMutation<unknown, Error>({
     mutationKey: ["createProblemSubmittion"],
     mutationFn: (data) => createProblemSubmittion(data),
@@ -85,7 +86,6 @@ export function CodeBlock() {
     executeCode(code, data.testCases).then((token: string) => {
       setExecutedToken(token);
     });
-    console.log(code);
   };
 
   const saveSubmittion = (score: number) => {
@@ -101,6 +101,7 @@ export function CodeBlock() {
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     if (executedToken) {
+      setIsLoading(true);
       intervalId = setInterval(() => {
         getSubmission(executedToken)
           .then((res) => {
@@ -108,6 +109,7 @@ export function CodeBlock() {
               res?.status?.description !== "In Queue" &&
               res?.status?.description !== "Processing"
             ) {
+              setIsLoading(false);
               clearInterval(intervalId);
             }
             if (res?.status?.description === "Accepted") {
@@ -118,6 +120,9 @@ export function CodeBlock() {
                 if (
                   JSON.stringify(output[index]) !== JSON.stringify(expected)
                 ) {
+                  console.log("output", JSON.stringify(output[index]));
+                  console.log("expected", JSON.stringify(expected));
+
                   allTrue = false;
                 }
               });
@@ -125,12 +130,18 @@ export function CodeBlock() {
               saveSubmittion(allTrue === true ? 100 : 0);
             }
           })
-          .catch(() => clearInterval(intervalId));
+          .catch(() => {
+            setIsLoading(false);
+            clearInterval(intervalId);
+          });
       }, 1000);
     }
-    return () => clearInterval(intervalId);
+    return () => {
+      setIsLoading(false);
+      clearInterval(intervalId);
+    };
   }, [executedToken, data, setSubmittionStatus]);
-  console.log(data.initFunc);
+
   const defaultCodeEditorState =
     data.initFunc ??
     `const solutionFunction = (...args: unknown[]): unknown => {
@@ -140,8 +151,16 @@ export function CodeBlock() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
-        <Button onClick={handleSubmit} disabled={code.length === 0}>
-          Run Code
+        <Button type="primary" onClick={() => navigate(-1)}>
+          <FormattedMessage id="code.go.back" />
+        </Button>
+        <Button
+          className={styles.runCode}
+          onClick={handleSubmit}
+          disabled={code.length === 0}
+          loading={isLoading}
+        >
+          <FormattedMessage id="code.run" />
         </Button>
         <Select
           className="blackSelect"
@@ -153,7 +172,8 @@ export function CodeBlock() {
       <Editor
         defaultValue={defaultCodeEditorState}
         beforeMount={(monaco) => setEditorTheme(monaco)}
-        height={"calc(100vh - 51px)"}
+        height={"calc(100vh - 52px)"}
+        className={styles.override}
         theme="onedark"
         language={selectedLanguage}
         value={code}
@@ -166,7 +186,6 @@ export function CodeBlock() {
 
 const executeCode = async (code: string, testCases: any[]) => {
   const functionName = code.match(/(?:const|function)\s+([^\s\(]+)/)[1] || "";
-  console.log(functionName);
   const testCase = testCases.map(
     (testCase) => `\n console.log(${functionName}(${testCase.input}))`
   );
