@@ -38,6 +38,7 @@ const ProblemsTable: FC<QuizTableProps> = ({ problems }) => {
       title: <FormattedMessage id="common.created.at" />,
       dataIndex: "createdAt",
       key: "createdAt",
+      render: (text: string) => new Date(text).toLocaleDateString(),
     },
     {
       title: <FormattedMessage id="quiz.details.columns.actions" />,
