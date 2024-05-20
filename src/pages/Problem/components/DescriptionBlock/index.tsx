@@ -73,7 +73,7 @@ export default DescriptionBlock;
 
 const HeaderPanel = () => {
   const { data, submittionStatus } = useProblem();
-  const testsNum = data.testCases.length;
+  const testsNum = data.testCases.length > 9 ? 10 : data.testCases.length;
   const els = [];
 
   for (let i = 1; i <= testsNum; i++) {
