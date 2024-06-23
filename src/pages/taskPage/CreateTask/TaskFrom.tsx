@@ -1,7 +1,6 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { FormattedMessage } from "react-intl";
-import { Form } from "antd";
-import { Input } from "antd";
+import { Form , Input } from "antd";
 
 import { ICreateTaskValues } from ".";
 

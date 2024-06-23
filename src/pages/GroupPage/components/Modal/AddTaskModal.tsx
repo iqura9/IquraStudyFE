@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Button, Form, Modal, notification, Select, Space } from "antd";
 import { DefaultOptionType } from "antd/es/select";
@@ -39,7 +39,7 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
     {
       mutationKey: ["createQuizTask", taskId],
       mutationFn: (data) => createQuizTask(data),
-      onSuccess: (data: any) => {
+      onSuccess: () => {
         form.resetFields();
         refetch();
       },

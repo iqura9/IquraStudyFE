@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Table } from "antd";
 import { IUser } from "types/authTypes";
 

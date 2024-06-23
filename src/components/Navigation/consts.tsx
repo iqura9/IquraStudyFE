@@ -3,7 +3,6 @@ import { MenuProps } from "antd";
 import { Paths } from "routes/paths";
 
 import {
-  BranchesOutlined,
   ExperimentOutlined,
   HomeOutlined,
   PlusCircleOutlined,

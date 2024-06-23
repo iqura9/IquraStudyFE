@@ -1,11 +1,11 @@
+import { Collapse } from "antd";
+import classNames from "classnames";
+import { useProblem } from "contexts/ProblemContext";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Collapse } from "antd";
-import classNames from "classnames";
-import { useProblem } from "contexts/ProblemContext";
 
 import styles from "./styles.module.scss";
 
@@ -52,16 +52,24 @@ const DescriptionBlock: React.FC = () => {
       <div className={styles.footer}>
         <Collapse bordered={true}>
           <Panel header={<HeaderPanel />} key="1" className={styles.panel}>
-            {data?.testCases.map((testCase) => (
-              <TestCase
-                key={testCase.id}
-                input={testCase.input}
-                expectedResult={testCase.expectedResult}
-                isFailed={
-                  submittionStatus === undefined ? undefined : !submittionStatus
-                }
-              />
-            ))}
+            {data?.testCases.map(
+              (testCase: {
+                id: React.Key | null | undefined;
+                input: string;
+                expectedResult: string;
+              }) => (
+                <TestCase
+                  key={testCase.id}
+                  input={testCase.input}
+                  expectedResult={testCase.expectedResult}
+                  isFailed={
+                    submittionStatus === undefined
+                      ? undefined
+                      : !submittionStatus
+                  }
+                />
+              )
+            )}
           </Panel>
         </Collapse>
       </div>

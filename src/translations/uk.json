@@ -163,6 +163,7 @@
     "input": "Ввід",
     "passed": "Тест успішний",
     "expected.output": "Очікуваний результат",
-    "test.cases":"Тест кейси"
+    "test.cases":"Тест кейси",
+    "common.reset": "Очистити"
 }
     

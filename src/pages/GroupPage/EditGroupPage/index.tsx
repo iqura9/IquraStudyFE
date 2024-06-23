@@ -1,9 +1,8 @@
-import React, { useRef } from "react";
+import { Button, Form, notification } from "antd";
+import { editGroup } from "api/group.api";
+import { useRef } from "react";
 import { FormattedMessage } from "react-intl";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Form, notification } from "antd";
-import { Button } from "antd";
-import { editGroup } from "api/group.api";
 import { Paths } from "routes/paths";
 
 import { CreateGroupForm } from "../CreateGroupPage/CreateGroupForm";

@@ -8,6 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal public/logo.svg",
     "locale:test": "formatjs extract \"src/**/*.{ts,tsx,jsx,js}\" --ignore='**/*.d.ts' --out-file ./src/translations/locale-app.json --id-interpolation-pattern '[sha512:contenthash:base64:6]' && node localizationAnalizator.js"
   },
   "dependencies": {
@@ -42,11 +43,14 @@
     "@types/remarkable": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
+    "@vite-pwa/assets-generator": "^0.2.4",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.55.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vite-plugin-pwa": "^0.20.0"
   }
 }

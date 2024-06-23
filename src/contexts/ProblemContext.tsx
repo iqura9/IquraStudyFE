@@ -1,8 +1,8 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
 import { getProblem, getProblemSubmittion } from "api/problem.api";
 import Spinner from "components/Spinner";
 import { getAccessToken } from "helpers/getToken";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -25,7 +25,7 @@ export const useProblem = () => {
 export const ProblemProvider = (props: any) => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
-  const { data, isLoading } = useQuery<unknown, Error>({
+  const { data, isLoading } = useQuery<any, Error>({
     queryKey: ["getProblem", id],
     queryFn: () => getProblem(id || ""),
     retry: false,
@@ -33,7 +33,7 @@ export const ProblemProvider = (props: any) => {
     enabled: !!getAccessToken(),
   });
 
-  const { data: problemSubmitted } = useQuery<unknown, Error>({
+  const { data: problemSubmitted } = useQuery<any, Error>({
     queryKey: ["getProblemSubmitted", id],
     queryFn: () =>
       getProblemSubmittion(searchParams.get("taskId") || "", id || ""),
@@ -41,8 +41,6 @@ export const ProblemProvider = (props: any) => {
     refetchOnWindowFocus: false,
     enabled: !!getAccessToken(),
   });
-
-  console.log(problemSubmitted);
 
   const [submittionStatus, setSubmittionStatus] = useState<boolean | undefined>(
     undefined

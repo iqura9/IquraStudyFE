@@ -7,6 +7,7 @@ import { questionAnswers } from "..";
 import styles from "./../styles.module.scss";
 
 import { CheckCircleTwoTone, ClockCircleTwoTone } from "@ant-design/icons";
+
 interface LeftSideProps {
   title: string;
   questions: IQuestion[];

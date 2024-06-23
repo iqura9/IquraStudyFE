@@ -1,6 +1,6 @@
-import React, { FC } from "react";
-import { useParams } from "react-router-dom";
 import { getGroupPerson } from "api/group.api";
+import { FC } from "react";
+import { useParams } from "react-router-dom";
 import { IGroupPeople } from "types/groupTypes";
 
 import AcceptUserTable from "../AcceptUserTable";

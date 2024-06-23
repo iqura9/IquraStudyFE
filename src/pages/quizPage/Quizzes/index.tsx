@@ -1,4 +1,3 @@
-import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { getQuizzes } from "api/quiz";
 
@@ -9,7 +8,7 @@ import styles from "./styles.module.scss";
 import { useQuery } from "@tanstack/react-query";
 
 const QuizzesPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const { data } = useQuery({
     queryKey: ["getQuizzes", searchParams.get("myQuizzes")],

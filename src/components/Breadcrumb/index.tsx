@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Breadcrumb } from "antd";
 
@@ -39,7 +38,7 @@ export const BreadcrumbDynamic = () => {
   const location = useLocation();
   const pathSnippets = location.pathname.split("/").filter((i) => i);
 
-  const breadcrumbs = pathSnippets.map((path, index) => {
+  const breadcrumbs = pathSnippets.map((_, index) => {
     const currentPath = "/" + pathSnippets.slice(0, index + 1).join("/");
     const route = items.find((item) => currentPath.startsWith(item.path));
     return route ? renderBreadcrumb(route, items, index, "") : null;

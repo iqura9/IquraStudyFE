@@ -1,4 +1,3 @@
-import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "antd";

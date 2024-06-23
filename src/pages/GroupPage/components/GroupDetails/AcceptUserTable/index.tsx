@@ -1,6 +1,6 @@
-import React, { FC } from "react";
 import { Table } from "antd";
 import { useAuth } from "contexts/authContext";
+import { FC } from "react";
 import { IUser } from "types/authTypes";
 
 import { columns } from "./const";

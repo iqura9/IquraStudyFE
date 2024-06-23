@@ -1,9 +1,8 @@
-import React, { useRef } from "react";
+import { Button, Form, notification, Result, Typography } from "antd";
+import { updateQuestion } from "api/quiz";
+import { useRef } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Form, notification, Result, Typography } from "antd";
-import { Button } from "antd";
-import { updateQuestion } from "api/quiz";
 import { Paths } from "routes/paths";
 import { IQuestion } from "types/questionTypes";
 

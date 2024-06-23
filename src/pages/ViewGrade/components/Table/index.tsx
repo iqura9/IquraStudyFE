@@ -1,4 +1,3 @@
-import React from "react";
 import { FormattedMessage } from "react-intl";
 import { useParams } from "react-router-dom";
 import { Table } from "antd";

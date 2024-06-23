@@ -1,5 +1,3 @@
-import React from "react";
-
 import { ScoreTable } from "./components/Table";
 
 const ViewGrade = () => {

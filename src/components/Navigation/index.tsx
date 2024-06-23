@@ -6,7 +6,7 @@ import logo from "assets/logoIquraStudy.png";
 import { useAuth } from "contexts/authContext";
 
 import AvatarBlock from "./AvatarBlock";
-import { items, sideBarItems } from "./consts";
+import { sideBarItems } from "./consts";
 
 import style from "./styles.module.scss";
 
@@ -23,7 +23,12 @@ export const Navigation = () => {
     setCurrent(e.key);
     navigation(e.key);
   };
-
+  const updatedSideBar =
+    user?.role === "Teacher"
+      ? sideBarItems
+      : sideBarItems?.filter(
+          (key) => !key?.key?.toLocaleString().includes("create")
+        );
   return (
     <Layout className={style.mainLayout}>
       <Layout.Sider
@@ -39,7 +44,7 @@ export const Navigation = () => {
           className={style.mainMenu}
           onClick={onClick}
           selectedKeys={[current]}
-          items={sideBarItems}
+          items={updatedSideBar}
         />
       </Layout.Sider>
 

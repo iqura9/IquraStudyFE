@@ -1,7 +1,7 @@
-import React, { FC } from "react";
+import { Space, Table } from "antd";
+import { FC } from "react";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
-import { Space, Table } from "antd";
 import { IUser } from "types/authTypes";
 import { IQuiz } from "types/questionTypes";
 
@@ -39,7 +39,7 @@ const QuizTable: FC<QuizTableProps> = ({ quizzes }) => {
     {
       title: <FormattedMessage id="quiz.details.columns.actions" />,
       key: "actions",
-      render: (_: any, record: IQuiz) => (
+      render: () => (
         <Space size="middle">
           <EditOutlined style={{ color: "blue" }} />
           <DeleteOutlined style={{ color: "red" }} />

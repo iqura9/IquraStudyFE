@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { useEffect, useState } from "react";
+import { useIntl } from "react-intl";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { notification } from "antd";
 import { getQuizWithoutAnswers, verifyQuiz } from "api/quiz";
@@ -18,6 +18,7 @@ export const questionAnswers: IQuestionAnswers = [];
 const QuizParticipant = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { formatMessage } = useIntl();
   const { isShow, handleToggle } = useModal(true);
   const [searchParams] = useSearchParams();
 
@@ -35,7 +36,7 @@ const QuizParticipant = () => {
     mutationFn: (data: VerificationQuery) => verifyQuiz(data),
     onSuccess: (score: number) => {
       notification.success({
-        message: `${(<FormattedMessage id="quiz.score" />)} ${score}`,
+        message: `${formatMessage({ id: "quiz.score" })} ${score}`,
       });
       navigate(-1);
     },

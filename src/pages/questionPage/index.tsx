@@ -1,10 +1,7 @@
-import React from "react";
+import { Key } from "react";
 import { FormattedMessage } from "react-intl";
 import { useLocation, useParams } from "react-router-dom";
 import { Descriptions, Tag } from "antd";
-import { getQuestion } from "api/quiz";
-
-import { useQuery } from "@tanstack/react-query";
 
 const QuestionPage = () => {
   const { id } = useParams();
@@ -43,7 +40,7 @@ const QuestionPage = () => {
         <FormattedMessage id="questions.page.answers" />:
       </h3>
       <ul>
-        {answers.map((answer) => (
+        {answers.map((answer: { id: Key; title: string; isCorrect: any }) => (
           <li key={answer.id}>
             {answer.title} -{" "}
             {answer.isCorrect ? (

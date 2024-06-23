@@ -1,6 +1,3 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   Card,
@@ -13,25 +10,15 @@ import {
 } from "antd";
 import { queryClient } from "api/auth.api";
 import { deleteQuestion } from "api/quiz";
+import React from "react";
+import { FormattedMessage } from "react-intl";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useMutation } from "@tanstack/react-query";
-
-interface Answer {
-  id: number;
-  title: string;
-  isCorrect: string;
-}
-
-interface Question {
-  id: number;
-  title: string;
-  quizId: number;
-  createdAt: string;
-  answers: Answer[];
-}
+import { IQuestion } from "types/questionTypes";
 
 interface Props {
-  questions: Question[];
+  questions: IQuestion[];
 }
 const { Text } = Typography;
 
@@ -53,7 +40,7 @@ const QuestionTable: React.FC<Props> = ({ questions }) => {
     },
   });
 
-  const handleEdit = (e: any, item: Question) => {
+  const handleEdit = (e: any, item: IQuestion) => {
     // Handle edit logic here
     e.preventDefault();
     e.stopPropagation();
@@ -68,7 +55,7 @@ const QuestionTable: React.FC<Props> = ({ questions }) => {
     deleteFn(id);
   };
 
-  const handleRowClick = (record: Question) => {
+  const handleRowClick = (record: IQuestion) => {
     // Navigate to the question details page
     navigation(`/question/${record.id}`, { state: { data: record } });
   };

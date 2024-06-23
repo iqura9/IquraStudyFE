@@ -1,8 +1,8 @@
-import React, { FC, useState } from "react";
-import { FormattedMessage } from "react-intl";
-import { useSearchParams } from "react-router-dom";
 import { Card, Space, Tabs, Tag, Typography } from "antd";
 import { useAuth } from "contexts/authContext";
+import { FC, useState } from "react";
+import { FormattedMessage } from "react-intl";
+import { useSearchParams } from "react-router-dom";
 import IsShow from "settings/IsShow";
 import { IGroup } from "types/groupTypes";
 

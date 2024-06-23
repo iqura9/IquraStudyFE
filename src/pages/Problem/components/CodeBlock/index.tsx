@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button, notification, Select } from "antd";
@@ -62,7 +62,16 @@ export function CodeBlock() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const { mutate: createProblemSubmittionFn } = useMutation<unknown, Error>({
+  const { mutate: createProblemSubmittionFn } = useMutation<
+    unknown,
+    Error,
+    {
+      sourceCode: string;
+      score: number;
+      groupTaskId: number;
+      problemId: number;
+    }
+  >({
     mutationKey: ["createProblemSubmittion"],
     mutationFn: (data) => createProblemSubmittion(data),
     onSuccess: () => {},
@@ -115,17 +124,19 @@ export function CodeBlock() {
             if (res?.status?.description === "Accepted") {
               const output = res.stdout.split("\n");
               let allTrue = true;
-              data.testCases.forEach((res, index) => {
-                const expected = res.expectedResult;
-                if (
-                  JSON.stringify(output[index]) !== JSON.stringify(expected)
-                ) {
-                  console.log("output", JSON.stringify(output[index]));
-                  console.log("expected", JSON.stringify(expected));
+              data.testCases.forEach(
+                (res: { expectedResult: any }, index: string | number) => {
+                  const expected = res.expectedResult;
+                  if (
+                    JSON.stringify(output[index]) !== JSON.stringify(expected)
+                  ) {
+                    console.log("output", JSON.stringify(output[index]));
+                    console.log("expected", JSON.stringify(expected));
 
-                  allTrue = false;
+                    allTrue = false;
+                  }
                 }
-              });
+              );
               setSubmittionStatus && setSubmittionStatus(allTrue);
               saveSubmittion(allTrue === true ? 100 : 0);
             }
@@ -185,7 +196,7 @@ export function CodeBlock() {
 }
 
 const executeCode = async (code: string, testCases: any[]) => {
-  const functionName = code.match(/(?:const|function)\s+([^\s\(]+)/)[1] || "";
+  const functionName = code.match(/(?:const|function)\s+([^\s\(]+)/)?.[1] || "";
   const testCase = testCases.map(
     (testCase) => `\n console.log(${functionName}(${testCase.input}))`
   );

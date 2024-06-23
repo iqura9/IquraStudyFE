@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import MdEditor from "react-markdown-editor-lite";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import MarkdownIt from "markdown-it";
 
 import { editorOptions, setEditorTheme } from "../components/CodeBlock";
 
-import { defaultCodeEditorState, defaultTestCodeEditorState } from "./consts";
+import { defaultCodeEditorState } from "./consts";
 
 import "react-markdown-editor-lite/lib/index.css";
 
@@ -36,7 +36,7 @@ const CreateProblemPage = () => {
     },
   });
 
-  const onFinish = (values) => {
+  const onFinish = (values: any) => {
     const data = {
       ...values,
       description: markdownContent,
@@ -51,7 +51,7 @@ const CreateProblemPage = () => {
     codeLines && setCode(codeLines);
   };
 
-  const [selectedLanguage, setSelectedLanguage] = useState("typescript");
+  const [selectedLanguage] = useState("typescript");
 
   return (
     <div style={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>

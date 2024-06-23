@@ -1,7 +1,6 @@
-import React, { FC } from "react";
+import { Button, Checkbox, Col, Form, Input, notification, Row } from "antd";
+import { FC } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Button, Checkbox, Col, Form, notification, Row } from "antd";
-import { Input } from "antd";
 import { IQuestion } from "types/questionTypes";
 
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";

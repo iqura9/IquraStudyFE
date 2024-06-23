@@ -1,9 +1,8 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button, notification, Space, Typography } from "antd";
 import { getGroupCheck, requestGroupInvitation } from "api/group.api";
 import Spinner from "components/Spinner";
+import { FormattedMessage } from "react-intl";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Paths } from "routes/paths";
 
 import styles from "./styles.module.scss";
