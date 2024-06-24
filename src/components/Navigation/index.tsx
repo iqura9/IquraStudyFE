@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button, Input, Layout, Menu, MenuProps } from "antd";
 import { useAuth } from "contexts/authContext";
+import { usePwa } from "contexts/PWAContext";
 
 import logo from "../../../public/logoIquraStudy.png";
 
@@ -30,6 +31,7 @@ export const Navigation = () => {
       : sideBarItems?.filter(
           (key) => !key?.key?.toLocaleString().includes("create")
         );
+  const { isInstalled, handleInstall } = usePwa();
   return (
     <Layout className={style.mainLayout}>
       <Layout.Sider
@@ -41,12 +43,23 @@ export const Navigation = () => {
         <div className={collapsed ? style.logoCollapsed : style.logo}>
           <img src={logo} alt="" />
         </div>
-        <Menu
-          className={style.mainMenu}
-          onClick={onClick}
-          selectedKeys={[current]}
-          items={updatedSideBar}
-        />
+        <div className={style.mainMenu}>
+          <Menu
+            onClick={onClick}
+            selectedKeys={[current]}
+            items={updatedSideBar}
+          />
+          {!isInstalled && (
+            <Button
+              onClick={handleInstall}
+              block
+              type="link"
+              style={{ position: "absolute", bottom: 5 }}
+            >
+              <FormattedMessage id="Install the App" />
+            </Button>
+          )}
+        </div>
       </Layout.Sider>
 
       <Layout style={{ background: "#FDFDFD" }}>
@@ -61,13 +74,6 @@ export const Navigation = () => {
               height: 64,
             }}
           />
-          {/* doesn't work well with 18 react */}
-          {/* <Menu
-            onClick={onClick}
-            selectedKeys={[current]}
-            mode="horizontal"
-            items={items}
-          /> */}
           <div className={style.searchAvatarWrapper}>
             <Input
               placeholder={formatMessage({

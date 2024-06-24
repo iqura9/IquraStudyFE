@@ -16,7 +16,8 @@
     padding: 36px; 
 }
 .mainMenu{
-    height: calc(100% - 64px);
+    height: calc(100% - 80px);
+    border-inline-end: 1px solid rgba(5, 5, 5, 0.06);
 }
 .search{
     height: 32px;
