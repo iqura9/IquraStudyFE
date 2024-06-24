@@ -29,7 +29,10 @@ export const Navigation = () => {
     user?.role === "Teacher"
       ? sideBarItems
       : sideBarItems?.filter(
-          (key) => !key?.key?.toLocaleString().includes("create")
+          (key) =>
+            !key?.key?.toLocaleString().includes("create") &&
+            !key?.key?.toLocaleString().includes("quizzes") &&
+            !key?.key?.toLocaleString().includes("problems")
         );
   const { isInstalled, handleInstall } = usePwa();
   return (

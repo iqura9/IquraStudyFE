@@ -39,21 +39,21 @@ export const PwaProvider: React.FC<PwaProviderProps> = ({ children }) => {
       setDeferredPrompt(null);
     };
 
-    document.addEventListener("appinstalled", onAppInstalled);
+    window.addEventListener("appinstalled", onAppInstalled);
 
     const handleBeforeInstallPrompt: EventListener = (e) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
     };
 
-    document.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     return () => {
-      document.removeEventListener(
+      window.removeEventListener(
         "beforeinstallprompt",
         handleBeforeInstallPrompt
       );
-      document.removeEventListener("appinstalled", onAppInstalled);
+      window.removeEventListener("appinstalled", onAppInstalled);
     };
   }, []);
 
