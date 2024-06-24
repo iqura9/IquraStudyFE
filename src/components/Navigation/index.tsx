@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useIntl } from "react-intl";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button, Input, Layout, Menu, MenuProps } from "antd";
-import logo from "assets/logoIquraStudy.png";
 import { useAuth } from "contexts/authContext";
+
+import logo from "../../../public/logoIquraStudy.png";
 
 import AvatarBlock from "./AvatarBlock";
 import { sideBarItems } from "./consts";

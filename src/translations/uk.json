@@ -164,6 +164,7 @@
     "passed": "Тест успішний",
     "expected.output": "Очікуваний результат",
     "test.cases":"Тест кейси",
-    "common.reset": "Очистити"
+    "common.reset": "Очистити",
+    "register": "Зареєструватись"
 }
     

@@ -1,4 +1,5 @@
 import { FormattedMessage } from "react-intl";
+import { Link } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import { ILoginQuery } from "types/authTypes";
 
@@ -44,6 +45,11 @@ const LoginPage = () => {
             <FormattedMessage id="login.page.log.in" />
           </Button>
         </Form>
+        <Link to="/register">
+          <Button type="link" block size="large">
+            <FormattedMessage id="register" />
+          </Button>
+        </Link>
       </div>
     </div>
   );

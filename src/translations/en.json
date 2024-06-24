@@ -164,5 +164,6 @@
     "add.test.case": "Add Test Case",
     "init.func": "Initial Function",
     "input": "Input",
-    "passed": "Passed"
+    "passed": "Passed",
+    "register": "Register"
 } 
