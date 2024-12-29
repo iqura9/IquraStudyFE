@@ -32,7 +32,7 @@ export const Navigation = () => {
           (key) =>
             !key?.key?.toLocaleString().includes("create") &&
             !key?.key?.toLocaleString().includes("quizzes") &&
-            !key?.key?.toLocaleString().includes("problems")
+            !key?.key?.toLocaleString().includes("problems"),
         );
   const { isInstalled, handleInstall } = usePwa();
   return (
@@ -41,7 +41,10 @@ export const Navigation = () => {
         trigger={null}
         collapsible
         collapsed={collapsed}
-        style={{ background: "#FDFDFD", justifyContent: "center" }}
+        style={{
+          background: "#FDFDFD",
+          justifyContent: "center",
+        }}
       >
         <div className={collapsed ? style.logoCollapsed : style.logo}>
           <img src={logo} alt="" />
@@ -53,14 +56,11 @@ export const Navigation = () => {
             items={updatedSideBar}
           />
           {!isInstalled && (
-            <Button
-              onClick={handleInstall}
-              block
-              type="link"
-              style={{ position: "absolute", bottom: 5 }}
-            >
-              <FormattedMessage id="Install the App" />
-            </Button>
+            <div style={{ position: "fixed", bottom: 5, left: 15 }}>
+              <Button onClick={handleInstall} block type="link">
+                <FormattedMessage id="Install the App" />
+              </Button>
+            </div>
           )}
         </div>
       </Layout.Sider>
