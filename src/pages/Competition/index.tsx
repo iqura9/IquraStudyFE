@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, Card, Col, Pagination, Row } from "antd";
 
 import { mockData } from "./consts";
@@ -23,60 +24,62 @@ export default function CompetitionPage() {
       <Row gutter={[16, 16]}>
         {paginatedData.map((competition) => (
           <Col xs={24} sm={12} lg={8} key={competition.id}>
-            <Card
-              bordered={false}
-              style={{
-                background: "#fff",
-                borderRadius: "8px",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                color: "#000",
-              }}
-              cover={
-                <img
-                  alt={competition.name}
-                  src={competition.image}
-                  style={{
-                    borderTopLeftRadius: "8px",
-                    borderTopRightRadius: "8px",
-                    height: 150,
-                    objectFit: "cover",
-                  }}
-                />
-              }
-            >
-              <div
+            <Link to={competition.id}>
+              <Card
+                bordered={false}
                 style={{
-                  marginBottom: "8px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  color: "#4cafb5",
-                }}
-              >
-                <CalendarOutlined />
-                <span>{competition.date}</span>
-              </div>
-              <h3 style={{ margin: "0 0 8px", color: "#000" }}>
-                {competition.name}
-              </h3>
-              <p style={{ margin: "0", color: "#555" }}>
-                {competition.location}
-              </p>
-              <Button
-                type="default"
-                icon={<PlusOutlined />}
-                style={{
-                  marginTop: "16px",
-                  color: "#4cafb5",
-                  borderColor: "#4cafb5",
-                  background: "transparent",
-                  border: "1px solid",
+                  background: "#fff",
                   borderRadius: "8px",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                  color: "#000",
                 }}
+                cover={
+                  <img
+                    alt={competition.name}
+                    src={competition.image}
+                    style={{
+                      borderTopLeftRadius: "8px",
+                      borderTopRightRadius: "8px",
+                      height: 150,
+                      objectFit: "cover",
+                    }}
+                  />
+                }
               >
-                See more
-              </Button>
-            </Card>
+                <div
+                  style={{
+                    marginBottom: "8px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    color: "#4cafb5",
+                  }}
+                >
+                  <CalendarOutlined />
+                  <span>{competition.date}</span>
+                </div>
+                <h3 style={{ margin: "0 0 8px", color: "#000" }}>
+                  {competition.name}
+                </h3>
+                <p style={{ margin: "0", color: "#555" }}>
+                  {competition.location}
+                </p>
+                <Button
+                  type="default"
+                  icon={<PlusOutlined />}
+                  style={{
+                    marginTop: "16px",
+                    color: "#4cafb5",
+                    borderColor: "#4cafb5",
+                    background: "transparent",
+                    border: "1px solid",
+                    borderRadius: "8px",
+                  }}
+                >
+                  See more
+                </Button>
+              </Card>
+            </Link>
           </Col>
         ))}
       </Row>
