@@ -8,36 +8,41 @@ import {
   IUserResponse,
 } from "types/authTypes";
 
+import { baseURL } from "./baseUrl";
+
 import { QueryClient } from "@tanstack/react-query";
 
 export const queryClient = new QueryClient();
 
-export const authApi = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+export const axiosInstance = axios.create({
+  baseURL,
   withCredentials: true,
   headers: {
     Authorization: `Bearer ${getAccessToken()}`,
   },
 });
 
-authApi.defaults.headers.common["Content-Type"] = "application/json";
+axiosInstance.defaults.headers.common["Content-Type"] = "application/json";
 
 export const refreshAccessTokenFn = async (
   accessToken: string | null,
-  refreshToken: string | null
+  refreshToken: string | null,
 ) => {
   try {
-    const response = await authApi.post<ILoginResponse>("Token/refresh-token", {
-      accessToken,
-      refreshToken,
-    });
+    const response = await axiosInstance.post<ILoginResponse>(
+      "Token/refresh-token",
+      {
+        accessToken,
+        refreshToken,
+      },
+    );
     return response.data;
   } catch (e) {
     logOut();
   }
 };
 
-authApi.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -54,7 +59,7 @@ authApi.interceptors.response.use(
 
         const response = await refreshAccessTokenFn(
           access_Token,
-          refresh_Token
+          refresh_Token,
         );
 
         if (response) {
@@ -64,39 +69,42 @@ authApi.interceptors.response.use(
             JSON.stringify({
               accessToken,
               refreshToken,
-            })
+            }),
           );
 
           originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          return authApi(originalRequest);
+          return axiosInstance(originalRequest);
         }
       } catch (error) {
         console.log(error);
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export const registerUserFn = async (user: IRegisterQuery) => {
-  const response = await authApi.post<GenericResponse>(
+  const response = await axiosInstance.post<GenericResponse>(
     "Account/register",
-    user
+    user,
   );
   return response.data;
 };
 
 export const loginUserFn = async (user: ILoginQuery) => {
-  const response = await authApi.post<ILoginResponse>("Account/login", user);
+  const response = await axiosInstance.post<ILoginResponse>(
+    "Account/login",
+    user,
+  );
   return response.data;
 };
 
 export const getMeFn = async () => {
-  const response = await authApi.get<IUserResponse>("Account/GetMe");
+  const response = await axiosInstance.get<IUserResponse>("Account/GetMe");
   return response.data;
 };
 
 export const checkIsValidToken = async () => {
-  const response = await authApi.get<IUserResponse>("Account/GetMe");
+  const response = await axiosInstance.get<IUserResponse>("Account/GetMe");
   return response.data;
 };
