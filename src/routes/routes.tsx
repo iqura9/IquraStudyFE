@@ -10,13 +10,13 @@ const EditGroupPage = lazy(() => import("pages/groupPage/EditGroupPage"));
 const UsersPage = lazy(() => import("pages/usersPage"));
 const CreateTaskPage = lazy(() => import("pages/taskPage/CreateTask"));
 const CreateProblemPage = lazy(
-  () => import("pages/Problem/CreateProblem/index")
+  () => import("pages/Problem/CreateProblem/index"),
 );
 const QuizPage = lazy(() => import("pages/quizPage"));
 const CreateQuizPage = lazy(() => import("pages/quizPage/CreateQuiz"));
 const QuestionPage = lazy(() => import("pages/questionPage"));
 const CreateQuestionPage = lazy(
-  () => import("pages/questionPage/CreateQuestion")
+  () => import("pages/questionPage/CreateQuestion"),
 );
 const EditQuestionPage = lazy(() => import("pages/questionPage/EditQuestion"));
 const QuizzesPage = lazy(() => import("pages/quizPage/Quizzes"));
@@ -24,6 +24,8 @@ const TaskPage = lazy(() => import("pages/taskPage"));
 const QuizParticipant = lazy(() => import("pages/quizPage/Quiz"));
 const ViewGradePage = lazy(() => import("pages/ViewGrade"));
 const ProblemPage = lazy(() => import("pages/Problem"));
+
+const CompetitionPage = lazy(() => import("pages/Competition"));
 
 interface IAppRoutes {
   component: React.ReactNode;
@@ -114,6 +116,10 @@ export const appRoutes: IAppRoutes[] = [
   {
     path: "/problems",
     component: <Problems />,
+  },
+  {
+    path: "/competition",
+    component: <CompetitionPage />,
   },
 ];
 

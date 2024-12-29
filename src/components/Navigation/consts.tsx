@@ -4,6 +4,7 @@ import { Paths } from "routes/paths";
 
 import {
   ExperimentOutlined,
+  FireOutlined,
   HomeOutlined,
   PlusCircleOutlined,
   SettingOutlined,
@@ -44,6 +45,11 @@ export const sideBarItems: MenuProps["items"] = [
     label: <FormattedMessage id="menu.problems" />,
     key: "problems",
     icon: <ExperimentOutlined />,
+  },
+  {
+    label: <FormattedMessage id="menu.competition" />,
+    key: "competition",
+    icon: <FireOutlined />,
   },
   // {
   //   label: "Archived Groups",
