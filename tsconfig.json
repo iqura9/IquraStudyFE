@@ -21,20 +21,21 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-     /* Paths for import */
+    /* Paths for import */
     "paths": {
       "api/*": ["api/*"],
-      "assets/*":["assets/*"],
-      "components/*":["components/*"],
-      "contexts/*":["contexts/*"],
-      "helpers/*":["helpers/*"],
-      "hooks/*":["hooks/*"],
-      "pages/*":["pages/*"],
-      "routes/*":["routes/*"],
-      "settings/*":["settings/*"],
-      "styles/*":["styles/*"],
-      "types/*":["types/*"],
-      "ui/*":["ui/*"],
+      "assets/*": ["assets/*"],
+      "components/*": ["components/*"],
+      "contexts/*": ["contexts/*"],
+      "helpers/*": ["helpers/*"],
+      "hooks/*": ["hooks/*"],
+      "pages/*": ["pages/*"],
+      "routes/*": ["routes/*"],
+      "settings/*": ["settings/*"],
+      "styles/*": ["styles/*"],
+      "types/*": ["types/*"],
+      "generated-api/*": ["generated-api/*"],
+      "ui/*": ["ui/*"]
     }
   },
   "include": ["src"],

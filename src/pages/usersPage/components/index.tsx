@@ -1,13 +1,12 @@
-import { FC } from "react";
 import { Table } from "antd";
-import { IUser } from "types/authTypes";
+import { UserInfo } from "generated-api/api";
 
 import { columns } from "./const";
 
 interface UserTableProps {
-  users: IUser[] | undefined;
+  users: UserInfo[] | undefined;
 }
 
-export const UserTable: FC<UserTableProps> = ({ users }) => {
+export function UserTable({ users }: UserTableProps) {
   return <Table dataSource={users} columns={columns} />;
-};
+}

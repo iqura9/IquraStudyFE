@@ -1,7 +1,7 @@
+import { Select } from "antd";
+import { api } from "api/index";
 import { FormattedMessage } from "react-intl";
 import { useSearchParams } from "react-router-dom";
-import { Select } from "antd";
-import { getUsers } from "api/user.api";
 import { RoleType } from "types/authTypes";
 
 import { UserTable } from "./components";
@@ -15,7 +15,10 @@ const UsersPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data } = useQuery({
     queryKey: ["getUsers", searchParams.get("userRole")],
-    queryFn: () => getUsers(searchParams.get("userRole") as RoleType),
+    queryFn: () =>
+      api
+        .apiUsersGet(searchParams.get("userRole") as RoleType)
+        .then((res) => res.data),
     retry: false,
     refetchOnWindowFocus: false,
   });

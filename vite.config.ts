@@ -58,6 +58,7 @@ export default defineConfig({
       styles: "/src/styles",
       types: "/src/types",
       ui: "/src/ui",
+      "generated-api": "/src/generated-api",
     },
   },
 });
