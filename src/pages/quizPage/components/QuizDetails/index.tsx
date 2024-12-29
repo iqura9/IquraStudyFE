@@ -1,7 +1,7 @@
-import { Space, Table } from "antd";
 import { FC } from "react";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
+import { Space, Table } from "antd";
 import { IUser } from "types/authTypes";
 import { IQuiz } from "types/questionTypes";
 

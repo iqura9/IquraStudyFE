@@ -1,3 +1,6 @@
+import React from "react";
+import { FormattedMessage } from "react-intl";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   Card,
@@ -10,12 +13,9 @@ import {
 } from "antd";
 import { queryClient } from "api/auth.api";
 import { deleteQuestion } from "api/quiz";
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { useNavigate, useParams } from "react-router-dom";
+import { IQuestion } from "types/questionTypes";
 
 import { useMutation } from "@tanstack/react-query";
-import { IQuestion } from "types/questionTypes";
 
 interface Props {
   questions: IQuestion[];

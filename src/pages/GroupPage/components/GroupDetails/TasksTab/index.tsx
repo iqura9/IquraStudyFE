@@ -1,10 +1,10 @@
+import React, { FC, useState } from "react";
+import { FormattedMessage } from "react-intl";
+import { Link, useParams } from "react-router-dom";
 import { Button, List, Space } from "antd";
 import { getTasks } from "api/group.api";
 import { useAuth } from "contexts/authContext";
 import { useModal } from "hooks";
-import React, { FC, useState } from "react";
-import { FormattedMessage } from "react-intl";
-import { Link, useParams } from "react-router-dom";
 import IsShow from "settings/IsShow";
 import { IGroupTask } from "types/groupTypes";
 

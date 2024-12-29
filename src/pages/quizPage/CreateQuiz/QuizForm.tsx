@@ -1,6 +1,6 @@
-import { Form, Input } from "antd";
 import { FC } from "react";
 import { FormattedMessage } from "react-intl";
+import { Form, Input } from "antd";
 
 import { ICreateQuizValues } from ".";
 

@@ -1,7 +1,7 @@
-import { Form, Input } from "antd";
-import TextArea from "antd/es/input/TextArea";
 import { FC } from "react";
 import { FormattedMessage } from "react-intl";
+import { Form, Input } from "antd";
+import TextArea from "antd/es/input/TextArea";
 
 import { ICreateTaskValues } from ".";
 

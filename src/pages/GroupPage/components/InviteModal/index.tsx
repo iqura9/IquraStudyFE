@@ -1,6 +1,6 @@
-import { Button, Input, message, Modal } from "antd";
 import { FC, useState } from "react";
 import { FormattedMessage } from "react-intl";
+import { Button, Input, message, Modal } from "antd";
 
 type InviteModalProps = {
   visible: boolean;

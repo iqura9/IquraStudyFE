@@ -1,11 +1,11 @@
-import { Collapse } from "antd";
-import classNames from "classnames";
-import { useProblem } from "contexts/ProblemContext";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { Collapse } from "antd";
+import classNames from "classnames";
+import { useProblem } from "contexts/ProblemContext";
 
 import styles from "./styles.module.scss";
 

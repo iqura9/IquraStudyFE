@@ -1,7 +1,7 @@
-import { Select } from "antd";
-import { api } from "api/index";
 import { FormattedMessage } from "react-intl";
 import { useSearchParams } from "react-router-dom";
+import { Select } from "antd";
+import { api } from "api/index";
 import { RoleType } from "types/authTypes";
 
 import { UserTable } from "./components";

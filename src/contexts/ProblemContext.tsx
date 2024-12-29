@@ -1,8 +1,8 @@
+import { createContext, useContext, useEffect, useState } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
 import { getProblem, getProblemSubmittion } from "api/problem.api";
 import Spinner from "components/Spinner";
 import { getAccessToken } from "helpers/getToken";
-import { createContext, useContext, useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
