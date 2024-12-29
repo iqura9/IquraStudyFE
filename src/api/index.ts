@@ -1,5 +1,3 @@
-// /* eslint-disable @typescript-eslint/ban-types */
-
 import axios from "axios";
 import {
   AccountApiFactory,
@@ -14,18 +12,20 @@ const apiAxiosInstance = axios.create({
   ...axiosInstance,
 });
 
-type ApiFactory<T extends Function> = ReturnType<T>;
-type CombineApi<T extends Function[]> = T extends [infer F, ...infer R]
-  ? ApiFactory<F & Function> & CombineApi<R extends Function[] ? R : []>
+type FunctionReturnType<T> = T extends (...args: any) => infer R ? R : never;
+type CombineFunctions<T extends Function[]> = T extends [infer F, ...infer R]
+  ? FunctionReturnType<F> & CombineFunctions<R extends Function[] ? R : []>
   : {};
 
-const createApi = <T extends Function[]>(...factories: T): CombineApi<T> =>
+const createApi = <T extends Function[]>(
+  ...factories: T
+): CombineFunctions<T> =>
   factories.reduce(
     (api, factory) => ({
       ...api,
       ...factory(undefined, undefined, apiAxiosInstance),
     }),
-    {} as CombineApi<T>,
+    {} as CombineFunctions<T>,
   );
 
 export const api = createApi(
