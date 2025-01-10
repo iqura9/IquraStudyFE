@@ -47,6 +47,11 @@ export const sideBarItems: MenuProps["items"] = [
     icon: <ExperimentOutlined />,
   },
   {
+    label: <FormattedMessage id="menu.createCompetition" />,
+    key: Paths.createCompetition,
+    icon: <FireOutlined />,
+  },
+  {
     label: <FormattedMessage id="menu.competition" />,
     key: "competition",
     icon: <FireOutlined />,

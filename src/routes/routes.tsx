@@ -25,6 +25,7 @@ const QuizParticipant = lazy(() => import("pages/quizPage/Quiz"));
 const ViewGradePage = lazy(() => import("pages/ViewGrade"));
 const ProblemPage = lazy(() => import("pages/Problem"));
 
+const CreateCompetitionPage = lazy(() => import("pages/Competition/Create"));
 const CompetitionPage = lazy(() => import("pages/Competition"));
 const CompetitionDetailPage = lazy(
   () => import("pages/Competition/DetailsPage"),
@@ -126,6 +127,10 @@ export const appRoutes: IAppRoutes[] = [
   {
     path: "/competition/:id",
     component: <CompetitionDetailPage />,
+  },
+  {
+    path: "/create/competition",
+    component: <CreateCompetitionPage />,
   },
 ];
 

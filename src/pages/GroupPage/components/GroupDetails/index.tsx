@@ -6,6 +6,7 @@ import { useAuth } from "contexts/authContext";
 import IsShow from "settings/IsShow";
 import { IGroup } from "types/groupTypes";
 
+import { CompetitionTab } from "./CompetitionsTab";
 import MainTab from "./MainTab";
 import PeopleTab from "./PeopleTab";
 import TasksTab from "./TasksTab";
@@ -33,6 +34,15 @@ const GroupDetails: FC<{ group: IGroup }> = ({ group }) => {
       children: (
         <Space direction="vertical" style={{ width: "100%" }}>
           <TasksTab />
+        </Space>
+      ),
+    },
+    {
+      key: "competitions",
+      label: <FormattedMessage id="group.detail.component.item.competitions" />,
+      children: (
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <CompetitionTab />
         </Space>
       ),
     },

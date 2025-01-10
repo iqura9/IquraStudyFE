@@ -10,4 +10,5 @@ export const Paths = {
   createQuiz: "/quiz/create",
   quizzes: "/quizzes",
   createQuestion: "/create/question",
+  createCompetition: "/create/competition",
 };
