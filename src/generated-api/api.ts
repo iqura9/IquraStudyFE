@@ -88,6 +88,67 @@ export interface Category {
 /**
  * 
  * @export
+ * @interface Competition
+ */
+export interface Competition {
+    /**
+     * 
+     * @type {number}
+     * @memberof Competition
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Competition
+     */
+    'title'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Competition
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Competition
+     */
+    'format'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Competition
+     */
+    'participantMode'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Competition
+     */
+    'startTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Competition
+     */
+    'endTime'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Competition
+     */
+    'duration'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Competition
+     */
+    'difficulty'?: string | null;
+}
+/**
+ * 
+ * @export
  * @interface CreateAnswerDto
  */
 export interface CreateAnswerDto {
@@ -2448,6 +2509,370 @@ export class CategoryApi extends BaseAPI {
      */
     public get(id: number, options?: RawAxiosRequestConfig) {
         return CategoryApiFp(this.configuration).get(id, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * CompetitionApi - axios parameter creator
+ * @export
+ */
+export const CompetitionApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Competition`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionIdDelete: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiCompetitionIdDelete', 'id', id)
+            const localVarPath = `/api/Competition/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionIdGet: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiCompetitionIdGet', 'id', id)
+            const localVarPath = `/api/Competition/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {Competition} [competition] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionIdPut: async (id: number, competition?: Competition, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiCompetitionIdPut', 'id', id)
+            const localVarPath = `/api/Competition/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(competition, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {Competition} [competition] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionPost: async (competition?: Competition, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Competition`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(competition, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CompetitionApi - functional programming interface
+ * @export
+ */
+export const CompetitionApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CompetitionApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompetitionGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Competition>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompetitionIdDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionIdDelete(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompetitionIdGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Competition>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionIdGet(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {Competition} [competition] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompetitionIdPut(id: number, competition?: Competition, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionIdPut(id, competition, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionIdPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {Competition} [competition] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompetitionPost(competition?: Competition, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Competition>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionPost(competition, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * CompetitionApi - factory interface
+ * @export
+ */
+export const CompetitionApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CompetitionApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<Competition>> {
+            return localVarFp.apiCompetitionGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionIdDelete(id: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiCompetitionIdDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionIdGet(id: number, options?: RawAxiosRequestConfig): AxiosPromise<Competition> {
+            return localVarFp.apiCompetitionIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {Competition} [competition] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionIdPut(id: number, competition?: Competition, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiCompetitionIdPut(id, competition, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {Competition} [competition] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionPost(competition?: Competition, options?: RawAxiosRequestConfig): AxiosPromise<Competition> {
+            return localVarFp.apiCompetitionPost(competition, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CompetitionApi - object-oriented interface
+ * @export
+ * @class CompetitionApi
+ * @extends {BaseAPI}
+ */
+export class CompetitionApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompetitionApi
+     */
+    public apiCompetitionGet(options?: RawAxiosRequestConfig) {
+        return CompetitionApiFp(this.configuration).apiCompetitionGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompetitionApi
+     */
+    public apiCompetitionIdDelete(id: number, options?: RawAxiosRequestConfig) {
+        return CompetitionApiFp(this.configuration).apiCompetitionIdDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompetitionApi
+     */
+    public apiCompetitionIdGet(id: number, options?: RawAxiosRequestConfig) {
+        return CompetitionApiFp(this.configuration).apiCompetitionIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {Competition} [competition] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompetitionApi
+     */
+    public apiCompetitionIdPut(id: number, competition?: Competition, options?: RawAxiosRequestConfig) {
+        return CompetitionApiFp(this.configuration).apiCompetitionIdPut(id, competition, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {Competition} [competition] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompetitionApi
+     */
+    public apiCompetitionPost(competition?: Competition, options?: RawAxiosRequestConfig) {
+        return CompetitionApiFp(this.configuration).apiCompetitionPost(competition, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
