@@ -10,6 +10,8 @@ import {
 } from "antd";
 import styled from "styled-components";
 
+import { useCreateCompetition } from "./useCreateCompetition";
+
 const { Title } = Typography;
 const { TextArea } = Input;
 
@@ -22,7 +24,10 @@ const PageContainer = styled("div")({
 function CreateCompetitionPage() {
   const [form] = Form.useForm();
 
+  const { createCompetition, isPending } = useCreateCompetition();
+
   const onFinish = (values: any) => {
+    createCompetition(values);
     console.log("Competition Created:", values);
   };
 
@@ -170,8 +175,13 @@ function CreateCompetitionPage() {
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit" block>
-                Create Competition
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={isPending}
+                block
+              >
+                {isPending ? "Submitting..." : "Create Competition"}
               </Button>
             </Form.Item>
           </Form>

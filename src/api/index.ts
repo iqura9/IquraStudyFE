@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   AccountApiFactory,
   AnswerApiFactory,
+  CompetitionApiFactory,
   UsersApiFactory,
 } from "generated-api/api";
 
@@ -32,4 +33,5 @@ export const api = createApi(
   AccountApiFactory,
   AnswerApiFactory,
   UsersApiFactory,
+  CompetitionApiFactory,
 );
