@@ -26,7 +26,7 @@ export default function CompetitionPage() {
       <Row gutter={[16, 16]}>
         {paginatedData?.map((competition) => (
           <Col xs={24} sm={12} lg={8} key={competition.id}>
-            <Link to={String(competition.id)}>
+            <Link to={`/competition/${String(competition.id)}`}>
               <Card
                 bordered={false}
                 style={{

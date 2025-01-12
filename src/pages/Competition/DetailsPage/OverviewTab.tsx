@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 import { Button, Card, Col, Row, Tag, Timeline, Typography } from "antd";
 import { CompetitionDto } from "generated-api/api";
 
@@ -21,6 +22,7 @@ function handleCompetitionFormat(
 }
 
 function OverviewTab({ competitionData }: OverviewTabProps) {
+  const { id } = useParams();
   if (!competitionData) {
     return <p>No competition data available.</p>;
   }
@@ -88,9 +90,9 @@ function OverviewTab({ competitionData }: OverviewTabProps) {
               </Text>
             </Timeline.Item>
           </Timeline>
-          <Button type="primary" block style={{ marginTop: "16px" }}>
+          <Link type="primary" style={{ marginTop: "16px" }} to={`view/${id}`}>
             Join Contest
-          </Button>
+          </Link>
         </Card>
       </Col>
     </Row>

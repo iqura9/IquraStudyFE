@@ -35,6 +35,7 @@ const TaskPage = () => {
   const createdAt = data?.createdAt
     ? new Date(data?.createdAt || "").toLocaleDateString()
     : "";
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>

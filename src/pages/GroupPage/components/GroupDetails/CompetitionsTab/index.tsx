@@ -1,3 +1,5 @@
+import CompetitionPage from "pages/Competition";
+
 export function CompetitionTab() {
-  return <div>index</div>;
+  return <CompetitionPage />;
 }

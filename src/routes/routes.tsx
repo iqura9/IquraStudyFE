@@ -30,6 +30,9 @@ const CompetitionPage = lazy(() => import("pages/Competition"));
 const CompetitionDetailPage = lazy(
   () => import("pages/Competition/DetailsPage"),
 );
+
+const ViewCompetitionPage = lazy(() => import("pages/Competition/View"));
+
 interface IAppRoutes {
   component: React.ReactNode;
   path: string;
@@ -142,5 +145,9 @@ export const outRouters: IAppRoutes[] = [
   {
     path: "/problem/:id",
     component: <ProblemPage />,
+  },
+  {
+    path: "/competition/view/:id",
+    component: <ViewCompetitionPage />,
   },
 ];
