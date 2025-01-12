@@ -1,6 +1,16 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { Card, Layout, List, Menu, Progress, Typography } from "antd";
+import { getMeFn } from "api/auth.api";
+import { api } from "api/index";
+import Spinner from "components/Spinner";
+import { Participation } from "generated-api/api";
+import { getAccessToken } from "helpers/getToken";
 import styled from "styled-components";
+import { IUserResponse } from "types/authTypes";
+
+import NotParticipantPage from "./NotParticipantPage";
+import { ParticipationTimer } from "./ParticipationTimer";
 
 import {
   HomeOutlined,
@@ -9,6 +19,7 @@ import {
   NumberOutlined,
   TrophyOutlined,
 } from "@ant-design/icons";
+import { useQuery } from "@tanstack/react-query";
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
@@ -88,8 +99,8 @@ const StyledCard = styled(Card)({
   },
 });
 
-const ViewCompetition: React.FC = () => {
-  const remainingTime = "16:32:32";
+function ViewCompetition() {
+  const { id } = useParams();
   const quizzes = [
     { id: 1, title: "Quiz 1", status: "Not Submitted" },
     { id: 2, title: "Quiz 2", status: "In Progress" },
@@ -98,6 +109,24 @@ const ViewCompetition: React.FC = () => {
     { id: 1, title: "Problem A", status: "Not Submitted" },
     { id: 2, title: "Problem B", status: "Submitted" },
   ];
+
+  const {
+    data: participation,
+    isError,
+    isLoading,
+  } = useQuery<Participation>({
+    queryKey: ["apiParicipationCompetitionIdGet", id],
+    queryFn: () =>
+      api.apiParicipationCompetitionIdGet(Number(id)).then((res) => res.data),
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
+
+  if (isLoading) return <Spinner />;
+
+  if (isError) {
+    return <NotParticipantPage />;
+  }
 
   return (
     <StyledLayout>
@@ -114,9 +143,10 @@ const ViewCompetition: React.FC = () => {
             Залишок часу
           </Text>
           <StyledProgress percent={50} showInfo={false} />
-          <Text style={{ color: "#fff", marginTop: "8px" }}>
-            {remainingTime}
-          </Text>
+          <ParticipationTimer
+            startedAt={participation?.startedAt ?? ""}
+            duration={participation?.competition?.duration ?? 0}
+          />
         </SidebarHeader>
 
         <MenuWrapper>
@@ -198,6 +228,6 @@ const ViewCompetition: React.FC = () => {
       </Layout>
     </StyledLayout>
   );
-};
+}
 
 export default ViewCompetition;

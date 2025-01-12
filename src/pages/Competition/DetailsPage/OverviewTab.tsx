@@ -1,7 +1,9 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Card, Col, Row, Tag, Timeline, Typography } from "antd";
 import { CompetitionDto } from "generated-api/api";
+
+import { useJoinCompetition } from "./useJoinCompetition";
 
 import { ClockCircleOutlined } from "@ant-design/icons";
 
@@ -22,7 +24,7 @@ function handleCompetitionFormat(
 }
 
 function OverviewTab({ competitionData }: OverviewTabProps) {
-  const { id } = useParams();
+  const { mutate: joinCompetiton } = useJoinCompetition();
   if (!competitionData) {
     return <p>No competition data available.</p>;
   }
@@ -90,9 +92,14 @@ function OverviewTab({ competitionData }: OverviewTabProps) {
               </Text>
             </Timeline.Item>
           </Timeline>
-          <Link type="primary" style={{ marginTop: "16px" }} to={`view/${id}`}>
+          <Button
+            type="primary"
+            style={{ marginTop: "16px" }}
+            block
+            onClick={() => joinCompetiton()}
+          >
             Join Contest
-          </Link>
+          </Button>
         </Card>
       </Col>
     </Row>
