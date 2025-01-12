@@ -1,5 +1,10 @@
 import React from "react";
+import { FormattedMessage } from "react-intl";
+import { useParams } from "react-router-dom";
 import { Button, Space, Typography } from "antd";
+import useModal from "hooks/useModal";
+import { useRole } from "hooks/useRole";
+import AddTaskModal from "pages/groupPage/components/Modal/AddTaskModal";
 
 import {
   BannerImage,
@@ -30,6 +35,14 @@ const CompetitionHeader: React.FC<CompetitionHeaderProps> = ({
   date,
   virtual,
 }) => {
+  const { id } = useParams();
+  const { isTeacher } = useRole();
+  const { isShow, handleShowModal, handleHideModal } = useModal();
+  const handleAddTask = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleShowModal();
+  };
   return (
     <Header>
       <Space>
@@ -50,7 +63,18 @@ const CompetitionHeader: React.FC<CompetitionHeaderProps> = ({
         <StyledButton type="primary" icon={<PlusOutlined />}>
           Join
         </StyledButton>
+        {isTeacher ? (
+          <Button type="link" onClick={(e) => handleAddTask(e)}>
+            <FormattedMessage id="group.detail.component.task.tab.add" />
+          </Button>
+        ) : null}
       </Space>
+      <AddTaskModal
+        visible={isShow}
+        onCancel={handleHideModal}
+        taskId={Number(id)}
+        isCompetition
+      />
     </Header>
   );
 };

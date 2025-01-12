@@ -2,8 +2,10 @@ import { FC } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Button, Form, Modal, notification, Select, Space } from "antd";
 import { DefaultOptionType } from "antd/es/select";
+import { api } from "api/index";
 import { getProblems } from "api/problem.api";
 import { createQuizTask, getQuizzesSelect } from "api/quiz";
+import { CreateCompetitionProblemsDto } from "generated-api/api";
 import { IQuiz } from "types/questionTypes";
 import { CreateQuizTaskDto } from "types/quiz";
 
@@ -13,9 +15,15 @@ interface AddTaskModalProps {
   taskId: number | undefined;
   visible: boolean;
   onCancel: () => void;
+  isCompetition?: boolean;
 }
 
-const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
+const AddTaskModal: FC<AddTaskModalProps> = ({
+  visible,
+  onCancel,
+  taskId,
+  isCompetition = false,
+}) => {
   const [form] = Form.useForm();
   const { formatMessage } = useIntl();
 
@@ -35,19 +43,38 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
     enabled: !!taskId,
   });
 
-  const { mutate: mutationFn } = useMutation<unknown, Error, CreateQuizTaskDto>(
-    {
-      mutationKey: ["createQuizTask", taskId],
-      mutationFn: (data) => createQuizTask(data),
-      onSuccess: () => {
-        form.resetFields();
-        refetch();
-      },
-      onError: (error: any) => {
-        notification.error({ message: error.name, description: error.message });
-      },
-    }
-  );
+  const { mutate: createQuizTaskFn } = useMutation<
+    unknown,
+    Error,
+    CreateQuizTaskDto
+  >({
+    mutationKey: ["createQuizTask", taskId],
+    mutationFn: (data) => createQuizTask(data),
+    onSuccess: () => {
+      form.resetFields();
+      refetch();
+    },
+    onError: (error: any) => {
+      notification.error({ message: error.name, description: error.message });
+    },
+  });
+
+  const { mutate: addProblemToCompetitionFn } = useMutation<
+    void,
+    Error,
+    CreateCompetitionProblemsDto
+  >({
+    mutationKey: ["addProblemToCompetition", taskId],
+    mutationFn: (data) =>
+      api.apiCompetitionProblemsPost(data).then((res) => res.data),
+    onSuccess: () => {
+      form.resetFields();
+      refetch();
+    },
+    onError: (error: any) => {
+      notification.error({ message: error.name, description: error.message });
+    },
+  });
 
   const options: DefaultOptionType[] | undefined = data?.map((quiz) => ({
     label: `${quiz.title} ${formatMessage({ id: "common.by" })} ${
@@ -62,7 +89,7 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
         problem.user.userName
       }`,
       value: problem.id,
-    })
+    }),
   );
 
   const onFinish = (values: { quizIds: number[]; problemIds: number[] }) => {
@@ -75,12 +102,21 @@ const AddTaskModal: FC<AddTaskModalProps> = ({ visible, onCancel, taskId }) => {
 
     const { quizIds, problemIds } = values;
 
-    const sendDto: CreateQuizTaskDto = {
-      groupTasksId: taskId!,
-      quizIds,
-      problemIds,
-    };
-    mutationFn(sendDto);
+    if (isCompetition) {
+      addProblemToCompetitionFn({
+        competitionId: taskId,
+        problemIds,
+        quizIds,
+      });
+    } else {
+      const sendDto: CreateQuizTaskDto = {
+        groupTasksId: taskId!,
+        quizIds,
+        problemIds,
+      };
+      createQuizTaskFn(sendDto);
+    }
+
     onCancel();
   };
 

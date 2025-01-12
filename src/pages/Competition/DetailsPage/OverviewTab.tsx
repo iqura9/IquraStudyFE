@@ -1,23 +1,32 @@
 import React from "react";
 import { Button, Card, Col, Row, Tag, Timeline, Typography } from "antd";
-import { Competition } from "generated-api/api";
+import { CompetitionDto } from "generated-api/api";
 
 import { ClockCircleOutlined } from "@ant-design/icons";
 
 const { Title, Text } = Typography;
 
 interface OverviewTabProps {
-  competitionData?: Competition;
+  competitionData?: CompetitionDto;
 }
 
-const OverviewTab: React.FC<OverviewTabProps> = ({ competitionData }) => {
+function handleCompetitionFormat(
+  format: string = "",
+  problemsCount: number,
+  quizzesCount: number,
+) {
+  if (!format) return "Not specified";
+
+  return `${format}, ${problemsCount} problems, ${quizzesCount} quizzes`;
+}
+
+function OverviewTab({ competitionData }: OverviewTabProps) {
   if (!competitionData) {
     return <p>No competition data available.</p>;
   }
 
   return (
     <Row gutter={[16, 16]}>
-      {/* Overview Section */}
       <Col xs={24} md={16}>
         <Card
           bordered={false}
@@ -67,7 +76,11 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ competitionData }) => {
             </Timeline.Item>
             <Timeline.Item>
               <Text strong>Format:</Text>{" "}
-              {competitionData.format || "Not specified"}
+              {handleCompetitionFormat(
+                competitionData.format,
+                competitionData.problemsCount,
+                competitionData.quizzesCount,
+              )}
             </Timeline.Item>
             <Timeline.Item dot={<ClockCircleOutlined />}>
               <Text type="secondary">
@@ -82,6 +95,6 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ competitionData }) => {
       </Col>
     </Row>
   );
-};
+}
 
 export default OverviewTab;
