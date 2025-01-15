@@ -1,5 +1,5 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { Card, Layout, List, Menu, Progress, Typography } from "antd";
 import { getMeFn } from "api/auth.api";
 import { api } from "api/index";
@@ -11,6 +11,7 @@ import { IUserResponse } from "types/authTypes";
 
 import NotParticipantPage from "./NotParticipantPage";
 import { ParticipationTimer } from "./ParticipationTimer";
+import { TimeUpPage } from "./TimeUpPAge";
 
 import {
   HomeOutlined,
@@ -101,14 +102,7 @@ const StyledCard = styled(Card)({
 
 function ViewCompetition() {
   const { id } = useParams();
-  const quizzes = [
-    { id: 1, title: "Quiz 1", status: "Not Submitted" },
-    { id: 2, title: "Quiz 2", status: "In Progress" },
-  ];
-  const problems = [
-    { id: 1, title: "Problem A", status: "Not Submitted" },
-    { id: 2, title: "Problem B", status: "Submitted" },
-  ];
+  const [isCompetitionFinished, setIsCompetitionFinished] = useState(false);
 
   const {
     data: participation,
@@ -126,6 +120,10 @@ function ViewCompetition() {
 
   if (isError) {
     return <NotParticipantPage />;
+  }
+
+  if (isCompetitionFinished) {
+    return <TimeUpPage />;
   }
 
   return (
@@ -146,6 +144,7 @@ function ViewCompetition() {
           <ParticipationTimer
             startedAt={participation?.startedAt ?? ""}
             duration={participation?.competition?.duration ?? 0}
+            setIsCompetitionFinished={setIsCompetitionFinished}
           />
         </SidebarHeader>
 
@@ -180,22 +179,28 @@ function ViewCompetition() {
               Quizzes
             </Title>
             <List
-              dataSource={quizzes}
-              renderItem={(item) => (
-                <List.Item
-                  style={{
-                    backgroundColor: "#3A3A3A",
-                    marginBottom: "8px",
-                    borderRadius: "8px",
-                  }}
-                >
-                  <List.Item.Meta
-                    title={<Text style={{ color: "#fff" }}>{item.title}</Text>}
-                    description={
-                      <Text style={{ color: "#8c8c8c" }}>{item.status}</Text>
-                    }
-                  />
-                </List.Item>
+              dataSource={participation?.competition?.competitionQuizzes ?? []}
+              renderItem={({ quiz }) => (
+                <Link to={`/quiz/${quiz?.id}?competitionId=${id}`}>
+                  <List.Item
+                    style={{
+                      backgroundColor: "#3A3A3A",
+                      marginBottom: "8px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    <List.Item.Meta
+                      title={
+                        <Text style={{ color: "#fff" }}>{quiz?.title}</Text>
+                      }
+                      description={
+                        <Text style={{ color: "#8c8c8c" }}>
+                          {quiz?.createdAt}
+                        </Text>
+                      }
+                    />
+                  </List.Item>
+                </Link>
               )}
             />
           </StyledCard>
@@ -205,22 +210,28 @@ function ViewCompetition() {
               Problems
             </Title>
             <List
-              dataSource={problems}
-              renderItem={(item) => (
-                <List.Item
-                  style={{
-                    backgroundColor: "#3A3A3A",
-                    marginBottom: "8px",
-                    borderRadius: "8px",
-                  }}
-                >
-                  <List.Item.Meta
-                    title={<Text style={{ color: "#fff" }}>{item.title}</Text>}
-                    description={
-                      <Text style={{ color: "#8c8c8c" }}>{item.status}</Text>
-                    }
-                  />
-                </List.Item>
+              dataSource={participation?.competition?.competitionProblems ?? []}
+              renderItem={({ problem }) => (
+                <Link to={`/problem/${problem?.id}?competitionId=${id}`}>
+                  <List.Item
+                    style={{
+                      backgroundColor: "#3A3A3A",
+                      marginBottom: "8px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    <List.Item.Meta
+                      title={
+                        <Text style={{ color: "#fff" }}>{problem?.title}</Text>
+                      }
+                      description={
+                        <Text style={{ color: "#8c8c8c" }}>
+                          {problem?.createdAt}
+                        </Text>
+                      }
+                    />
+                  </List.Item>
+                </Link>
               )}
             />
           </StyledCard>

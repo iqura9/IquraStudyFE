@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import styled from "styled-components";
+
+import { TimeUpPage } from "./TimeUpPAge";
 
 const TimerContainer = styled("div")({
   color: "#fff",
@@ -11,11 +13,13 @@ const TimerContainer = styled("div")({
 interface TimerProps {
   startedAt: string; // Start time in ISO format
   duration: number; // Duration in hours
+  setIsCompetitionFinished: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ParticipationTimer: React.FC<TimerProps> = ({
   startedAt,
   duration,
+  setIsCompetitionFinished,
 }) => {
   const [timeLeft, setTimeLeft] = useState<string>("");
 
@@ -28,6 +32,7 @@ export const ParticipationTimer: React.FC<TimerProps> = ({
 
       if (diff <= 0) {
         setTimeLeft("Time's up!");
+        setIsCompetitionFinished(true);
         return;
       }
 
@@ -46,7 +51,7 @@ export const ParticipationTimer: React.FC<TimerProps> = ({
 
     // Cleanup interval on component unmount
     return () => clearInterval(interval);
-  }, [startedAt, duration]);
+  }, [startedAt, duration, setIsCompetitionFinished]);
 
   return <TimerContainer>{timeLeft}</TimerContainer>;
 };
