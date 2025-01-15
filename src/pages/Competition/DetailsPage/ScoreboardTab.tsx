@@ -1,88 +1,129 @@
-import React from "react";
-import { Table } from "antd";
+import React, { useMemo } from "react";
+import { useParams } from "react-router-dom";
+import { Alert, Spin, Table } from "antd";
+import { api } from "api/index";
 
-const scoreboardData = [
-  {
-    key: "1",
-    rank: 1,
-    participant: "Ali.qurbanov00",
-    country: "Azerbaijan",
-    results: { A: 100, B: 100, C: 100, D: 100, E: 100, F: 100, G: 140, H: 100 },
-  },
-  {
-    key: "2",
-    rank: 1,
-    participant: "nhant",
-    country: "Vietnam",
-    results: { A: 100, B: 100, C: 100, D: 100, E: 100, F: 100, G: 140, H: 100 },
-  },
-];
-
-const columns = [
-  {
-    title: "Rank",
-    dataIndex: "rank",
-    key: "rank",
-  },
-  {
-    title: "Participant",
-    dataIndex: "participant",
-    key: "participant",
-  },
-  {
-    title: "Country",
-    dataIndex: "country",
-    key: "country",
-  },
-  {
-    title: "A",
-    dataIndex: ["results", "A"],
-    key: "A",
-  },
-  {
-    title: "B",
-    dataIndex: ["results", "B"],
-    key: "B",
-  },
-  {
-    title: "C",
-    dataIndex: ["results", "C"],
-    key: "C",
-  },
-  {
-    title: "D",
-    dataIndex: ["results", "D"],
-    key: "D",
-  },
-  {
-    title: "E",
-    dataIndex: ["results", "E"],
-    key: "E",
-  },
-  {
-    title: "F",
-    dataIndex: ["results", "F"],
-    key: "F",
-  },
-  {
-    title: "G",
-    dataIndex: ["results", "G"],
-    key: "G",
-  },
-  {
-    title: "H",
-    dataIndex: ["results", "H"],
-    key: "H",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
 
 const ScoreboardTab: React.FC = () => {
+  const { id } = useParams();
+
+  // Fetch scoreboard data
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["getScore", id],
+    queryFn: () =>
+      api
+        .apiCompetitionScoreboardCompetitionIdGet(Number(id))
+        .then((res) => res.data),
+  });
+
+  // Define table columns
+  const columns = useMemo(() => {
+    if (!data) return [];
+
+    // Dynamically generate columns for problems
+    const problemColumns =
+      Array.isArray(data.userScores[0]?.problems) &&
+      data.userScores[0].problems.map((problem: any) => ({
+        title: problem.title || `Problem ${problem.problemId}`,
+        dataIndex: `problem_${problem.problemId}`,
+        key: `problem_${problem.problemId}`,
+        align: "center",
+      }));
+
+    // Dynamically generate columns for quizzes
+    const quizColumns =
+      Array.isArray(data.userScores[0]?.quizzes) &&
+      data.userScores[0].quizzes.map((quiz: any) => ({
+        title: quiz.title || `Quiz ${quiz.quizId}`,
+        dataIndex: `quiz_${quiz.quizId}`,
+        key: `quiz_${quiz.quizId}`,
+        align: "center",
+      }));
+
+    return [
+      {
+        title: "Rank",
+        dataIndex: "rank",
+        key: "rank",
+        align: "center",
+      },
+      {
+        title: "Participant",
+        dataIndex: "userName",
+        key: "userName",
+        align: "center",
+      },
+      {
+        title: "Total Score",
+        dataIndex: "totalScore",
+        key: "totalScore",
+        align: "center",
+      },
+      ...(problemColumns || []), // Add problem columns if available
+      ...(quizColumns || []), // Add quiz columns if available
+    ];
+  }, [data]);
+
+  // Transform API data into dataSource
+  const dataSource = useMemo(() => {
+    if (!data) return [];
+
+    return data.userScores.map((user: any, index: number) => {
+      // Map problem scores into the row
+      const problemScores = Array.isArray(user.problems)
+        ? user.problems.reduce((acc: any, problem: any) => {
+            acc[`problem_${problem.problemId}`] = problem.score;
+            return acc;
+          }, {})
+        : {};
+
+      // Map quiz scores into the row
+      const quizScores = Array.isArray(user.quizzes)
+        ? user.quizzes.reduce((acc: any, quiz: any) => {
+            acc[`quiz_${quiz.quizId}`] = quiz.score;
+            return acc;
+          }, {})
+        : {};
+
+      return {
+        key: user.userId,
+        rank: index + 1,
+        userName: user.userName,
+        totalScore: user.totalScore,
+        ...problemScores,
+        ...quizScores,
+      };
+    });
+  }, [data]);
+
+  if (isLoading) {
+    return (
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <Alert
+          message="Error"
+          description="Failed to load scoreboard."
+          type="error"
+        />
+      </div>
+    );
+  }
+
   return (
     <Table
       columns={columns}
-      dataSource={scoreboardData}
+      dataSource={dataSource}
       bordered
       pagination={false}
+      scroll={{ x: "max-content" }}
     />
   );
 };
