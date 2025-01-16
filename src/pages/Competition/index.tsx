@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, Col, Pagination, Row } from "antd";
+import { Competition } from "generated-api/api";
 
 import { useGetCompetitions } from "./useGetCompetitions";
 
 import { CalendarOutlined, PlusOutlined } from "@ant-design/icons";
 
-export default function CompetitionPage() {
+type CompetitionPageProps = {
+  data: Competition[] | undefined;
+};
+
+export default function CompetitionPage({ data }: CompetitionPageProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 6;
-
-  const { data } = useGetCompetitions();
 
   const paginatedData = data?.slice(
     (currentPage - 1) * pageSize,

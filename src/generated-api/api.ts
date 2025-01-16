@@ -26,6 +26,25 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface AddGroupCompetitionsDto
+ */
+export interface AddGroupCompetitionsDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof AddGroupCompetitionsDto
+     */
+    'groupId'?: number;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof AddGroupCompetitionsDto
+     */
+    'competitionIds'?: Array<number> | null;
+}
+/**
+ * 
+ * @export
  * @interface Answer
  */
 export interface Answer {
@@ -147,6 +166,18 @@ export interface Competition {
     'difficulty'?: string | null;
     /**
      * 
+     * @type {string}
+     * @memberof Competition
+     */
+    'userId'?: string | null;
+    /**
+     * 
+     * @type {User}
+     * @memberof Competition
+     */
+    'user'?: User;
+    /**
+     * 
      * @type {Array<CompetitionProblem>}
      * @memberof Competition
      */
@@ -157,6 +188,12 @@ export interface Competition {
      * @memberof Competition
      */
     'competitionQuizzes'?: Array<CompetitionQuiz> | null;
+    /**
+     * 
+     * @type {Array<GroupCompetition>}
+     * @memberof Competition
+     */
+    'groupCompetitions'?: Array<GroupCompetition> | null;
 }
 /**
  * 
@@ -638,6 +675,67 @@ export interface Group {
      * @memberof Group
      */
     'groupTasks'?: Array<GroupTask> | null;
+    /**
+     * 
+     * @type {Array<GroupCompetition>}
+     * @memberof Group
+     */
+    'groupCompetitions'?: Array<GroupCompetition> | null;
+}
+/**
+ * 
+ * @export
+ * @interface GroupCompetition
+ */
+export interface GroupCompetition {
+    /**
+     * 
+     * @type {number}
+     * @memberof GroupCompetition
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GroupCompetition
+     */
+    'groupId'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupCompetition
+     */
+    'createByUserId'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GroupCompetition
+     */
+    'competitionId'?: number | null;
+    /**
+     * 
+     * @type {Group}
+     * @memberof GroupCompetition
+     */
+    'group'?: Group;
+    /**
+     * 
+     * @type {User}
+     * @memberof GroupCompetition
+     */
+    'createdByUser'?: User;
+    /**
+     * 
+     * @type {Competition}
+     * @memberof GroupCompetition
+     */
+    'competition'?: Competition;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupCompetition
+     */
+    'createdAt'?: string | null;
 }
 /**
  * 
@@ -1602,39 +1700,27 @@ export interface RegisterViewModel {
 /**
  * 
  * @export
- * @interface ScoreboardDto
+ * @interface ScoreboardResponseDto
  */
-export interface ScoreboardDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof ScoreboardDto
-     */
-    'userId'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof ScoreboardDto
-     */
-    'userName'?: string | null;
+export interface ScoreboardResponseDto {
     /**
      * 
      * @type {number}
-     * @memberof ScoreboardDto
+     * @memberof ScoreboardResponseDto
      */
-    'totalScore'?: number;
+    'competitionId'?: number;
     /**
      * 
-     * @type {Array<ProblemScoreDto>}
-     * @memberof ScoreboardDto
+     * @type {string}
+     * @memberof ScoreboardResponseDto
      */
-    'problems'?: Array<ProblemScoreDto> | null;
+    'title'?: string | null;
     /**
      * 
-     * @type {Array<QuizScoreDto>}
-     * @memberof ScoreboardDto
+     * @type {Array<UserScoreDto>}
+     * @memberof ScoreboardResponseDto
      */
-    'quizzes'?: Array<QuizScoreDto> | null;
+    'userScores'?: Array<UserScoreDto> | null;
 }
 /**
  * 
@@ -1873,6 +1959,12 @@ export interface User {
      * @memberof User
      */
     'quizzes'?: Array<Quiz> | null;
+    /**
+     * 
+     * @type {Array<Competition>}
+     * @memberof User
+     */
+    'competitions'?: Array<Competition> | null;
 }
 /**
  * 
@@ -1928,6 +2020,43 @@ export interface UserInfo {
      * @memberof UserInfo
      */
     'updatedAt'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface UserScoreDto
+ */
+export interface UserScoreDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserScoreDto
+     */
+    'userId'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserScoreDto
+     */
+    'userName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserScoreDto
+     */
+    'totalScore'?: number;
+    /**
+     * 
+     * @type {Array<ProblemScoreDto>}
+     * @memberof UserScoreDto
+     */
+    'problems'?: Array<ProblemScoreDto> | null;
+    /**
+     * 
+     * @type {Array<QuizScoreDto>}
+     * @memberof UserScoreDto
+     */
+    'quizzes'?: Array<QuizScoreDto> | null;
 }
 /**
  * 
@@ -2944,6 +3073,72 @@ export const CompetitionApiAxiosParamCreator = function (configuration?: Configu
         },
         /**
          * 
+         * @param {number} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionGroupGroupIdGet: async (groupId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('apiCompetitionGroupGroupIdGet', 'groupId', groupId)
+            const localVarPath = `/api/Competition/Group/{groupId}`
+                .replace(`{${"groupId"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {AddGroupCompetitionsDto} [addGroupCompetitionsDto] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionGroupPost: async (addGroupCompetitionsDto?: AddGroupCompetitionsDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Competition/Group`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(addGroupCompetitionsDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3144,6 +3339,35 @@ export const CompetitionApiAxiosParamCreator = function (configuration?: Configu
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionTeacherGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Competition/Teacher`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -3163,6 +3387,30 @@ export const CompetitionApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompetitionGroupGroupIdGet(groupId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Competition>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionGroupGroupIdGet(groupId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionGroupGroupIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {AddGroupCompetitionsDto} [addGroupCompetitionsDto] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompetitionGroupPost(addGroupCompetitionsDto?: AddGroupCompetitionsDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionGroupPost(addGroupCompetitionsDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionGroupPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -3232,10 +3480,21 @@ export const CompetitionApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiCompetitionScoreboardCompetitionIdGet(competitionId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ScoreboardDto>>> {
+        async apiCompetitionScoreboardCompetitionIdGet(competitionId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ScoreboardResponseDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionScoreboardCompetitionIdGet(competitionId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionScoreboardCompetitionIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompetitionTeacherGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Competition>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionTeacherGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionTeacherGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -3255,6 +3514,24 @@ export const CompetitionApiFactory = function (configuration?: Configuration, ba
          */
         apiCompetitionGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<Competition>> {
             return localVarFp.apiCompetitionGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionGroupGroupIdGet(groupId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Competition>> {
+            return localVarFp.apiCompetitionGroupGroupIdGet(groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {AddGroupCompetitionsDto} [addGroupCompetitionsDto] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionGroupPost(addGroupCompetitionsDto?: AddGroupCompetitionsDto, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiCompetitionGroupPost(addGroupCompetitionsDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3308,8 +3585,16 @@ export const CompetitionApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiCompetitionScoreboardCompetitionIdGet(competitionId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<ScoreboardDto>> {
+        apiCompetitionScoreboardCompetitionIdGet(competitionId: number, options?: RawAxiosRequestConfig): AxiosPromise<ScoreboardResponseDto> {
             return localVarFp.apiCompetitionScoreboardCompetitionIdGet(competitionId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionTeacherGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<Competition>> {
+            return localVarFp.apiCompetitionTeacherGet(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3329,6 +3614,28 @@ export class CompetitionApi extends BaseAPI {
      */
     public apiCompetitionGet(options?: RawAxiosRequestConfig) {
         return CompetitionApiFp(this.configuration).apiCompetitionGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompetitionApi
+     */
+    public apiCompetitionGroupGroupIdGet(groupId: number, options?: RawAxiosRequestConfig) {
+        return CompetitionApiFp(this.configuration).apiCompetitionGroupGroupIdGet(groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {AddGroupCompetitionsDto} [addGroupCompetitionsDto] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompetitionApi
+     */
+    public apiCompetitionGroupPost(addGroupCompetitionsDto?: AddGroupCompetitionsDto, options?: RawAxiosRequestConfig) {
+        return CompetitionApiFp(this.configuration).apiCompetitionGroupPost(addGroupCompetitionsDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3396,6 +3703,16 @@ export class CompetitionApi extends BaseAPI {
      */
     public apiCompetitionScoreboardCompetitionIdGet(competitionId: number, options?: RawAxiosRequestConfig) {
         return CompetitionApiFp(this.configuration).apiCompetitionScoreboardCompetitionIdGet(competitionId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompetitionApi
+     */
+    public apiCompetitionTeacherGet(options?: RawAxiosRequestConfig) {
+        return CompetitionApiFp(this.configuration).apiCompetitionTeacherGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
