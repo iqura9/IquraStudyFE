@@ -1072,6 +1072,12 @@ export interface Participation {
     'competitionId'?: number;
     /**
      * 
+     * @type {number}
+     * @memberof Participation
+     */
+    'groupId'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof Participation
      */
@@ -1112,6 +1118,12 @@ export interface Participation {
      * @memberof Participation
      */
     'competition'?: Competition;
+    /**
+     * 
+     * @type {Group}
+     * @memberof Participation
+     */
+    'group'?: Group;
 }
 /**
  * 
@@ -3309,10 +3321,11 @@ export const CompetitionApiAxiosParamCreator = function (configuration?: Configu
         /**
          * 
          * @param {number} competitionId 
+         * @param {number} [groupId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiCompetitionScoreboardCompetitionIdGet: async (competitionId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiCompetitionScoreboardCompetitionIdGet: async (competitionId: number, groupId?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'competitionId' is not null or undefined
             assertParamExists('apiCompetitionScoreboardCompetitionIdGet', 'competitionId', competitionId)
             const localVarPath = `/api/Competition/Scoreboard/{competitionId}`
@@ -3327,6 +3340,10 @@ export const CompetitionApiAxiosParamCreator = function (configuration?: Configu
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (groupId !== undefined) {
+                localVarQueryParameter['groupId'] = groupId;
+            }
 
 
     
@@ -3477,11 +3494,12 @@ export const CompetitionApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} competitionId 
+         * @param {number} [groupId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiCompetitionScoreboardCompetitionIdGet(competitionId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ScoreboardResponseDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionScoreboardCompetitionIdGet(competitionId, options);
+        async apiCompetitionScoreboardCompetitionIdGet(competitionId: number, groupId?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ScoreboardResponseDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionScoreboardCompetitionIdGet(competitionId, groupId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionScoreboardCompetitionIdGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -3582,11 +3600,12 @@ export const CompetitionApiFactory = function (configuration?: Configuration, ba
         /**
          * 
          * @param {number} competitionId 
+         * @param {number} [groupId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiCompetitionScoreboardCompetitionIdGet(competitionId: number, options?: RawAxiosRequestConfig): AxiosPromise<ScoreboardResponseDto> {
-            return localVarFp.apiCompetitionScoreboardCompetitionIdGet(competitionId, options).then((request) => request(axios, basePath));
+        apiCompetitionScoreboardCompetitionIdGet(competitionId: number, groupId?: number, options?: RawAxiosRequestConfig): AxiosPromise<ScoreboardResponseDto> {
+            return localVarFp.apiCompetitionScoreboardCompetitionIdGet(competitionId, groupId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3697,12 +3716,13 @@ export class CompetitionApi extends BaseAPI {
     /**
      * 
      * @param {number} competitionId 
+     * @param {number} [groupId] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CompetitionApi
      */
-    public apiCompetitionScoreboardCompetitionIdGet(competitionId: number, options?: RawAxiosRequestConfig) {
-        return CompetitionApiFp(this.configuration).apiCompetitionScoreboardCompetitionIdGet(competitionId, options).then((request) => request(this.axios, this.basePath));
+    public apiCompetitionScoreboardCompetitionIdGet(competitionId: number, groupId?: number, options?: RawAxiosRequestConfig) {
+        return CompetitionApiFp(this.configuration).apiCompetitionScoreboardCompetitionIdGet(competitionId, groupId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4661,11 +4681,12 @@ export const ParicipationApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
+         * @param {number} [groupId] 
          * @param {number} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiParicipationPost: async (body?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiParicipationPost: async (groupId?: number, body?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/Paricipation`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4677,6 +4698,10 @@ export const ParicipationApiAxiosParamCreator = function (configuration?: Config
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (groupId !== undefined) {
+                localVarQueryParameter['groupId'] = groupId;
+            }
 
 
     
@@ -4727,12 +4752,13 @@ export const ParicipationApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} [groupId] 
          * @param {number} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiParicipationPost(body?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiParicipationPost(body, options);
+        async apiParicipationPost(groupId?: number, body?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiParicipationPost(groupId, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ParicipationApi.apiParicipationPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -4766,12 +4792,13 @@ export const ParicipationApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
+         * @param {number} [groupId] 
          * @param {number} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiParicipationPost(body?: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.apiParicipationPost(body, options).then((request) => request(axios, basePath));
+        apiParicipationPost(groupId?: number, body?: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiParicipationPost(groupId, body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -4806,13 +4833,14 @@ export class ParicipationApi extends BaseAPI {
 
     /**
      * 
+     * @param {number} [groupId] 
      * @param {number} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ParicipationApi
      */
-    public apiParicipationPost(body?: number, options?: RawAxiosRequestConfig) {
-        return ParicipationApiFp(this.configuration).apiParicipationPost(body, options).then((request) => request(this.axios, this.basePath));
+    public apiParicipationPost(groupId?: number, body?: number, options?: RawAxiosRequestConfig) {
+        return ParicipationApiFp(this.configuration).apiParicipationPost(groupId, body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

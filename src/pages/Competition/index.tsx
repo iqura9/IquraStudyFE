@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button, Card, Col, Pagination, Row } from "antd";
 import { api } from "api/index";
 import { Competition } from "generated-api/api";
@@ -24,6 +24,7 @@ export function CompetitionPageWithData() {
 }
 
 export default function CompetitionPage({ data }: CompetitionPageProps) {
+  const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 6;
 
@@ -41,7 +42,7 @@ export default function CompetitionPage({ data }: CompetitionPageProps) {
       <Row gutter={[16, 16]}>
         {paginatedData?.map((competition) => (
           <Col xs={24} sm={12} lg={8} key={competition.id}>
-            <Link to={`/competition/${String(competition.id)}`}>
+            <Link to={`/competition/${String(competition.id)}?groupId=${id}`}>
               <Card
                 bordered={false}
                 style={{

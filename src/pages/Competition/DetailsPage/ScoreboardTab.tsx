@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { Alert, Spin, Table } from "antd";
 import { api } from "api/index";
 
@@ -7,13 +7,16 @@ import { useQuery } from "@tanstack/react-query";
 
 const ScoreboardTab: React.FC = () => {
   const { id } = useParams();
-
+  const [searchParams] = useSearchParams();
   // Fetch scoreboard data
   const { data, isLoading, error } = useQuery({
     queryKey: ["getScore", id],
     queryFn: () =>
       api
-        .apiCompetitionScoreboardCompetitionIdGet(Number(id))
+        .apiCompetitionScoreboardCompetitionIdGet(
+          Number(id),
+          Number(searchParams.get("groupId")),
+        )
         .then((res) => res.data),
   });
 
