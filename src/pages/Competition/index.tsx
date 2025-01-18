@@ -1,15 +1,27 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, Col, Pagination, Row } from "antd";
+import { api } from "api/index";
 import { Competition } from "generated-api/api";
 
 import { useGetCompetitions } from "./useGetCompetitions";
 
 import { CalendarOutlined, PlusOutlined } from "@ant-design/icons";
+import { useQuery } from "@tanstack/react-query";
 
 type CompetitionPageProps = {
   data: Competition[] | undefined;
 };
+
+export function CompetitionPageWithData() {
+  const { data: teacherCompetitions } = useQuery({
+    queryKey: ["getTeacherCompetitions"],
+    queryFn: () => api.apiCompetitionTeacherGet().then((res) => res.data),
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
+  return <CompetitionPage data={teacherCompetitions} />;
+}
 
 export default function CompetitionPage({ data }: CompetitionPageProps) {
   const [currentPage, setCurrentPage] = useState(1);
