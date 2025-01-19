@@ -1,101 +1,32 @@
 import { ReactNode, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { Layout, Menu, Progress, Typography } from "antd";
+import { Layout, Menu, Typography } from "antd";
 import { api } from "api/index";
 import { Participation } from "generated-api/api";
-import styled from "styled-components";
 
 import { ParticipationTimer } from "../View/ParticipationTimer";
 import { TimeUpPage } from "../View/TimeUpPage";
 
 import {
-  InfoCircleOutlined,
+  colors,
+  MenuWrapper,
+  SidebarHeader,
+  SidebarInner,
+  StyledLayout,
+  StyledMenu,
+  StyledProgress,
+  StyledSider,
+} from "./styled";
+
+import {
+  HomeOutlined,
   NumberOutlined,
   TrophyOutlined,
 } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 
-const { Sider } = Layout;
 const { Title, Text } = Typography;
-
-const colors = {
-  background: "#f8f9fa",
-  sidebar: "#ffffff",
-  card: "#ffffff",
-  border: "#ddd",
-  text: "#333",
-  textSecondary: "#888",
-  highlight: "#4cafb5",
-  hover: "#f0f2f5",
-};
-
-const StyledLayout = styled(Layout)({
-  minHeight: "100vh",
-  backgroundColor: colors.background,
-});
-
-const StyledSider = styled(Sider)<{ collapsed?: boolean }>(() => ({
-  background: `${colors.sidebar} !important`,
-  boxShadow: "2px 0 5px rgba(0, 0, 0, 0.05)",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-}));
-
-const SidebarInner = styled("div")({
-  padding: "16px",
-  display: "flex",
-  flexDirection: "column",
-  height: "100%",
-});
-
-const SidebarHeader = styled("div")({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  marginBottom: "16px",
-  color: colors.text,
-});
-
-const StyledProgress = styled(Progress)({
-  marginTop: "8px",
-  width: "100%",
-  ".ant-progress-bg": {
-    backgroundColor: colors.highlight,
-  },
-});
-
-const MenuWrapper = styled("div")({
-  marginTop: "24px",
-});
-
-const FooterWrapper = styled("div")({
-  marginTop: "auto",
-  paddingTop: "16px",
-  borderTop: `1px solid ${colors.border}`,
-  textAlign: "center",
-  color: colors.textSecondary,
-});
-
-const StyledMenu = styled(Menu)({
-  backgroundColor: "transparent",
-  border: "none",
-  "& .ant-menu-item": {
-    borderRadius: "8px",
-    marginBottom: "8px",
-  },
-  "& .ant-menu-item-selected": {
-    backgroundColor: colors.hover,
-    color: colors.highlight,
-  },
-  "& .ant-menu-item:hover": {
-    backgroundColor: colors.hover,
-    color: colors.highlight,
-  },
-  "& .ant-menu-title-content": {
-    color: colors.text,
-  },
-});
 
 interface ViewCompetitionSidebarProps {
   children: ReactNode;
@@ -106,8 +37,6 @@ export default function ViewCompetitionSidebar({
   children,
   isCompetiton = false,
 }: ViewCompetitionSidebarProps) {
-  // competitionId
-
   const { id } = useParams();
   const [isCompetitionFinished, setIsCompetitionFinished] = useState(false);
   const [searchParams] = useSearchParams();
@@ -153,15 +82,17 @@ export default function ViewCompetitionSidebar({
                 level={4}
                 style={{ color: colors.text, margin: "16px 0 8px" }}
               >
-                Test Name
+                {participation?.competition?.title}
               </Title>
-              <Text style={{ color: colors.textSecondary }}>Бали</Text>
+              <Text style={{ color: colors.textSecondary }}>
+                <FormattedMessage id="common.score" />
+              </Text>
               <StyledProgress percent={progressPercent} showInfo={false} />
               <Text style={{ color: colors.text, marginTop: "8px" }}>
                 {userScore} / {maxScore}
               </Text>
               <Text style={{ color: colors.textSecondary, marginTop: "16px" }}>
-                Залишок часу
+                <FormattedMessage id="competition.remaining.time" />
               </Text>
               <StyledProgress percent={timeProgressPercent} showInfo={false} />
               <ParticipationTimer
@@ -173,50 +104,38 @@ export default function ViewCompetitionSidebar({
           )}
 
           <MenuWrapper>
-            <StyledMenu mode="inline">
+            <StyledMenu mode="inline" defaultOpenKeys={["home"]}>
+              <Menu.Item key="home" icon={<HomeOutlined />}>
+                <Link to={`/competition/view/${rightCompetitionId}`}>
+                  {collapsed ? null : <FormattedMessage id="menu.home" />}
+                </Link>
+              </Menu.Item>
               {participation?.competition?.competitionQuizzes?.map((el) => {
                 return (
-                  <Link
-                    key={el.quiz?.title}
-                    to={`/quiz/${el.quiz?.id}?competitionId=${rightCompetitionId}&participationId=${participation?.id}`}
-                  >
-                    <Menu.Item key={el.quiz?.title} icon={<NumberOutlined />}>
+                  <Menu.Item key={el.quiz?.title} icon={<NumberOutlined />}>
+                    <Link
+                      to={`/quiz/${el.quiz?.id}?competitionId=${rightCompetitionId}&participationId=${participation?.id}`}
+                    >
                       {collapsed ? null : el.quiz?.title}
-                    </Menu.Item>
-                  </Link>
+                    </Link>
+                  </Menu.Item>
                 );
               })}
               {participation?.competition?.competitionProblems?.map((el) => {
                 return (
-                  <Link
-                    key={el.problem?.title}
-                    to={`/problem/${el.problem?.id}?competitionId=${rightCompetitionId}`}
-                  >
-                    <Menu.Item
-                      key={el.problem?.title}
-                      icon={<NumberOutlined />}
+                  <Menu.Item key={el.problem?.title} icon={<NumberOutlined />}>
+                    <Link
+                      to={`/problem/${el.problem?.id}?competitionId=${rightCompetitionId}`}
                     >
                       {collapsed ? null : el.problem?.title}
-                    </Menu.Item>
-                  </Link>
+                    </Link>
+                  </Menu.Item>
                 );
               })}
             </StyledMenu>
           </MenuWrapper>
-
-          {!collapsed && (
-            <FooterWrapper>
-              <InfoCircleOutlined
-                style={{ fontSize: "18px", marginBottom: "8px" }}
-              />
-              <Text style={{ display: "block", fontSize: "12px" }}>
-                Про сайт Повідом.
-              </Text>
-            </FooterWrapper>
-          )}
         </SidebarInner>
       </StyledSider>
-
       <Layout>{children}</Layout>
     </StyledLayout>
   );

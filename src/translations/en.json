@@ -169,5 +169,15 @@
   "input": "Input",
   "passed": "Passed",
   "register": "Register",
-  "Install the App": "Install the App"
+  "Install the App": "Install the App",
+  "competition.remaining.time": "Remaining Time",
+  "common.score": "Score",
+  "competition.quizzes": "Quizzes",
+  "competition.problems": "Problems",
+  "common.seeMore": "See more",
+  "competition.create.title": "Create Competition",
+  "competition.create.title.title": "Competition Title",
+  "competition.create.description": "Competition Description",
+  "competition.create.format": "Competition Format",
+  "competition.create.mode": "Participant Mode"
 }

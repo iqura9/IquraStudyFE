@@ -1,3 +1,4 @@
+import { FormattedMessage } from "react-intl";
 import {
   Button,
   Card,
@@ -35,7 +36,9 @@ function CreateCompetitionPage() {
     <PageContainer>
       <Card>
         <Space direction="vertical" style={{ width: "100%" }}>
-          <Title level={3}>Create Competition</Title>
+          <Title level={3}>
+            <FormattedMessage id="competition.create.title" />
+          </Title>
           <Form
             form={form}
             layout="vertical"
@@ -47,7 +50,7 @@ function CreateCompetitionPage() {
             }}
           >
             <Form.Item
-              label="Competition Title"
+              label={<FormattedMessage id="competition.create.title.title" />}
               name="title"
               rules={[
                 {
@@ -60,7 +63,7 @@ function CreateCompetitionPage() {
             </Form.Item>
 
             <Form.Item
-              label="Description"
+              label={<FormattedMessage id="competition.create.description" />}
               name="description"
               rules={[
                 { required: true, message: "Please enter a description!" },
@@ -70,7 +73,7 @@ function CreateCompetitionPage() {
             </Form.Item>
 
             <Form.Item
-              label="Format"
+              label={<FormattedMessage id="competition.create.format" />}
               name="format"
               rules={[
                 {
@@ -86,7 +89,7 @@ function CreateCompetitionPage() {
             </Form.Item>
 
             <Form.Item
-              label="Participant Mode"
+              label={<FormattedMessage id="competition.create.mode" />}
               name="participantMode"
               rules={[
                 {

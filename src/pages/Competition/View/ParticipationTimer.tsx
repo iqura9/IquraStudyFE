@@ -9,8 +9,8 @@ const TimerContainer = styled("div")({
 });
 
 interface TimerProps {
-  startedAt: string; // Start time in ISO format
-  duration: number; // Duration in hours
+  startedAt: string;
+  duration: number;
   setIsCompetitionFinished: Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -41,13 +41,10 @@ export const ParticipationTimer: React.FC<TimerProps> = ({
       setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
     };
 
-    // Initial call to set the timer
     updateTimer();
 
-    // Update every second
     const interval = setInterval(updateTimer, 1000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(interval);
   }, [startedAt, duration, setIsCompetitionFinished]);
 

@@ -1,3 +1,4 @@
+import { FormattedMessage } from "react-intl";
 import { Link, useParams } from "react-router-dom";
 import { Card, Layout, List, Typography } from "antd";
 import { api } from "api/index";
@@ -45,6 +46,7 @@ const StyledListItem = {
   backgroundColor: colors.hover,
   marginBottom: "8px",
   borderRadius: "8px",
+  padding: "8px",
 };
 
 function ViewCompetition() {
@@ -73,7 +75,7 @@ function ViewCompetition() {
       <StyledContent>
         <StyledCard>
           <Title level={4} style={{ color: colors.text, marginBottom: "16px" }}>
-            Quizzes
+            <FormattedMessage id="competition.quizzes" />
           </Title>
           <List
             dataSource={participation?.competition?.competitionQuizzes ?? []}
@@ -88,7 +90,7 @@ function ViewCompetition() {
                     }
                     description={
                       <Text style={{ color: colors.textSecondary }}>
-                        {quiz?.createdAt}
+                        {new Date(quiz?.createdAt ?? 0).toLocaleDateString()}
                       </Text>
                     }
                   />
@@ -100,7 +102,7 @@ function ViewCompetition() {
 
         <StyledCard>
           <Title level={4} style={{ color: colors.text, marginBottom: "16px" }}>
-            Problems
+            <FormattedMessage id="competition.problems" />
           </Title>
           <List
             dataSource={participation?.competition?.competitionProblems ?? []}
@@ -115,7 +117,7 @@ function ViewCompetition() {
                     }
                     description={
                       <Text style={{ color: colors.textSecondary }}>
-                        {problem?.createdAt}
+                        {new Date(problem?.createdAt ?? 0).toLocaleDateString()}
                       </Text>
                     }
                   />

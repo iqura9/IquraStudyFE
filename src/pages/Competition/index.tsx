@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { Link, useParams } from "react-router-dom";
 import { Button, Card, Col, Pagination, Row } from "antd";
 import { api } from "api/index";
@@ -107,7 +108,7 @@ export default function CompetitionPage({ data }: CompetitionPageProps) {
                     borderRadius: "8px",
                   }}
                 >
-                  See more
+                  <FormattedMessage id="common.seeMore" />
                 </Button>
               </Card>
             </Link>
