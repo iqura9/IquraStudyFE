@@ -1,10 +1,8 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { TimeUpPage } from "./TimeUpPAge";
-
 const TimerContainer = styled("div")({
-  color: "#fff",
+  color: "#000",
   fontSize: "18px",
   fontWeight: "bold",
   textAlign: "center",
