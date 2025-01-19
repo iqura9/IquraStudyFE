@@ -57,14 +57,14 @@ const ScoreboardTab: React.FC = () => {
         key: "userName",
         align: "center",
       },
+      ...(problemColumns || []), // Add problem columns if available
+      ...(quizColumns || []), // Add quiz columns if available,
       {
         title: "Total Score",
         dataIndex: "totalScore",
         key: "totalScore",
         align: "center",
       },
-      ...(problemColumns || []), // Add problem columns if available
-      ...(quizColumns || []), // Add quiz columns if available
     ];
   }, [data]);
 
