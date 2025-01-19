@@ -181,7 +181,9 @@ function ViewCompetition() {
             <List
               dataSource={participation?.competition?.competitionQuizzes ?? []}
               renderItem={({ quiz }) => (
-                <Link to={`/quiz/${quiz?.id}?competitionId=${id}`}>
+                <Link
+                  to={`/quiz/${quiz?.id}?competitionId=${id}&participationId=${participation?.id}`}
+                >
                   <List.Item
                     style={{
                       backgroundColor: "#3A3A3A",

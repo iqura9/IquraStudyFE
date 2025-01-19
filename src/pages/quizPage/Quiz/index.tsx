@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { notification } from "antd";
+import { api } from "api/index";
 import { getQuizWithoutAnswers, verifyQuiz } from "api/quiz";
+import { CompetitionQuizVerificationRequest } from "generated-api/api";
 import useModal from "hooks/useModal";
 import { IQuestionAnswers, VerificationQuery } from "types/quiz";
 
@@ -45,9 +47,28 @@ const QuizParticipant = () => {
     },
   });
 
+  const { mutate: verifyCompetitionQuizFn } = useMutation<
+    number,
+    Error,
+    CompetitionQuizVerificationRequest
+  >({
+    mutationKey: ["apiCompetitionVerifyQuizPost"],
+    mutationFn: (data: CompetitionQuizVerificationRequest) =>
+      api.apiCompetitionVerifyQuizPost(data),
+    onSuccess: (score: number) => {
+      notification.success({
+        message: `${formatMessage({ id: "quiz.score" })} ${score}`,
+      });
+      navigate(-1);
+    },
+    onError: (error: Error) => {
+      notification.error({ message: error.message });
+    },
+  });
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [currentQuestionId, setCurrentQuestionId] = useState(
-    data?.questions[0].id
+    data?.questions[0].id,
   );
   useEffect(() => {
     setCurrentQuestionId(data?.questions[0].id);
@@ -63,7 +84,7 @@ const QuizParticipant = () => {
     if (isMultiSelect) {
       setSelectedAnswers(
         questionAnswers.find((q) => q.questionId === currentQuestionId)
-          ?.answers || [-1]
+          ?.answers || [-1],
       );
     } else {
       setSelectedAnswers([
@@ -81,7 +102,7 @@ const QuizParticipant = () => {
   const handleNext = () => {
     handleSaveAnswer();
     setCurrentQuestion((prevQuestion) =>
-      Math.min(prevQuestion + 1, data?.questions?.length || 0)
+      Math.min(prevQuestion + 1, data?.questions?.length || 0),
     );
   };
 
@@ -91,7 +112,7 @@ const QuizParticipant = () => {
 
   const handleSaveAnswer = (answers?: number[]) => {
     const existingAnswerIndex = questionAnswers.findIndex(
-      (q) => q.questionId === currentQuestionId
+      (q) => q.questionId === currentQuestionId,
     );
 
     if (answers?.length == 0) answers = [-1];
@@ -119,12 +140,28 @@ const QuizParticipant = () => {
 
   const handleSubmitQuiz = () => {
     handleSaveAnswer();
-    const submitData = {
-      quizId: Number(id),
-      taskId: Number(searchParams.get("taskId")),
-      questions: questionAnswers,
-    };
-    verifyQuizFn(submitData);
+
+    const competitionId = searchParams.get("competitionId");
+    const participationId = searchParams.get("participationId");
+    const taskId = searchParams.get("taskId");
+
+    if (participationId) {
+      const submitData = {
+        quizId: Number(id),
+        competitionId: Number(competitionId),
+        participationId: Number(participationId),
+        questions: questionAnswers,
+      };
+
+      verifyCompetitionQuizFn(submitData);
+    } else if (taskId) {
+      const submitData = {
+        quizId: Number(id),
+        taskId: Number(taskId),
+        questions: questionAnswers,
+      };
+      verifyQuizFn(submitData);
+    }
   };
 
   return (

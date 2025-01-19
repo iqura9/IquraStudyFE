@@ -369,6 +369,37 @@ export interface CompetitionQuiz {
 /**
  * 
  * @export
+ * @interface CompetitionQuizVerificationRequest
+ */
+export interface CompetitionQuizVerificationRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof CompetitionQuizVerificationRequest
+     */
+    'competitionId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CompetitionQuizVerificationRequest
+     */
+    'participationId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CompetitionQuizVerificationRequest
+     */
+    'quizId'?: number;
+    /**
+     * 
+     * @type {Array<QuestionAnswerDto>}
+     * @memberof CompetitionQuizVerificationRequest
+     */
+    'questions'?: Array<QuestionAnswerDto> | null;
+}
+/**
+ * 
+ * @export
  * @interface CreateAnswerDto
  */
 export interface CreateAnswerDto {
@@ -1124,6 +1155,12 @@ export interface Participation {
      * @memberof Participation
      */
     'group'?: Group;
+    /**
+     * 
+     * @type {Array<Submission>}
+     * @memberof Participation
+     */
+    'submissions'?: Array<Submission> | null;
 }
 /**
  * 
@@ -1527,6 +1564,25 @@ export interface QuestionAnswer {
 /**
  * 
  * @export
+ * @interface QuestionAnswerDto
+ */
+export interface QuestionAnswerDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof QuestionAnswerDto
+     */
+    'questionId'?: number;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof QuestionAnswerDto
+     */
+    'answers'?: Array<number> | null;
+}
+/**
+ * 
+ * @export
  * @interface Quiz
  */
 export interface Quiz {
@@ -1734,6 +1790,89 @@ export interface ScoreboardResponseDto {
      */
     'userScores'?: Array<UserScoreDto> | null;
 }
+/**
+ * 
+ * @export
+ * @interface Submission
+ */
+export interface Submission {
+    /**
+     * 
+     * @type {number}
+     * @memberof Submission
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Submission
+     */
+    'participationId'?: number;
+    /**
+     * 
+     * @type {Participation}
+     * @memberof Submission
+     */
+    'participation'?: Participation;
+    /**
+     * 
+     * @type {SubmissionType}
+     * @memberof Submission
+     */
+    'type'?: SubmissionType;
+    /**
+     * 
+     * @type {number}
+     * @memberof Submission
+     */
+    'quizId'?: number | null;
+    /**
+     * 
+     * @type {Quiz}
+     * @memberof Submission
+     */
+    'quiz'?: Quiz;
+    /**
+     * 
+     * @type {number}
+     * @memberof Submission
+     */
+    'problemId'?: number | null;
+    /**
+     * 
+     * @type {Problem}
+     * @memberof Submission
+     */
+    'problem'?: Problem;
+    /**
+     * 
+     * @type {string}
+     * @memberof Submission
+     */
+    'submittedAt'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Submission
+     */
+    'score'?: number;
+}
+
+
+/**
+ * 
+ * @export
+ * @enum {number}
+ */
+
+export const SubmissionType = {
+    NUMBER_1: 1,
+    NUMBER_2: 2
+} as const;
+
+export type SubmissionType = typeof SubmissionType[keyof typeof SubmissionType];
+
+
 /**
  * 
  * @export
@@ -3385,6 +3524,39 @@ export const CompetitionApiAxiosParamCreator = function (configuration?: Configu
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {CompetitionQuizVerificationRequest} [competitionQuizVerificationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionVerifyQuizPost: async (competitionQuizVerificationRequest?: CompetitionQuizVerificationRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Competition/VerifyQuiz`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(competitionQuizVerificationRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -3515,6 +3687,18 @@ export const CompetitionApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionTeacherGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @param {CompetitionQuizVerificationRequest} [competitionQuizVerificationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCompetitionVerifyQuizPost(competitionQuizVerificationRequest?: CompetitionQuizVerificationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCompetitionVerifyQuizPost(competitionQuizVerificationRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompetitionApi.apiCompetitionVerifyQuizPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -3614,6 +3798,15 @@ export const CompetitionApiFactory = function (configuration?: Configuration, ba
          */
         apiCompetitionTeacherGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<Competition>> {
             return localVarFp.apiCompetitionTeacherGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CompetitionQuizVerificationRequest} [competitionQuizVerificationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCompetitionVerifyQuizPost(competitionQuizVerificationRequest?: CompetitionQuizVerificationRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.apiCompetitionVerifyQuizPost(competitionQuizVerificationRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3733,6 +3926,17 @@ export class CompetitionApi extends BaseAPI {
      */
     public apiCompetitionTeacherGet(options?: RawAxiosRequestConfig) {
         return CompetitionApiFp(this.configuration).apiCompetitionTeacherGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CompetitionQuizVerificationRequest} [competitionQuizVerificationRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CompetitionApi
+     */
+    public apiCompetitionVerifyQuizPost(competitionQuizVerificationRequest?: CompetitionQuizVerificationRequest, options?: RawAxiosRequestConfig) {
+        return CompetitionApiFp(this.configuration).apiCompetitionVerifyQuizPost(competitionQuizVerificationRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4681,6 +4885,191 @@ export const ParicipationApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
+         * @param {number} participationId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiParicipationParticipationIdSubmissionsGet: async (participationId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'participationId' is not null or undefined
+            assertParamExists('apiParicipationParticipationIdSubmissionsGet', 'participationId', participationId)
+            const localVarPath = `/api/Paricipation/{participationId}/Submissions`
+                .replace(`{${"participationId"}}`, encodeURIComponent(String(participationId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {Submission} [submission] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiParicipationParticipationIdSubmissionsPost: async (participationId: number, submission?: Submission, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'participationId' is not null or undefined
+            assertParamExists('apiParicipationParticipationIdSubmissionsPost', 'participationId', participationId)
+            const localVarPath = `/api/Paricipation/{participationId}/Submissions`
+                .replace(`{${"participationId"}}`, encodeURIComponent(String(participationId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(submission, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {number} submissionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiParicipationParticipationIdSubmissionsSubmissionIdDelete: async (participationId: number, submissionId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'participationId' is not null or undefined
+            assertParamExists('apiParicipationParticipationIdSubmissionsSubmissionIdDelete', 'participationId', participationId)
+            // verify required parameter 'submissionId' is not null or undefined
+            assertParamExists('apiParicipationParticipationIdSubmissionsSubmissionIdDelete', 'submissionId', submissionId)
+            const localVarPath = `/api/Paricipation/{participationId}/Submissions/{submissionId}`
+                .replace(`{${"participationId"}}`, encodeURIComponent(String(participationId)))
+                .replace(`{${"submissionId"}}`, encodeURIComponent(String(submissionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {number} submissionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiParicipationParticipationIdSubmissionsSubmissionIdGet: async (participationId: number, submissionId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'participationId' is not null or undefined
+            assertParamExists('apiParicipationParticipationIdSubmissionsSubmissionIdGet', 'participationId', participationId)
+            // verify required parameter 'submissionId' is not null or undefined
+            assertParamExists('apiParicipationParticipationIdSubmissionsSubmissionIdGet', 'submissionId', submissionId)
+            const localVarPath = `/api/Paricipation/{participationId}/Submissions/{submissionId}`
+                .replace(`{${"participationId"}}`, encodeURIComponent(String(participationId)))
+                .replace(`{${"submissionId"}}`, encodeURIComponent(String(submissionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {number} submissionId 
+         * @param {Submission} [submission] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiParicipationParticipationIdSubmissionsSubmissionIdPut: async (participationId: number, submissionId: number, submission?: Submission, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'participationId' is not null or undefined
+            assertParamExists('apiParicipationParticipationIdSubmissionsSubmissionIdPut', 'participationId', participationId)
+            // verify required parameter 'submissionId' is not null or undefined
+            assertParamExists('apiParicipationParticipationIdSubmissionsSubmissionIdPut', 'submissionId', submissionId)
+            const localVarPath = `/api/Paricipation/{participationId}/Submissions/{submissionId}`
+                .replace(`{${"participationId"}}`, encodeURIComponent(String(participationId)))
+                .replace(`{${"submissionId"}}`, encodeURIComponent(String(submissionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(submission, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} [groupId] 
          * @param {number} [body] 
          * @param {*} [options] Override http request option.
@@ -4752,6 +5141,71 @@ export const ParicipationApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} participationId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiParicipationParticipationIdSubmissionsGet(participationId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Submission>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiParicipationParticipationIdSubmissionsGet(participationId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ParicipationApi.apiParicipationParticipationIdSubmissionsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {Submission} [submission] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiParicipationParticipationIdSubmissionsPost(participationId: number, submission?: Submission, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Submission>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiParicipationParticipationIdSubmissionsPost(participationId, submission, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ParicipationApi.apiParicipationParticipationIdSubmissionsPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {number} submissionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiParicipationParticipationIdSubmissionsSubmissionIdDelete(participationId: number, submissionId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiParicipationParticipationIdSubmissionsSubmissionIdDelete(participationId, submissionId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ParicipationApi.apiParicipationParticipationIdSubmissionsSubmissionIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {number} submissionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiParicipationParticipationIdSubmissionsSubmissionIdGet(participationId: number, submissionId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Submission>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiParicipationParticipationIdSubmissionsSubmissionIdGet(participationId, submissionId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ParicipationApi.apiParicipationParticipationIdSubmissionsSubmissionIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {number} submissionId 
+         * @param {Submission} [submission] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiParicipationParticipationIdSubmissionsSubmissionIdPut(participationId: number, submissionId: number, submission?: Submission, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiParicipationParticipationIdSubmissionsSubmissionIdPut(participationId, submissionId, submission, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ParicipationApi.apiParicipationParticipationIdSubmissionsSubmissionIdPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {number} [groupId] 
          * @param {number} [body] 
          * @param {*} [options] Override http request option.
@@ -4792,6 +5246,56 @@ export const ParicipationApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
+         * @param {number} participationId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiParicipationParticipationIdSubmissionsGet(participationId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Submission>> {
+            return localVarFp.apiParicipationParticipationIdSubmissionsGet(participationId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {Submission} [submission] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiParicipationParticipationIdSubmissionsPost(participationId: number, submission?: Submission, options?: RawAxiosRequestConfig): AxiosPromise<Submission> {
+            return localVarFp.apiParicipationParticipationIdSubmissionsPost(participationId, submission, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {number} submissionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiParicipationParticipationIdSubmissionsSubmissionIdDelete(participationId: number, submissionId: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiParicipationParticipationIdSubmissionsSubmissionIdDelete(participationId, submissionId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {number} submissionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiParicipationParticipationIdSubmissionsSubmissionIdGet(participationId: number, submissionId: number, options?: RawAxiosRequestConfig): AxiosPromise<Submission> {
+            return localVarFp.apiParicipationParticipationIdSubmissionsSubmissionIdGet(participationId, submissionId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} participationId 
+         * @param {number} submissionId 
+         * @param {Submission} [submission] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiParicipationParticipationIdSubmissionsSubmissionIdPut(participationId: number, submissionId: number, submission?: Submission, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiParicipationParticipationIdSubmissionsSubmissionIdPut(participationId, submissionId, submission, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {number} [groupId] 
          * @param {number} [body] 
          * @param {*} [options] Override http request option.
@@ -4829,6 +5333,66 @@ export class ParicipationApi extends BaseAPI {
      */
     public apiParicipationGet(options?: RawAxiosRequestConfig) {
         return ParicipationApiFp(this.configuration).apiParicipationGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} participationId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ParicipationApi
+     */
+    public apiParicipationParticipationIdSubmissionsGet(participationId: number, options?: RawAxiosRequestConfig) {
+        return ParicipationApiFp(this.configuration).apiParicipationParticipationIdSubmissionsGet(participationId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} participationId 
+     * @param {Submission} [submission] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ParicipationApi
+     */
+    public apiParicipationParticipationIdSubmissionsPost(participationId: number, submission?: Submission, options?: RawAxiosRequestConfig) {
+        return ParicipationApiFp(this.configuration).apiParicipationParticipationIdSubmissionsPost(participationId, submission, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} participationId 
+     * @param {number} submissionId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ParicipationApi
+     */
+    public apiParicipationParticipationIdSubmissionsSubmissionIdDelete(participationId: number, submissionId: number, options?: RawAxiosRequestConfig) {
+        return ParicipationApiFp(this.configuration).apiParicipationParticipationIdSubmissionsSubmissionIdDelete(participationId, submissionId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} participationId 
+     * @param {number} submissionId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ParicipationApi
+     */
+    public apiParicipationParticipationIdSubmissionsSubmissionIdGet(participationId: number, submissionId: number, options?: RawAxiosRequestConfig) {
+        return ParicipationApiFp(this.configuration).apiParicipationParticipationIdSubmissionsSubmissionIdGet(participationId, submissionId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} participationId 
+     * @param {number} submissionId 
+     * @param {Submission} [submission] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ParicipationApi
+     */
+    public apiParicipationParticipationIdSubmissionsSubmissionIdPut(participationId: number, submissionId: number, submission?: Submission, options?: RawAxiosRequestConfig) {
+        return ParicipationApiFp(this.configuration).apiParicipationParticipationIdSubmissionsSubmissionIdPut(participationId, submissionId, submission, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
