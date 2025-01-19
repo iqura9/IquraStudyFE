@@ -1,4 +1,4 @@
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   Button,
   Card,
@@ -23,6 +23,7 @@ const PageContainer = styled("div")({
 });
 
 function CreateCompetitionPage() {
+  const { formatMessage } = useIntl();
   const [form] = Form.useForm();
 
   const { createCompetition, isPending } = useCreateCompetition();
@@ -39,6 +40,7 @@ function CreateCompetitionPage() {
           <Title level={3}>
             <FormattedMessage id="competition.create.title" />
           </Title>
+
           <Form
             form={form}
             layout="vertical"
@@ -55,21 +57,37 @@ function CreateCompetitionPage() {
               rules={[
                 {
                   required: true,
-                  message: "Please enter the competition title!",
+                  message: (
+                    <FormattedMessage id="competition.create.message.title.required" />
+                  ),
                 },
               ]}
             >
-              <Input placeholder="Enter competition title" />
+              <Input
+                placeholder={formatMessage({
+                  id: "competition.create.title.placeholder",
+                })}
+              />
             </Form.Item>
 
             <Form.Item
               label={<FormattedMessage id="competition.create.description" />}
               name="description"
               rules={[
-                { required: true, message: "Please enter a description!" },
+                {
+                  required: true,
+                  message: (
+                    <FormattedMessage id="competition.create.message.description.required" />
+                  ),
+                },
               ]}
             >
-              <TextArea placeholder="Enter competition description" rows={4} />
+              <TextArea
+                rows={4}
+                placeholder={formatMessage({
+                  id: "competition.create.description.placeholder",
+                })}
+              />
             </Form.Item>
 
             <Form.Item
@@ -78,11 +96,17 @@ function CreateCompetitionPage() {
               rules={[
                 {
                   required: true,
-                  message: "Please select the competition format!",
+                  message: (
+                    <FormattedMessage id="competition.create.message.format.required" />
+                  ),
                 },
               ]}
             >
-              <Select placeholder="Select format">
+              <Select
+                placeholder={
+                  <FormattedMessage id="competition.create.format.placeholder" />
+                }
+              >
                 <Select.Option value="IOI">IOI</Select.Option>
                 <Select.Option value="ICPC">ICPC</Select.Option>
               </Select>
@@ -94,11 +118,17 @@ function CreateCompetitionPage() {
               rules={[
                 {
                   required: true,
-                  message: "Please select the participant mode!",
+                  message: (
+                    <FormattedMessage id="competition.create.message.participantMode.required" />
+                  ),
                 },
               ]}
             >
-              <Select placeholder="Select participant mode">
+              <Select
+                placeholder={
+                  <FormattedMessage id="competition.create.mode.placeholder" />
+                }
+              >
                 <Select.Option value="Virtual">Virtual</Select.Option>
                 <Select.Option value="Online">Online</Select.Option>
               </Select>
@@ -112,20 +142,28 @@ function CreateCompetitionPage() {
               {({ getFieldValue }) =>
                 getFieldValue("participantMode") === "Virtual" && (
                   <Form.Item
-                    label="Duration (hours)"
+                    label={
+                      <FormattedMessage id="competition.create.duration.label" />
+                    }
                     name="duration"
                     rules={[
                       {
                         required: true,
-                        message: "Please specify the task duration!",
+                        message: (
+                          <FormattedMessage id="competition.create.duration.required" />
+                        ),
                       },
                     ]}
                   >
                     <Input
                       type="number"
-                      placeholder="Enter duration in hours"
                       min={0}
-                      addonAfter="hours"
+                      placeholder={formatMessage({
+                        id: "competition.create.message.durationPlaceholder",
+                      })}
+                      addonAfter={
+                        <FormattedMessage id="competition.create.message.hours" />
+                      }
                     />
                   </Form.Item>
                 )
@@ -133,10 +171,17 @@ function CreateCompetitionPage() {
             </Form.Item>
 
             <Form.Item
-              label="Starting Time"
+              label={
+                <FormattedMessage id="competition.create.startTime.label" />
+              }
               name="startTime"
               rules={[
-                { required: true, message: "Please select the starting time!" },
+                {
+                  required: true,
+                  message: (
+                    <FormattedMessage id="competition.create.startTime.required" />
+                  ),
+                },
               ]}
             >
               <DatePicker
@@ -147,10 +192,15 @@ function CreateCompetitionPage() {
             </Form.Item>
 
             <Form.Item
-              label="Ending Time"
+              label={<FormattedMessage id="competition.create.endTime.label" />}
               name="endTime"
               rules={[
-                { required: true, message: "Please select the ending time!" },
+                {
+                  required: true,
+                  message: (
+                    <FormattedMessage id="competition.create.endTime.required" />
+                  ),
+                },
               ]}
             >
               <DatePicker
@@ -161,16 +211,24 @@ function CreateCompetitionPage() {
             </Form.Item>
 
             <Form.Item
-              label="Difficulty"
+              label={
+                <FormattedMessage id="competition.create.difficulty.label" />
+              }
               name="difficulty"
               rules={[
                 {
                   required: true,
-                  message: "Please select a difficulty level!",
+                  message: (
+                    <FormattedMessage id="competition.create.difficulty.required" />
+                  ),
                 },
               ]}
             >
-              <Select placeholder="Select difficulty">
+              <Select
+                placeholder={
+                  <FormattedMessage id="competition.create.difficulty.placeholder" />
+                }
+              >
                 <Select.Option value="Easy">Easy</Select.Option>
                 <Select.Option value="Medium">Medium</Select.Option>
                 <Select.Option value="Hard">Hard</Select.Option>
@@ -184,7 +242,11 @@ function CreateCompetitionPage() {
                 loading={isPending}
                 block
               >
-                {isPending ? "Submitting..." : "Create Competition"}
+                {isPending ? (
+                  <FormattedMessage id="competition.create.button.submitting" />
+                ) : (
+                  <FormattedMessage id="competition.create.button.default" />
+                )}
               </Button>
             </Form.Item>
           </Form>
