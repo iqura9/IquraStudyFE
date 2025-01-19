@@ -6,6 +6,7 @@ import { api } from "api/index";
 import { getQuizWithoutAnswers, verifyQuiz } from "api/quiz";
 import { CompetitionQuizVerificationRequest } from "generated-api/api";
 import useModal from "hooks/useModal";
+import ViewCompetitionSidebar from "pages/Competition/ViewCompetitionSidebar";
 import { IQuestionAnswers, VerificationQuery } from "types/quiz";
 
 import { LeftSide } from "./components/LeftSide";
@@ -21,9 +22,10 @@ const QuizParticipant = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { formatMessage } = useIntl();
-  const { isShow, handleToggle } = useModal(true);
-  const [searchParams] = useSearchParams();
 
+  const [searchParams] = useSearchParams();
+  const competitionId = searchParams.get("competitionId");
+  const { isShow, handleToggle } = useModal(competitionId ? false : true);
   const { data } = useQuery({
     queryKey: ["quizData", id],
     queryFn: () => getQuizWithoutAnswers(id),
@@ -165,29 +167,31 @@ const QuizParticipant = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <LeftSide
-        title={data?.title || ""}
-        questions={data?.questions || []}
-        setCurrentQuestion={setCurrentQuestion}
-        currentQuestionIndex={currentQuestion}
-        isShow={isShow}
-        handleSaveAnswer={handleSaveAnswer}
-        setCurrentQuestionId={setCurrentQuestionId}
-      />
+    <ViewCompetitionSidebar isCompetiton={!!competitionId}>
+      <div className={styles.wrapper}>
+        <LeftSide
+          title={data?.title || ""}
+          questions={data?.questions || []}
+          setCurrentQuestion={setCurrentQuestion}
+          currentQuestionIndex={currentQuestion}
+          isShow={isShow}
+          handleSaveAnswer={handleSaveAnswer}
+          setCurrentQuestionId={setCurrentQuestionId}
+        />
 
-      <RightSide
-        selectedAnswers={selectedAnswers}
-        currentQuestionIndex={currentQuestion}
-        questions={data?.questions || []}
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-        handleToggleLeftSide={handleToggle}
-        handleSubmitQuiz={handleSubmitQuiz}
-        setSelectedAnswers={setSelectedAnswers}
-        handleSaveAnswer={handleSaveAnswer}
-      />
-    </div>
+        <RightSide
+          selectedAnswers={selectedAnswers}
+          currentQuestionIndex={currentQuestion}
+          questions={data?.questions || []}
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+          handleToggleLeftSide={handleToggle}
+          handleSubmitQuiz={handleSubmitQuiz}
+          setSelectedAnswers={setSelectedAnswers}
+          handleSaveAnswer={handleSaveAnswer}
+        />
+      </div>
+    </ViewCompetitionSidebar>
   );
 };
 

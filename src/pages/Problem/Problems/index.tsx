@@ -35,7 +35,7 @@ export default function Problems() {
           />
         </ButtonWrapper>
       ) : null}
-      <ProblemsTable problems={data!} />;
+      <ProblemsTable problems={data!} />
     </div>
   );
 }
