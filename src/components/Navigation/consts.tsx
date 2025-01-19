@@ -1,6 +1,5 @@
 import { FormattedMessage } from "react-intl";
 import { MenuProps } from "antd";
-import { Paths } from "routes/paths";
 
 import {
   ExperimentOutlined,
@@ -47,11 +46,6 @@ export const sideBarItems: MenuProps["items"] = [
     icon: <ExperimentOutlined />,
   },
   {
-    label: <FormattedMessage id="menu.createCompetition" />,
-    key: Paths.createCompetition,
-    icon: <FireOutlined />,
-  },
-  {
     label: <FormattedMessage id="menu.competition" />,
     key: "competition",
     icon: <FireOutlined />,
@@ -65,16 +59,7 @@ export const sideBarItems: MenuProps["items"] = [
     key: "group/create",
     icon: <PlusCircleOutlined />,
   },
-  {
-    label: <FormattedMessage id="menu.createProblem" />,
-    key: "problem/create",
-    icon: <PlusCircleOutlined />,
-  },
-  {
-    label: <FormattedMessage id="menu.createQuiz" />,
-    key: Paths.createQuiz,
-    icon: <PlusCircleOutlined />,
-  },
+
   {
     label: <FormattedMessage id="menu.users" />,
     key: "users",

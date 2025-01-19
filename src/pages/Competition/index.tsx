@@ -2,12 +2,20 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Card, Col, Pagination, Row } from "antd";
 import { api } from "api/index";
+import LinkButton from "components/LinkButton";
 import { Competition } from "generated-api/api";
-
-import { useGetCompetitions } from "./useGetCompetitions";
+import { useRole } from "hooks/useRole";
+import { Paths } from "routes/paths";
+import styled from "styled-components";
 
 import { CalendarOutlined, PlusOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
+
+const ButtonWrapper = styled("div")({
+  display: "flex",
+  marginBottom: 12,
+  justifyContent: "flex-end",
+});
 
 type CompetitionPageProps = {
   data: Competition[] | undefined;
@@ -20,7 +28,21 @@ export function CompetitionPageWithData() {
     retry: false,
     refetchOnWindowFocus: false,
   });
-  return <CompetitionPage data={teacherCompetitions} />;
+  const { isTeacher } = useRole();
+
+  return (
+    <div>
+      {isTeacher ? (
+        <ButtonWrapper>
+          <LinkButton
+            to={Paths.createCompetition}
+            formattedMessageId="menu.createCompetition"
+          />
+        </ButtonWrapper>
+      ) : null}
+      <CompetitionPage data={teacherCompetitions} />
+    </div>
+  );
 }
 
 export default function CompetitionPage({ data }: CompetitionPageProps) {
