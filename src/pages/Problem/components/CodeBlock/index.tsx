@@ -118,6 +118,8 @@ export function CodeBlock() {
               res?.status?.description !== "In Queue" &&
               res?.status?.description !== "Processing"
             ) {
+              notification.error({ message: res?.status?.description });
+
               setIsLoading(false);
               clearInterval(intervalId);
             }
@@ -135,7 +137,7 @@ export function CodeBlock() {
 
                     allTrue = false;
                   }
-                }
+                },
               );
               setSubmittionStatus && setSubmittionStatus(allTrue);
               saveSubmittion(allTrue === true ? 100 : 0);
@@ -154,7 +156,7 @@ export function CodeBlock() {
   }, [executedToken, data, setSubmittionStatus]);
 
   const defaultCodeEditorState =
-    data.initFunc ??
+    data?.initFunc ??
     `const solutionFunction = (...args: unknown[]): unknown => {
   // write your solution here
   return;
@@ -197,10 +199,10 @@ export function CodeBlock() {
 
 const executeCode = async (code: string, testCases: any[]) => {
   const functionName = code.match(/(?:const|function)\s+([^\s\(]+)/)?.[1] || "";
-  const testCase = testCases.map(
-    (testCase) => `\n console.log(${functionName}(${testCase.input}))`
+  const testCase = testCases?.map(
+    (testCase) => `\n console.log(${functionName}(${testCase.input}))`,
   );
-  const testCode = code + testCase.join("");
+  const testCode = code + testCase?.join("");
 
   const options = {
     method: "POST",

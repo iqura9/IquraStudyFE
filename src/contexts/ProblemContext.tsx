@@ -43,14 +43,14 @@ export const ProblemProvider = (props: any) => {
   });
 
   const [submittionStatus, setSubmittionStatus] = useState<boolean | undefined>(
-    undefined
+    undefined,
   );
 
   useEffect(() => {
     setSubmittionStatus(
       problemSubmitted?.[0]?.sourceCode === null
         ? undefined
-        : problemSubmitted?.[0]?.score === 100
+        : problemSubmitted?.[0]?.score === 100,
     );
   }, [problemSubmitted]);
 
@@ -63,7 +63,7 @@ export const ProblemProvider = (props: any) => {
         submittionStatus,
         data: {
           ...data,
-          initFunc: problemSubmitted?.[0]?.sourceCode ?? data.initFunc,
+          initFunc: problemSubmitted?.[0]?.sourceCode ?? data?.initFunc,
         },
       }}
       {...props}

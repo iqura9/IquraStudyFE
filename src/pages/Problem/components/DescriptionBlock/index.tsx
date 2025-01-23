@@ -52,7 +52,7 @@ const DescriptionBlock: React.FC = () => {
       <div className={styles.footer}>
         <Collapse bordered={true}>
           <Panel header={<HeaderPanel />} key="1" className={styles.panel}>
-            {data?.testCases.map(
+            {data?.testCases?.map(
               (testCase: {
                 id: React.Key | null | undefined;
                 input: string;
@@ -68,7 +68,7 @@ const DescriptionBlock: React.FC = () => {
                       : !submittionStatus
                   }
                 />
-              )
+              ),
             )}
           </Panel>
         </Collapse>
@@ -81,7 +81,7 @@ export default DescriptionBlock;
 
 const HeaderPanel = () => {
   const { data, submittionStatus } = useProblem();
-  const testsNum = data.testCases.length > 9 ? 10 : data.testCases.length;
+  const testsNum = data?.testCases?.length > 9 ? 10 : data?.testCases?.length;
   const els = [];
 
   for (let i = 1; i <= testsNum; i++) {

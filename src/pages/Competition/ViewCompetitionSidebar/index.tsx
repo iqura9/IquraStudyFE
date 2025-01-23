@@ -43,6 +43,8 @@ export default function ViewCompetitionSidebar({
   const [collapsed, setCollapsed] = useState(false);
 
   const competitionId = searchParams.get("competitionId");
+  const taskId = searchParams.get("taskId");
+
   const rightCompetitionId = competitionId ? Number(competitionId) : Number(id);
   const { data: participation } = useQuery<Participation>({
     queryKey: ["apiParicipationCompetitionIdGet", rightCompetitionId],
@@ -50,6 +52,7 @@ export default function ViewCompetitionSidebar({
       api
         .apiParicipationCompetitionIdGet(rightCompetitionId)
         .then((res) => res.data),
+    enabled: !taskId,
   });
 
   const progressPercent = 0;
