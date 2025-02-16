@@ -1,6 +1,6 @@
 import { FormattedMessage } from "react-intl";
 import { Link, useParams } from "react-router-dom";
-import { Card, Layout, List, Typography } from "antd";
+import { Card, Layout, List, Progress, Typography } from "antd";
 import { api } from "api/index";
 import Spinner from "components/Spinner";
 import { Participation } from "generated-api/api";
@@ -46,7 +46,7 @@ const StyledListItem = {
   backgroundColor: colors.hover,
   marginBottom: "8px",
   borderRadius: "8px",
-  padding: "8px",
+  padding: "16px",
 };
 
 function ViewCompetition() {
@@ -77,26 +77,48 @@ function ViewCompetition() {
           <Title level={4} style={{ color: colors.text, marginBottom: "16px" }}>
             <FormattedMessage id="competition.quizzes" />
           </Title>
+
           <List
             dataSource={participation?.competition?.competitionQuizzes ?? []}
-            renderItem={({ quiz }) => (
-              <Link
-                to={`/quiz/${quiz?.id}?competitionId=${id}&participationId=${participation?.id}`}
-              >
-                <List.Item style={StyledListItem}>
-                  <List.Item.Meta
-                    title={
-                      <Text style={{ color: colors.text }}>{quiz?.title}</Text>
-                    }
-                    description={
-                      <Text style={{ color: colors.textSecondary }}>
-                        {new Date(quiz?.createdAt ?? 0).toLocaleDateString()}
-                      </Text>
-                    }
-                  />
-                </List.Item>
-              </Link>
-            )}
+            renderItem={(data) => {
+              const quiz = data.quiz;
+              console.log("quiz", quiz);
+              const isSubmitted = data.submittedAt;
+              const score = data?.maxScore ?? 0;
+
+              return (
+                <Link
+                  to={`/quiz/${quiz?.id}?competitionId=${id}&participationId=${participation?.id}`}
+                >
+                  <List.Item style={StyledListItem}>
+                    <List.Item.Meta
+                      title={
+                        <Text style={{ color: colors.text }}>
+                          {quiz?.title}{" "}
+                          {isSubmitted ? (
+                            <Text style={{ color: "green" }}>✓ Submitted</Text>
+                          ) : null}
+                        </Text>
+                      }
+                      description={
+                        <>
+                          <Text style={{ color: colors.textSecondary }}>
+                            {new Date(
+                              quiz?.createdAt ?? 0,
+                            ).toLocaleDateString()}
+                          </Text>
+                          <Progress
+                            percent={score}
+                            showInfo={false}
+                            strokeColor="#1890ff"
+                          />
+                        </>
+                      }
+                    />
+                  </List.Item>
+                </Link>
+              );
+            }}
           />
         </StyledCard>
 

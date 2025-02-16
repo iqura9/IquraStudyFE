@@ -365,6 +365,18 @@ export interface CompetitionQuiz {
      * @memberof CompetitionQuiz
      */
     'score'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CompetitionQuiz
+     */
+    'maxScore'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CompetitionQuiz
+     */
+    'submittedAt'?: string | null;
 }
 /**
  * 
