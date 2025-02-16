@@ -4,6 +4,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { notification } from "antd";
 import { api } from "api/index";
 import { getQuizWithoutAnswers, verifyQuiz } from "api/quiz";
+import { AxiosPromise } from "axios";
 import { CompetitionQuizVerificationRequest } from "generated-api/api";
 import useModal from "hooks/useModal";
 import ViewCompetitionSidebar from "pages/Competition/ViewCompetitionSidebar";
@@ -57,7 +58,8 @@ const QuizParticipant = () => {
     mutationKey: ["apiCompetitionVerifyQuizPost"],
     mutationFn: (data: CompetitionQuizVerificationRequest) =>
       api.apiCompetitionVerifyQuizPost(data),
-    onSuccess: (score: number) => {
+    onSuccess: (res: AxiosPromise<number>) => {
+      const score = res.data;
       notification.success({
         message: `${formatMessage({ id: "quiz.score" })} ${score}`,
       });
