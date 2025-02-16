@@ -83,7 +83,7 @@ function ViewCompetition() {
             renderItem={(data) => {
               const quiz = data.quiz;
               console.log("quiz", quiz);
-              const isSubmitted = data.submittedAt;
+              const isSubmitted = data.submittedAt !== "0001-01-01T00:00:00";
               const score = data?.maxScore ?? 0;
 
               return (
@@ -96,7 +96,9 @@ function ViewCompetition() {
                         <Text style={{ color: colors.text }}>
                           {quiz?.title}{" "}
                           {isSubmitted ? (
-                            <Text style={{ color: "green" }}>✓ Submitted</Text>
+                            <Text style={{ color: "green", marginLeft: "8px" }}>
+                              ✓ Submitted
+                            </Text>
                           ) : null}
                         </Text>
                       }
