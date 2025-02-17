@@ -200,5 +200,6 @@
   "competition.create.difficulty.required": "Please select a difficulty level!",
   "competition.create.difficulty.placeholder": "Select difficulty",
   "competition.create.button.submitting": "Submitting...",
-  "competition.create.button.default": "Create Competition"
+  "competition.create.button.default": "Create Competition",
+  "common.submittion": "Submitted"
 }

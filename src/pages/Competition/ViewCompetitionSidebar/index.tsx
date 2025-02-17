@@ -79,7 +79,7 @@ export default function ViewCompetitionSidebar({
     useMemo(
       () =>
         participation?.competition?.competitionProblems?.reduce(
-          (prev, curr) => (curr.score ?? 0) + prev,
+          (prev, curr) => (curr.maxScore ?? 0) + prev,
           0,
         ),
       [participation?.competition?.competitionProblems],

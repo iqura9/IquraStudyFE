@@ -1,4 +1,4 @@
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { Link, useParams } from "react-router-dom";
 import { Card, Layout, List, Progress, Typography } from "antd";
 import { api } from "api/index";
@@ -12,7 +12,7 @@ import NotParticipantPage from "./NotParticipantPage";
 
 import { useQuery } from "@tanstack/react-query";
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 const { Title, Text } = Typography;
 
 const colors = {
@@ -51,7 +51,7 @@ const StyledListItem = {
 
 function ViewCompetition() {
   const { id } = useParams();
-
+  const { formatMessage } = useIntl();
   const {
     data: participation,
     isError,
@@ -81,8 +81,7 @@ function ViewCompetition() {
           <List
             dataSource={participation?.competition?.competitionQuizzes ?? []}
             renderItem={(data) => {
-              const quiz = data.quiz;
-              console.log("quiz", quiz);
+              const { quiz } = data;
               const isSubmitted = data.submittedAt !== "0001-01-01T00:00:00";
               const score = data?.maxScore ?? 0;
 
@@ -97,7 +96,7 @@ function ViewCompetition() {
                           {quiz?.title}{" "}
                           {isSubmitted ? (
                             <Text style={{ color: "green", marginLeft: "8px" }}>
-                              ✓ Submitted
+                              ✓ {formatMessage({ id: "common.submittion" })}
                             </Text>
                           ) : null}
                         </Text>
@@ -130,26 +129,45 @@ function ViewCompetition() {
           </Title>
           <List
             dataSource={participation?.competition?.competitionProblems ?? []}
-            renderItem={({ problem }) => (
-              <Link
-                to={`/problem/${problem?.id}?competitionId=${id}&participationId=${participation?.id}`}
-              >
-                <List.Item style={StyledListItem}>
-                  <List.Item.Meta
-                    title={
-                      <Text style={{ color: colors.text }}>
-                        {problem?.title}
-                      </Text>
-                    }
-                    description={
-                      <Text style={{ color: colors.textSecondary }}>
-                        {new Date(problem?.createdAt ?? 0).toLocaleDateString()}
-                      </Text>
-                    }
-                  />
-                </List.Item>
-              </Link>
-            )}
+            renderItem={(data) => {
+              const { problem } = data;
+              const isSubmitted = data.submittedAt !== "0001-01-01T00:00:00";
+              const score = data.maxScore ?? 0;
+              return (
+                <Link
+                  to={`/problem/${problem?.id}?competitionId=${id}&participationId=${participation?.id}`}
+                >
+                  <List.Item style={StyledListItem}>
+                    <List.Item.Meta
+                      title={
+                        <Text style={{ color: colors.text }}>
+                          {problem?.title}
+                          {isSubmitted ? (
+                            <Text style={{ color: "green", marginLeft: "8px" }}>
+                              ✓ {formatMessage({ id: "common.submittion" })}
+                            </Text>
+                          ) : null}
+                        </Text>
+                      }
+                      description={
+                        <>
+                          <Text style={{ color: colors.textSecondary }}>
+                            {new Date(
+                              problem?.createdAt ?? 0,
+                            ).toLocaleDateString()}
+                          </Text>
+                          <Progress
+                            percent={score}
+                            showInfo={false}
+                            strokeColor="#1890ff"
+                          />
+                        </>
+                      }
+                    />
+                  </List.Item>
+                </Link>
+              );
+            }}
           />
         </StyledCard>
       </StyledContent>

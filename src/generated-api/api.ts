@@ -322,6 +322,18 @@ export interface CompetitionProblem {
      * @memberof CompetitionProblem
      */
     'score'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CompetitionProblem
+     */
+    'submittedAt'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CompetitionProblem
+     */
+    'maxScore'?: number;
 }
 /**
  * 
