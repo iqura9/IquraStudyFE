@@ -98,12 +98,20 @@ export function CodeBlock() {
   };
 
   const saveSubmittion = (score: number) => {
+    const participationId = Number(searchParams.get("participationId"));
+
+    if (participationId) {
+      // TODO
+      return;
+    }
+
     const DTO = {
       sourceCode: code,
       score: score,
       groupTaskId: Number(searchParams.get("taskId")),
       problemId: Number(id),
     };
+
     createProblemSubmittionFn(DTO);
   };
 

@@ -156,7 +156,7 @@ export default function ViewCompetitionSidebar({
                 return (
                   <Menu.Item key={el.problem?.title} icon={<NumberOutlined />}>
                     <Link
-                      to={`/problem/${el.problem?.id}?competitionId=${rightCompetitionId}`}
+                      to={`/problem/${el.problem?.id}?competitionId=${rightCompetitionId}&participationId=${participation?.id}`}
                     >
                       {collapsed ? null : el.problem?.title}
                     </Link>

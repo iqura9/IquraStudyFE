@@ -131,7 +131,9 @@ function ViewCompetition() {
           <List
             dataSource={participation?.competition?.competitionProblems ?? []}
             renderItem={({ problem }) => (
-              <Link to={`/problem/${problem?.id}?competitionId=${id}`}>
+              <Link
+                to={`/problem/${problem?.id}?competitionId=${id}&participationId=${participation?.id}`}
+              >
                 <List.Item style={StyledListItem}>
                   <List.Item.Meta
                     title={
