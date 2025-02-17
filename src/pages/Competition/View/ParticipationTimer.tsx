@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect, useState } from "react";
+import React, { Dispatch, memo, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { StyledProgress } from "../ViewCompetitionSidebar/styled";
@@ -16,11 +16,11 @@ interface TimerProps {
   setIsCompetitionFinished: Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ParticipationTimer: React.FC<TimerProps> = ({
+const _ParticipationTimer = ({
   startedAt,
   duration,
   setIsCompetitionFinished,
-}) => {
+}: TimerProps) => {
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [progress, setProgress] = useState(0);
   useEffect(() => {
@@ -61,3 +61,5 @@ export const ParticipationTimer: React.FC<TimerProps> = ({
     </>
   );
 };
+
+export const ParticipationTimer = memo(_ParticipationTimer);
