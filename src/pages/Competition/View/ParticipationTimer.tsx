@@ -1,6 +1,8 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import styled from "styled-components";
 
+import { StyledProgress } from "../ViewCompetitionSidebar/styled";
+
 const TimerContainer = styled("div")({
   color: "#000",
   fontSize: "18px",
@@ -20,9 +22,10 @@ export const ParticipationTimer: React.FC<TimerProps> = ({
   setIsCompetitionFinished,
 }) => {
   const [timeLeft, setTimeLeft] = useState<string>("");
-
+  const [progress, setProgress] = useState(0);
   useEffect(() => {
-    const endTime = new Date(startedAt).getTime() + duration * 60 * 60 * 1000;
+    const startTime = new Date(startedAt).getTime();
+    const endTime = startTime + duration * 60 * 60 * 1000;
 
     const updateTimer = () => {
       const now = new Date().getTime();
@@ -37,8 +40,12 @@ export const ParticipationTimer: React.FC<TimerProps> = ({
       const hours = Math.floor(diff / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
+      console.log("endTime", endTime);
+      console.log("now", now);
       setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+      setProgress(
+        Math.floor(((now - startTime) / (endTime - startTime)) * 100),
+      );
     };
 
     updateTimer();
@@ -48,5 +55,11 @@ export const ParticipationTimer: React.FC<TimerProps> = ({
     return () => clearInterval(interval);
   }, [startedAt, duration, setIsCompetitionFinished]);
 
-  return <TimerContainer>{timeLeft}</TimerContainer>;
+  console.log("progress", progress);
+  return (
+    <>
+      <StyledProgress percent={progress} showInfo={false} />
+      <TimerContainer>{timeLeft}</TimerContainer>
+    </>
+  );
 };

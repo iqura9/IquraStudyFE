@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Layout, Menu, Typography } from "antd";
@@ -55,10 +55,38 @@ export default function ViewCompetitionSidebar({
     enabled: !taskId,
   });
 
-  const progressPercent = 0;
-  const maxScore = 100;
-  const userScore = 0;
-  const timeProgressPercent = 50;
+  const maxScore = useMemo(
+    () =>
+      ((participation?.competition?.competitionQuizzes?.length ?? 0) +
+        (participation?.competition?.competitionProblems?.length ?? 0)) *
+      100,
+    [
+      participation?.competition?.competitionQuizzes,
+      participation?.competition?.competitionProblems,
+    ],
+  );
+  const quizScores =
+    useMemo(
+      () =>
+        participation?.competition?.competitionQuizzes?.reduce(
+          (prev, curr) => (curr.maxScore ?? 0) + prev,
+          0,
+        ),
+      [participation?.competition?.competitionQuizzes],
+    ) ?? 0;
+
+  const problemsScore =
+    useMemo(
+      () =>
+        participation?.competition?.competitionProblems?.reduce(
+          (prev, curr) => (curr.score ?? 0) + prev,
+          0,
+        ),
+      [participation?.competition?.competitionProblems],
+    ) ?? 0;
+
+  const userScore = quizScores + problemsScore;
+  const progressPercent = Math.floor((userScore * 100) / maxScore);
 
   if (isCompetitionFinished) {
     return <TimeUpPage />;
@@ -97,7 +125,7 @@ export default function ViewCompetitionSidebar({
               <Text style={{ color: colors.textSecondary, marginTop: "16px" }}>
                 <FormattedMessage id="competition.remaining.time" />
               </Text>
-              <StyledProgress percent={timeProgressPercent} showInfo={false} />
+
               <ParticipationTimer
                 startedAt={participation?.startedAt ?? ""}
                 duration={participation?.competition?.duration ?? 0}
