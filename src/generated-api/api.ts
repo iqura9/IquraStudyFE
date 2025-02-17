@@ -1868,6 +1868,12 @@ export interface Submission {
      * @memberof Submission
      */
     'score'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Submission
+     */
+    'sourceCode'?: string | null;
 }
 
 
@@ -2236,6 +2242,43 @@ export const UserStatus = {
 export type UserStatus = typeof UserStatus[keyof typeof UserStatus];
 
 
+/**
+ * 
+ * @export
+ * @interface VerifySubmittionRequest
+ */
+export interface VerifySubmittionRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof VerifySubmittionRequest
+     */
+    'competitionId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof VerifySubmittionRequest
+     */
+    'participationId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof VerifySubmittionRequest
+     */
+    'problemId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof VerifySubmittionRequest
+     */
+    'sourceCode'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof VerifySubmittionRequest
+     */
+    'score'?: number;
+}
 
 /**
  * AccountApi - axios parameter creator
@@ -5634,6 +5677,39 @@ export const ProblemApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @param {VerifySubmittionRequest} [verifySubmittionRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiProblemVerifySubmittionPost: async (verifySubmittionRequest?: VerifySubmittionRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Problem/VerifySubmittion`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(verifySubmittionRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {PostProblemSubmittionDTO} [postProblemSubmittionDTO] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5750,6 +5826,18 @@ export const ProblemApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {VerifySubmittionRequest} [verifySubmittionRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiProblemVerifySubmittionPost(verifySubmittionRequest?: VerifySubmittionRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiProblemVerifySubmittionPost(verifySubmittionRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProblemApi.apiProblemVerifySubmittionPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {PostProblemSubmittionDTO} [postProblemSubmittionDTO] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -5824,6 +5912,15 @@ export const ProblemApiFactory = function (configuration?: Configuration, basePa
          */
         apiProblemSubmittionGet(groupTaskId?: number, problemId?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<ProblemSubmittion>> {
             return localVarFp.apiProblemSubmittionGet(groupTaskId, problemId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {VerifySubmittionRequest} [verifySubmittionRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiProblemVerifySubmittionPost(verifySubmittionRequest?: VerifySubmittionRequest, options?: RawAxiosRequestConfig): AxiosPromise<number> {
+            return localVarFp.apiProblemVerifySubmittionPost(verifySubmittionRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5909,6 +6006,17 @@ export class ProblemApi extends BaseAPI {
      */
     public apiProblemSubmittionGet(groupTaskId?: number, problemId?: number, options?: RawAxiosRequestConfig) {
         return ProblemApiFp(this.configuration).apiProblemSubmittionGet(groupTaskId, problemId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {VerifySubmittionRequest} [verifySubmittionRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProblemApi
+     */
+    public apiProblemVerifySubmittionPost(verifySubmittionRequest?: VerifySubmittionRequest, options?: RawAxiosRequestConfig) {
+        return ProblemApiFp(this.configuration).apiProblemVerifySubmittionPost(verifySubmittionRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

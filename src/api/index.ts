@@ -4,6 +4,7 @@ import {
   AnswerApiFactory,
   CompetitionApiFactory,
   ParicipationApiFactory,
+  ProblemApiFactory,
   UsersApiFactory,
 } from "generated-api/api";
 
@@ -70,4 +71,5 @@ export const api = createApi(
   UsersApiFactory,
   CompetitionApiFactory,
   ParicipationApiFactory,
+  ProblemApiFactory,
 );

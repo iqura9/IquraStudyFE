@@ -2,15 +2,21 @@ import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button, notification, Select } from "antd";
+import { api } from "api/index";
 import { createProblemSubmittion } from "api/problem.api";
 import axios from "axios";
 import { useProblem } from "contexts/ProblemContext";
+import { VerifySubmittionRequest } from "generated-api/api";
 import * as monaco from "monaco-editor";
 
 import styles from "./styles.module.scss";
 
 import { Editor } from "@monaco-editor/react";
 import { useMutation } from "@tanstack/react-query";
+
+function removeSpaces(str: string) {
+  return str.replace(/\s+/g, "");
+}
 
 export const editorOptions: monaco.editor.IStandaloneEditorConstructionOptions =
   {
@@ -73,10 +79,28 @@ export function CodeBlock() {
     }
   >({
     mutationKey: ["createProblemSubmittion"],
-    mutationFn: (data) => createProblemSubmittion(data),
+    mutationFn: (data) => createProblemSubmittion(data).then((res) => res.data),
     onSuccess: () => {},
     onError: (error) => {
       notification.error({ message: error.name, description: error.message });
+    },
+  });
+
+  const { mutate: createProblemSubmittionCompetitionFn } = useMutation<
+    void,
+    Error,
+    VerifySubmittionRequest
+  >({
+    mutationKey: ["createProblemSubmittionCompetitionFn"],
+    mutationFn: (data) => {
+      return api.apiProblemVerifySubmittionPost(data).then((res) => res.data);
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      notification.error({
+        message: "Error Creating Competition",
+        description: error.message,
+      });
     },
   });
 
@@ -101,18 +125,22 @@ export function CodeBlock() {
     const participationId = Number(searchParams.get("participationId"));
 
     if (participationId) {
-      // TODO
+      createProblemSubmittionCompetitionFn({
+        competitionId: Number(searchParams.get("competitionId")),
+        participationId,
+        problemId: Number(id),
+        sourceCode: code,
+        score,
+      });
       return;
     }
 
-    const DTO = {
+    createProblemSubmittionFn({
       sourceCode: code,
       score: score,
       groupTaskId: Number(searchParams.get("taskId")),
       problemId: Number(id),
-    };
-
-    createProblemSubmittionFn(DTO);
+    });
   };
 
   useEffect(() => {
@@ -137,11 +165,15 @@ export function CodeBlock() {
               data.testCases.forEach(
                 (res: { expectedResult: any }, index: string | number) => {
                   const expected = res.expectedResult;
-                  if (
-                    JSON.stringify(output[index]) !== JSON.stringify(expected)
-                  ) {
-                    console.log("output", JSON.stringify(output[index]));
-                    console.log("expected", JSON.stringify(expected));
+
+                  const expectedData = removeSpaces(JSON.stringify(expected));
+                  const outputData = removeSpaces(
+                    JSON.stringify(output[index]),
+                  );
+
+                  if (outputData !== expectedData) {
+                    console.log("output", outputData);
+                    console.log("expected", expectedData);
 
                     allTrue = false;
                   }
