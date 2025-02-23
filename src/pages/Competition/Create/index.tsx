@@ -106,6 +106,7 @@ function CreateCompetitionPage() {
                 placeholder={
                   <FormattedMessage id="competition.create.format.placeholder" />
                 }
+                disabled
               >
                 <Select.Option value="IOI">IOI</Select.Option>
                 <Select.Option value="ICPC">ICPC</Select.Option>

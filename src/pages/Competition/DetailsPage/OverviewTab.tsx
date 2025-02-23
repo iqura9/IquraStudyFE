@@ -37,9 +37,9 @@ function OverviewTab({ competitionData }: OverviewTabProps) {
           cover={
             <img
               alt={competitionData.title}
-              src="https://via.placeholder.com/800x400?text=Two+Pointers+Technique"
+              src="../../../../public/trophy.webp"
               style={{
-                height: "200px",
+                height: "500px",
                 objectFit: "cover",
               }}
             />

@@ -14,7 +14,7 @@ function CompetitionDetailPage() {
   return (
     <div>
       <CompetitionHeader
-        banner={data?.banner ?? "https://via.placeholder.com/64x64?text=Banner"}
+        banner={data?.banner ?? "../../../../public/trophy.webp"}
         title={data?.title ?? "Not Specified"}
         date={new Date(data?.startTime).toLocaleString()}
         virtual={data?.participantMode || "Unknown"}
