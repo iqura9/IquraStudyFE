@@ -201,5 +201,21 @@
   "competition.create.difficulty.placeholder": "Select difficulty",
   "competition.create.button.submitting": "Submitting...",
   "competition.create.button.default": "Create Competition",
-  "common.submittion": "Submitted"
+  "common.submittion": "Submitted",
+  "common.pay": "Pay",
+  "competition.noData": "No competition data available.",
+  "competition.untitled": "Untitled Competition",
+  "competition.unknownFormat": "Unknown Format",
+  "competition.noDescription": "No description available.",
+  "competition.details": "Competition Details",
+  "competition.startDate": "Start Date",
+  "competition.endDate": "End Date",
+  "competition.duration": "Duration",
+  "competition.hours": "hours",
+  "competition.difficulty": "Difficulty",
+  "competition.format": "Format",
+  "competition.participantMode": "Participant Mode",
+  "competition.unknown": "Unknown",
+  "competition.notSpecified": "Not specified",
+  "competition.joinButton": "Join Contest"
 }

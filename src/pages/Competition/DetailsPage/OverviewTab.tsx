@@ -1,5 +1,4 @@
-import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { FormattedMessage, useIntl } from "react-intl";
 import { Button, Card, Col, Row, Tag, Timeline, Typography } from "antd";
 import { CompetitionDto } from "generated-api/api";
 
@@ -25,8 +24,14 @@ function handleCompetitionFormat(
 
 function OverviewTab({ competitionData }: OverviewTabProps) {
   const { mutate: joinCompetiton } = useJoinCompetition();
+  const { formatMessage } = useIntl();
+
   if (!competitionData) {
-    return <p>No competition data available.</p>;
+    return (
+      <p>
+        <FormattedMessage id="competition.noData" />
+      </p>
+    );
   }
 
   return (
@@ -36,7 +41,7 @@ function OverviewTab({ competitionData }: OverviewTabProps) {
           bordered={false}
           cover={
             <img
-              alt={competitionData.title}
+              alt={competitionData?.title ?? ""}
               src="../../../../public/trophy.webp"
               style={{
                 height: "500px",
@@ -46,11 +51,16 @@ function OverviewTab({ competitionData }: OverviewTabProps) {
           }
         >
           <Title level={2}>
-            {competitionData.title || "Untitled Competition"}
+            {competitionData.title ||
+              formatMessage({ id: "competition.untitled" })}
           </Title>
-          <Tag color="blue">{competitionData.format || "Unknown Format"}</Tag>
+          <Tag color="blue">
+            {competitionData.format ||
+              formatMessage({ id: "competition.unknownFormat" })}
+          </Tag>
           <Text style={{ display: "block", marginTop: "16px" }}>
-            {competitionData.description || "No description available."}
+            {competitionData.description ||
+              formatMessage({ id: "competition.noDescription" })}
           </Text>
         </Card>
       </Col>
@@ -58,37 +68,54 @@ function OverviewTab({ competitionData }: OverviewTabProps) {
       {/* Details Section */}
       <Col xs={24} md={8}>
         <Card>
-          <Title level={4}>Competition Details</Title>
+          <Title level={4}>
+            <FormattedMessage id="competition.details" />
+          </Title>
           <Timeline>
             <Timeline.Item>
-              <Text strong>Start Date:</Text>{" "}
-              {new Date(competitionData.startTime).toLocaleString()}
+              <Text strong>
+                <FormattedMessage id="competition.startDate" />:
+              </Text>{" "}
+              {new Date(competitionData?.startTime).toLocaleString()}
             </Timeline.Item>
             <Timeline.Item>
-              <Text strong>End Date:</Text>{" "}
-              {new Date(competitionData.endTime).toLocaleString()}
+              <Text strong>
+                <FormattedMessage id="competition.endDate" />:
+              </Text>{" "}
+              {new Date(competitionData?.endTime).toLocaleString()}
             </Timeline.Item>
             {competitionData.participantMode === "Virtual" &&
               competitionData.duration && (
                 <Timeline.Item>
-                  <Text strong>Duration:</Text> {competitionData.duration} hours
+                  <Text strong>
+                    <FormattedMessage id="competition.duration" />:
+                  </Text>{" "}
+                  {competitionData.duration}{" "}
+                  <FormattedMessage id="competition.hours" />
                 </Timeline.Item>
               )}
             <Timeline.Item>
-              <Text strong>Difficulty:</Text>{" "}
-              {competitionData.difficulty || "Not specified"}
+              <Text strong>
+                <FormattedMessage id="competition.difficulty" />:
+              </Text>{" "}
+              {competitionData.difficulty ||
+                formatMessage({ id: "competition.notSpecified" })}
             </Timeline.Item>
             <Timeline.Item>
-              <Text strong>Format:</Text>{" "}
+              <Text strong>
+                <FormattedMessage id="competition.format" />:
+              </Text>{" "}
               {handleCompetitionFormat(
-                competitionData.format,
+                competitionData?.format,
                 competitionData.problemsCount,
                 competitionData.quizzesCount,
               )}
             </Timeline.Item>
             <Timeline.Item dot={<ClockCircleOutlined />}>
               <Text type="secondary">
-                Participant Mode: {competitionData.participantMode || "Unknown"}
+                <FormattedMessage id="competition.participantMode" />:{" "}
+                {competitionData.participantMode ||
+                  formatMessage({ id: "competition.unknown" })}
               </Text>
             </Timeline.Item>
           </Timeline>
@@ -98,7 +125,7 @@ function OverviewTab({ competitionData }: OverviewTabProps) {
             block
             onClick={() => joinCompetiton()}
           >
-            Join Contest
+            <FormattedMessage id="competition.joinButton" />
           </Button>
         </Card>
       </Col>

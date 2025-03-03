@@ -51,7 +51,7 @@ export const PwaProvider: React.FC<PwaProviderProps> = ({ children }) => {
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
-        handleBeforeInstallPrompt
+        handleBeforeInstallPrompt,
       );
       window.removeEventListener("appinstalled", onAppInstalled);
     };

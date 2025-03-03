@@ -7,8 +7,9 @@
     "start": "vite",
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:force": "tsc || true && vite build || true",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
+    "preview": "vite preview --port 3000",
     "generate-pwa-assets": "pwa-assets-generator --preset minimal public/logo.svg",
     "locale:test": "formatjs extract \"src/**/*.{ts,tsx,jsx,js}\" --ignore='**/*.d.ts' --out-file ./src/translations/locale-app.json --id-interpolation-pattern '[sha512:contenthash:base64:6]' && node localizationAnalizator.js",
     "generate-api": "bash scripts/generate-api.sh"
