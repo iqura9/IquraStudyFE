@@ -60,7 +60,7 @@ const ScoreboardTab: React.FC = () => {
       ...(problemColumns || []), // Add problem columns if available
       ...(quizColumns || []), // Add quiz columns if available,
       {
-        title: "Total Score",
+        title: "Загальна оцінка",
         dataIndex: "totalScore",
         key: "totalScore",
         align: "center",

@@ -8,6 +8,7 @@ import axios from "axios";
 import { useProblem } from "contexts/ProblemContext";
 import { VerifySubmittionRequest } from "generated-api/api";
 import * as monaco from "monaco-editor";
+import { useGetPerticipation } from "pages/Competition/ViewCompetitionSidebar/useGetPerticipation";
 
 import styles from "./styles.module.scss";
 
@@ -67,6 +68,10 @@ export function CodeBlock() {
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { data: participation } = useGetPerticipation();
+  const lastSubmission = participation?.submissions
+    ?.filter((submission) => submission.problemId == id)
+    ?.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt))?.[0];
 
   const { mutate: createProblemSubmittionFn } = useMutation<
     unknown,
@@ -154,7 +159,9 @@ export function CodeBlock() {
               res?.status?.description !== "In Queue" &&
               res?.status?.description !== "Processing"
             ) {
-              notification.error({ message: res?.status?.description });
+              if (res?.status?.description !== "Accepted") {
+                notification.error({ message: res?.status?.description });
+              }
 
               setIsLoading(false);
               clearInterval(intervalId);
@@ -179,8 +186,14 @@ export function CodeBlock() {
                   }
                 },
               );
+              const score = allTrue === true ? 100 : 0;
+              notification.success({
+                message: `Score: ${score}`,
+                description: `Output: ${res?.stdout}`,
+              });
+
               setSubmittionStatus && setSubmittionStatus(allTrue);
-              saveSubmittion(allTrue === true ? 100 : 0);
+              saveSubmittion(score);
             }
           })
           .catch(() => {
@@ -195,9 +208,10 @@ export function CodeBlock() {
     };
   }, [executedToken, data, setSubmittionStatus]);
 
-  const defaultCodeEditorState =
-    data?.initFunc ??
-    `const solutionFunction = (...args: unknown[]): unknown => {
+  const defaultCodeEditorState = lastSubmission?.sourceCode
+    ? lastSubmission?.sourceCode
+    : data?.initFunc ??
+      `const solutionFunction = (...args: unknown[]): unknown => {
   // write your solution here
   return;
 }`;

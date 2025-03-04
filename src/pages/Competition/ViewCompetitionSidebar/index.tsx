@@ -1,6 +1,11 @@
 import { ReactNode, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { Layout, Menu, Typography } from "antd";
 import { api } from "api/index";
 import { Participation } from "generated-api/api";
@@ -18,13 +23,13 @@ import {
   StyledProgress,
   StyledSider,
 } from "./styled";
+import { useGetPerticipation } from "./useGetPerticipation";
 
 import {
   HomeOutlined,
   NumberOutlined,
   TrophyOutlined,
 } from "@ant-design/icons";
-import { useQuery } from "@tanstack/react-query";
 
 const { Title, Text } = Typography;
 
@@ -37,23 +42,14 @@ export default function ViewCompetitionSidebar({
   children,
   isCompetiton = false,
 }: ViewCompetitionSidebarProps) {
-  const { id } = useParams();
   const [isCompetitionFinished, setIsCompetitionFinished] = useState(false);
-  const [searchParams] = useSearchParams();
+  const { id } = useParams();
   const [collapsed, setCollapsed] = useState(false);
-
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const competitionId = searchParams.get("competitionId");
-  const taskId = searchParams.get("taskId");
-
   const rightCompetitionId = competitionId ? Number(competitionId) : Number(id);
-  const { data: participation } = useQuery<Participation>({
-    queryKey: ["apiParicipationCompetitionIdGet", rightCompetitionId],
-    queryFn: () =>
-      api
-        .apiParicipationCompetitionIdGet(rightCompetitionId)
-        .then((res) => res.data),
-    enabled: !taskId,
-  });
+  const { data: participation } = useGetPerticipation();
 
   const maxScore = useMemo(
     () =>
@@ -94,9 +90,12 @@ export default function ViewCompetitionSidebar({
 
   if (!isCompetiton) return <>{children}</>;
 
+  const isDark = location.pathname.includes("problem");
+
   return (
     <StyledLayout>
       <StyledSider
+        isDark={isDark}
         width={250}
         collapsible
         collapsed={collapsed}
@@ -107,22 +106,46 @@ export default function ViewCompetitionSidebar({
           {!collapsed && (
             <SidebarHeader>
               <TrophyOutlined
-                style={{ fontSize: "48px", color: colors.highlight }}
+                style={{
+                  fontSize: "48px",
+                  color: isDark ? colors.sidebar : colors.highlight,
+                }}
               />
               <Title
                 level={4}
-                style={{ color: colors.text, margin: "16px 0 8px" }}
+                style={{
+                  color: isDark ? colors.sidebar : colors.text,
+                  margin: "16px 0 8px",
+                }}
               >
                 {participation?.competition?.title}
               </Title>
-              <Text style={{ color: colors.textSecondary }}>
+              <Text
+                style={{
+                  color: isDark ? colors.sidebar : colors.textSecondary,
+                }}
+              >
                 <FormattedMessage id="common.score" />
               </Text>
-              <StyledProgress percent={progressPercent} showInfo={false} />
-              <Text style={{ color: colors.text, marginTop: "8px" }}>
+              <StyledProgress
+                percent={progressPercent}
+                showInfo={false}
+                isDark={isDark}
+              />
+              <Text
+                style={{
+                  color: isDark ? colors.sidebar : colors.text,
+                  marginTop: "8px",
+                }}
+              >
                 {userScore} / {maxScore}
               </Text>
-              <Text style={{ color: colors.textSecondary, marginTop: "16px" }}>
+              <Text
+                style={{
+                  color: isDark ? colors.sidebar : colors.textSecondary,
+                  marginTop: "16px",
+                }}
+              >
                 <FormattedMessage id="competition.remaining.time" />
               </Text>
 
@@ -130,12 +153,17 @@ export default function ViewCompetitionSidebar({
                 startedAt={participation?.startedAt ?? ""}
                 duration={participation?.competition?.duration ?? 0}
                 setIsCompetitionFinished={setIsCompetitionFinished}
+                isDark={isDark}
               />
             </SidebarHeader>
           )}
 
           <MenuWrapper>
-            <StyledMenu mode="inline" defaultOpenKeys={["home"]}>
+            <StyledMenu
+              mode="inline"
+              defaultOpenKeys={["home"]}
+              isDark={isDark}
+            >
               <Menu.Item key="home" icon={<HomeOutlined />}>
                 <Link to={`/competition/view/${rightCompetitionId}`}>
                   {collapsed ? null : <FormattedMessage id="menu.home" />}

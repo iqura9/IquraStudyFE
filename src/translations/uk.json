@@ -216,5 +216,7 @@
   "competition.participantMode": "Режим участі",
   "competition.unknown": "Невідомо",
   "competition.notSpecified": "Не вказано",
-  "competition.joinButton": "Приєднатися до змагання"
+  "competition.joinButton": "Приєднатися до змагання",
+  "competition.overview": "Огляд",
+  "competition.scoreboard": "Турнірна таблиця"
 }

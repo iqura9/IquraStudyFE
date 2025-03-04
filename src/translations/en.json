@@ -217,5 +217,7 @@
   "competition.participantMode": "Participant Mode",
   "competition.unknown": "Unknown",
   "competition.notSpecified": "Not specified",
-  "competition.joinButton": "Join Contest"
+  "competition.joinButton": "Join Contest",
+  "competition.overview": "Overview",
+  "competition.scoreboard": "Scoreboard"
 }

@@ -19,8 +19,11 @@ export const StyledLayout = styled(Layout)({
   backgroundColor: colors.background,
 });
 
-export const StyledSider = styled(Sider)<{ collapsed?: boolean }>(() => ({
-  background: `${colors.sidebar} !important`,
+export const StyledSider = styled(Sider)<{
+  collapsed?: boolean;
+  isDark?: boolean;
+}>(({ isDark = false }) => ({
+  background: `${isDark ? "#0F1724" : colors.sidebar} !important`,
   boxShadow: "2px 0 5px rgba(0, 0, 0, 0.05)",
   display: "flex",
   flexDirection: "column",
@@ -42,34 +45,45 @@ export const SidebarHeader = styled("div")({
   color: colors.text,
 });
 
-export const StyledProgress = styled(Progress)({
-  marginTop: "8px",
-  width: "100%",
-  ".ant-progress-bg": {
-    backgroundColor: colors.highlight,
-  },
-});
+export const StyledProgress = styled(Progress)<{ isDark?: boolean }>(
+  ({ isDark = false }) => ({
+    marginTop: "8px",
+    width: "100%",
+    ...(isDark && {
+      ".ant-progress-inner": {
+        background: "#fff",
+      },
+    }),
+
+    ".ant-progress-bg": {
+      backgroundColor: colors.highlight,
+    },
+  }),
+);
 
 export const MenuWrapper = styled("div")({
   marginTop: "24px",
 });
 
-export const StyledMenu = styled(Menu)({
-  backgroundColor: "transparent",
-  border: "none",
-  "& .ant-menu-item": {
-    borderRadius: "8px",
-    marginBottom: "8px",
-  },
-  "& .ant-menu-item-selected": {
-    backgroundColor: colors.hover,
-    color: colors.highlight,
-  },
-  "& .ant-menu-item:hover": {
-    backgroundColor: colors.hover,
-    color: colors.highlight,
-  },
-  "& .ant-menu-title-content": {
-    color: colors.text,
-  },
-});
+export const StyledMenu = styled(Menu)<{ isDark?: boolean }>(
+  ({ isDark = false }) => ({
+    backgroundColor: "transparent",
+    border: "none",
+    color: isDark ? "#fff" : "#000",
+    "& .ant-menu-item": {
+      borderRadius: "8px",
+      marginBottom: "8px",
+    },
+    "& .ant-menu-item-selected": {
+      backgroundColor: colors.hover,
+      color: isDark ? colors.sidebar : colors.highlight,
+    },
+    "& .ant-menu-item:hover": {
+      backgroundColor: colors.hover,
+      color: isDark ? colors.sidebar : colors.highlight,
+    },
+    "& .ant-menu-title-content": {
+      color: isDark ? colors.sidebar : colors.text,
+    },
+  }),
+);

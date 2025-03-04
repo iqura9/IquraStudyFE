@@ -3,22 +3,24 @@ import styled from "styled-components";
 
 import { StyledProgress } from "../ViewCompetitionSidebar/styled";
 
-const TimerContainer = styled("div")({
-  color: "#000",
+const TimerContainer = styled("div")<{ isDark?: boolean }>(({ isDark }) => ({
+  color: isDark ? "#fff" : "#000",
   fontSize: "18px",
   fontWeight: "bold",
   textAlign: "center",
-});
+}));
 
 interface TimerProps {
   startedAt: string;
   duration: number;
+  isDark?: boolean;
   setIsCompetitionFinished: Dispatch<React.SetStateAction<boolean>>;
 }
 
 const _ParticipationTimer = ({
   startedAt,
   duration,
+  isDark,
   setIsCompetitionFinished,
 }: TimerProps) => {
   const [timeLeft, setTimeLeft] = useState<string>("");
@@ -56,8 +58,8 @@ const _ParticipationTimer = ({
 
   return (
     <>
-      <StyledProgress percent={progress} showInfo={false} />
-      <TimerContainer>{timeLeft}</TimerContainer>
+      <StyledProgress percent={progress} showInfo={false} isDark={isDark} />
+      <TimerContainer isDark={isDark}>{timeLeft}</TimerContainer>
     </>
   );
 };

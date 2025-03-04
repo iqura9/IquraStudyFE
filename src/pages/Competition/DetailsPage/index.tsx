@@ -1,3 +1,4 @@
+import { useIntl } from "react-intl";
 import { useParams } from "react-router-dom";
 import { Tabs } from "antd";
 
@@ -10,6 +11,7 @@ function CompetitionDetailPage() {
   const { id } = useParams();
 
   const { data } = useGetCompetitionById(Number(id));
+  const { formatMessage } = useIntl();
 
   return (
     <div>
@@ -20,10 +22,16 @@ function CompetitionDetailPage() {
         virtual={data?.participantMode || "Unknown"}
       />
       <Tabs defaultActiveKey="1">
-        <Tabs.TabPane tab="Overview" key="1">
+        <Tabs.TabPane
+          tab={formatMessage({ id: "competition.overview" })}
+          key="1"
+        >
           <OverviewTab competitionData={data} />
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Scoreboard" key="2">
+        <Tabs.TabPane
+          tab={formatMessage({ id: "competition.scoreboard" })}
+          key="2"
+        >
           <ScoreboardTab />
         </Tabs.TabPane>
       </Tabs>
