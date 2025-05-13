@@ -90,7 +90,7 @@ export default function ViewCompetitionSidebar({
 
   if (!isCompetiton) return <>{children}</>;
 
-  const isDark = location.pathname.includes("problem");
+  const isDark = false;
 
   return (
     <StyledLayout>

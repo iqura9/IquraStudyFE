@@ -14,24 +14,32 @@ const StyledContainer = styled("div")({
   alignItems: "center",
   justifyContent: "center",
   minHeight: "100vh",
-  backgroundColor: "#1E1E1E",
-  color: "#fff",
+  backgroundColor: "#f5f7fa", 
+  color: "#2e2e2e", 
   padding: "24px",
   textAlign: "center",
 });
 
 const StyledButton = styled(Button)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   marginTop: "24px",
-  backgroundColor: "#4cafb5",
-  borderColor: "#4cafb5",
-  color: "#fff",
+  backgroundColor: "#00b894", 
+  borderColor: "#00b894",
+  color: "#ffffff",
   borderRadius: "8px",
-  fontWeight: "bold",
+  fontWeight: 600,
+  fontSize: "16px",
+  padding: "12px 24px",
+
   "&:hover": {
-    backgroundColor: "#3A9C91",
-    borderColor: "#3A9C91",
+    backgroundColor: "#019874",
+    borderColor: "#019874",
   },
 });
+
+
 
 export function TimeUpPage() {
   const { id } = useParams();
@@ -43,15 +51,16 @@ export function TimeUpPage() {
 
   return (
     <StyledContainer>
-      <Space direction="vertical" size="large">
-        <Title level={3} style={{ color: "#fff" }}>
-          Sorry, times up
+      <Space direction="vertical" size="large" align="center">
+        <Title level={3} style={{ color: "#8c8c8c" }}>
+          {/* Sorry, times up */}
+          Вибачте, час закінчився
         </Title>
         <Text style={{ color: "#8c8c8c" }}>
-          Please go to the Competiton Page to see the score
+        Будь ласка, перейдіть на сторінку змагання, щоб побачити результат
         </Text>
         <StyledButton type="primary" onClick={handleGoToMainPage}>
-          Go to Competition Page
+          Перейти на сторінку змагання
         </StyledButton>
       </Space>
     </StyledContainer>

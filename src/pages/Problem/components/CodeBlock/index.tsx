@@ -33,32 +33,57 @@ export const editorOptions: monaco.editor.IStandaloneEditorConstructionOptions =
     },
   };
 
-export function setEditorTheme(monaco: any) {
-  monaco.editor.defineTheme("onedark", {
-    base: "vs-dark",
-    inherit: true,
-    rules: [
-      {
-        token: "identifier",
-        foreground: "9CDCFE",
+  export function setEditorTheme(monaco: any) {
+    monaco.editor.defineTheme("onedark", {
+      base: "vs", // Light theme base
+      inherit: true,
+      rules: [
+        {
+          token: "identifier",
+          foreground: "3B4C96", // soft indigo
+        },
+        {
+          token: "identifier.function",
+          foreground: "6A3E8E", // muted purple
+        },
+        {
+          token: "type",
+          foreground: "007B9C", // cyan blue for types
+        },
+        {
+          token: "constant",
+          foreground: "D35400", // rich orange
+        },
+        {
+          token: "string",
+          foreground: "008000", // green
+        },
+        {
+          token: "keyword",
+          foreground: "AF005F", // ruby pink
+          fontStyle: "bold",
+        },
+        {
+          token: "comment",
+          foreground: "999999",
+          fontStyle: "italic",
+        },
+      ],
+      colors: {
+        "editor.background": "#FAFAFA", // off-white, very soft
+        "editor.foreground": "#2E2E2E",
+        "editorLineNumber.foreground": "#B0B0B0",
+        "editorLineNumber.activeForeground": "#333333",
+        "editorCursor.foreground": "#4A4A4A",
+        "editor.selectionBackground": "#D0E8FF",
+        "editor.inactiveSelectionBackground": "#EAF3FF",
+        "editorIndentGuide.background": "#E0E0E0",
+        "editorIndentGuide.activeBackground": "#C0C0C0",
       },
-      {
-        token: "identifier.function",
-        foreground: "DCDCAA",
-      },
-      {
-        token: "type",
-        foreground: "1AAFB0",
-      },
-      { token: "constant", foreground: "#ffffff" },
-    ],
-
-    colors: {
-      "editor.background": "#0A0F19",
-    },
-  });
-}
-
+    });
+  }
+  
+  
 const options = [{ label: "TypeScript", value: "typescript" }];
 
 export function CodeBlock() {
@@ -218,16 +243,8 @@ export function CodeBlock() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
-        <Button type="primary" onClick={() => navigate(-1)}>
+        <Button   className="blackSelect" onClick={() => navigate(-1)}>
           <FormattedMessage id="code.go.back" />
-        </Button>
-        <Button
-          className={styles.runCode}
-          onClick={handleSubmit}
-          disabled={code.length === 0}
-          loading={isLoading}
-        >
-          <FormattedMessage id="code.run" />
         </Button>
         <Select
           className="blackSelect"
@@ -235,6 +252,15 @@ export function CodeBlock() {
           value={selectedLanguage}
           options={options}
         />
+        <Button
+          type="primary"
+          onClick={handleSubmit}
+          disabled={code.length === 0}
+          loading={isLoading}
+        >
+          <FormattedMessage id="code.run" />
+        </Button>
+       
       </div>
       <Editor
         defaultValue={defaultCodeEditorState}

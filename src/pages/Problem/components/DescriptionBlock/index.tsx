@@ -2,7 +2,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Collapse } from "antd";
 import classNames from "classnames";
 import { useProblem } from "contexts/ProblemContext";
@@ -27,7 +27,7 @@ const DescriptionBlock: React.FC = () => {
       const match = /language-(\w+)/.exec(className || "");
       return !inline && match ? (
         <SyntaxHighlighter
-          style={materialDark}
+          style={oneLight}
           language={match[1]}
           PreTag="div"
           children={String(children).replace(/\n$/, "")}

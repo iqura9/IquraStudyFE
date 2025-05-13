@@ -2,15 +2,15 @@
     display: flex;
     justify-content: end;
     gap: 8px;
-    background-color: #0F1724;
-    border: 1px solid #2F3441;
+    background-color: #fafafa;
+    border: 1px solid #c9c9c9;
     border-top: none;
     border-left: none;
     padding: 10px;
 }
 
 .runCode:disabled{
-    color: white;
+    color: #333;
 }
 
 .override{

@@ -12,24 +12,25 @@ const StyledContainer = styled("div")({
   alignItems: "center",
   justifyContent: "center",
   minHeight: "100vh",
-  backgroundColor: "#1E1E1E",
-  color: "#fff",
+  backgroundColor: "#f9f9f9", // світлий фон
+  color: "#333", // темний текст
   padding: "24px",
   textAlign: "center",
 });
 
 const StyledButton = styled(Button)({
   marginTop: "24px",
-  backgroundColor: "#4cafb5",
-  borderColor: "#4cafb5",
+  backgroundColor: "#1976d2", // світліший синій
+  borderColor: "#1976d2",
   color: "#fff",
   borderRadius: "8px",
   fontWeight: "bold",
   "&:hover": {
-    backgroundColor: "#3A9C91",
-    borderColor: "#3A9C91",
+    backgroundColor: "#115293",
+    borderColor: "#115293",
   },
 });
+
 
 function NotParticipantPage() {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ function NotParticipantPage() {
       <Space direction="vertical" size="large">
         <Title level={3} style={{ color: "#fff" }}>
           Sorry, you are not a participant in this competition.
+         
         </Title>
         <Text style={{ color: "#8c8c8c" }}>
           Please go to the main page to explore other competitions.
