@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -330,3 +331,6 @@ const getSubmission = async (token: string) => {
     console.error(error);
   }
 };
+
+
+

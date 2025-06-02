@@ -16,7 +16,7 @@ function CompetitionDetailPage() {
   return (
     <div>
       <CompetitionHeader
-        banner={data?.banner ?? "../../../../public/trophy.webp"}
+        banner={data?.banner ?? "https://i.ibb.co/6dGNbYG/trophy.webp"}
         title={data?.title ?? "Not Specified"}
         date={new Date(data?.startTime).toLocaleString()}
         virtual={data?.participantMode || "Unknown"}

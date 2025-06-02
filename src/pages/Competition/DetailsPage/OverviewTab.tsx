@@ -42,7 +42,7 @@ function OverviewTab({ competitionData }: OverviewTabProps) {
           cover={
             <img
               alt={competitionData?.title ?? ""}
-              src="../../../../public/trophy.webp"
+              src="https://i.ibb.co/6dGNbYG/trophy.webp"
               style={{
                 height: "500px",
                 objectFit: "cover",
