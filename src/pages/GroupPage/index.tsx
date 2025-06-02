@@ -14,6 +14,8 @@ import InviteModal from "./components/InviteModal";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 
+const CLIENT_URL = window.location.origin;
+
 const GroupPage = () => {
   const navigation = useNavigate();
   const { isShow, handleShowModal, handleHideModal } = useModal();
@@ -52,9 +54,8 @@ const GroupPage = () => {
     },
   });
 
-  const invitationToken = `${
-    import.meta.env.VITE_BASE_CLIENT_URL
-  }/invite-to-group?token=${id}&groupName=${encodeURIComponent(
+
+  const invitationToken = `${CLIENT_URL}/invite-to-group?token=${id}&groupName=${encodeURIComponent(
     data?.name || ""
   )}`;
 
